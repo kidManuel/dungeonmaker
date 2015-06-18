@@ -1,0 +1,23 @@
+#main {
+    background-color: #F0F0F0;
+    display: block;
+}
+
+.tile {
+    width: 10px;
+    height: 10px;
+    margin: 0;
+    float: left;
+}
+
+.rock {
+    background-color: #542437;
+}
+
+.wall {
+    background-color: #53777A;
+}
+
+.floor {
+    background-color: #ECD078;
+}
