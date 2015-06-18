@@ -11,14 +11,46 @@ $(document).ready(function() {
     housekeeping();
 });
 
+
+
 function housekeeping() {
     for (i = 0; i < dunWidth; i++) {
         mainArr[i] = new Array(dunHeight);
         for (j = 0, len2 = mainArr[i].length; j < len2; j++) {
-            mainArr[i][j] = new cell(i, j, "floor")
+            mainArr[i][j] = new cell(i, j, getRandomTileType())
         }
     }
 }
+
+
+//helper function to get a certain type of tile
+function getTiles(type) {
+    var allTiles = []
+    for (i = 0; i < mainArr.length; i++) {
+        for (j = 0, len2 = mainArr[i].length; j < len2; j++) {
+            if (mainArr[i][j] instanceof cell) {
+                if (typeof type != "undefined") {
+                    if(mainArr[i][j].cType == type){
+                        allTiles.push([mainArr[i][j].cXn, mainArr[i][j].cYn]);
+                    }
+                } else {
+                    allTiles.push([mainArr[i][j].cXn, mainArr[i][j].cYn]);
+                }
+            }
+        }
+    }
+    return allTiles;
+}
+
+
+///////////////TODOOOOOOOO
+function fullExpress(tilesArray){
+    for(let e in tilesArray){
+
+    }
+}
+
+
 
 
 ///////////TODOOOOOO
@@ -30,7 +62,7 @@ function getRectCor(x, y, width, height) {
             }
         }
     }
-///////////TODOOOOOO
+    ///////////TODOOOOOO
 
 function getRandomTileType() {
     switch (Math.floor(Math.random() * 3)) {
@@ -73,4 +105,8 @@ cell.prototype.express = function() {
     ctx.fillRect(this.cposX, this.cposY, cellSize, cellSize); //dibujar la celda
 }
 
-var testArr = [[0, 1], [0, 2], [0, 3]];
+var testArr = [
+    [0, 1],
+    [0, 2],
+    [0, 3]
+];
