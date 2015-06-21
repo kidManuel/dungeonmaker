@@ -28,7 +28,7 @@ function housekeeping() {
 function cellAt(arrOrX, Y) {
     if (typeof arrOrX == "object") {
         return mainArr[arrOrX[0]][arrOrX[1]]
-    } else  if (typeof arrOrX == "number" && typeof Y == "number"){
+    } else if (typeof arrOrX == "number" && typeof Y == "number") {
         return mainArr[arrOrX][Y]
     }
 }
@@ -40,11 +40,11 @@ function getTiles(type) {
         for (j = 0, len2 = mainArr[i].length; j < len2; j++) {
             if (mainArr[i][j] instanceof cell) {
                 if (typeof type != "undefined") {
-                    if (mainArr[i][j].cType == type) {
-                        allTiles.push([mainArr[i][j].cXn, mainArr[i][j].cYn]);
+                    if (mainArr[i][j].Type == type) {
+                        allTiles.push([mainArr[i][j].X, mainArr[i][j].Y]);
                     }
                 } else {
-                    allTiles.push([mainArr[i][j].cXn, mainArr[i][j].cYn]);
+                    allTiles.push([mainArr[i][j].X, mainArr[i][j].Y]);
                 }
             }
         }
@@ -67,44 +67,42 @@ function massModify(tilesArray, property, value) {
 
 }
 
-///////////TODOOOOOO
+//get a square defined in an array of coordinates.
 function getRectCor(x, y, width, height) {
-        var rect = [];
-        for (i = 0; i < width; i++) {
-            for (j = 0; j < y; j++) {
-                rect.push()
-            }
+    var rect = [];
+    for (i = x; i < x + width; i++) {
+        for (j = y; j < y + height; j++) {
+            rect.push([i, j]);
         }
     }
-    ///////////TODOOOOOO
-
-function getRandomTileType() {
-    switch (Math.floor(Math.random() * 3)) {
-        case 0:
-            return "rock";
-            break;
-        case 1:
-            return "wall";
-            break;
-        case 2:
-            return "floor";
-            break;
-    }
+    return rect;
 }
 
+////////////////GAME FUNCTIONS
+
+//dig a square in the rock
+function digSquare(x, y, width, height){
+    var rect = getRectCor(x, y, width, height);
+    massModify(rect,  "Type", "floor");
+    massExpress(rect);
+}
+
+
+
+////////////////MAIN CELL OBJECT DECLARATION
+
 var cell = function(x, y, type) {
-    this.cXn = x; //numero de x
-    this.cYn = y; //numero de x
-    this.cposX = cellSize * this.cXn; //numero de x
-    this.cposY = cellSize * this.cYn;
-    this.cWalls = [1, 1, 1, 1];
-    this.cType = type;
+    this.X = x; //numero de x
+    this.Y = y; //numero de x
+    this.posX = cellSize * this.X; //numero de x
+    this.posY = cellSize * this.Y;
+    this.Type = type;
 };
 
 //funcion para dibujar esta celda.
 cell.prototype.express = function() {
     var co;
-    switch (this.cType) { //elegir color segun estado
+    switch (this.Type) { //elegir color segun estado
         case "rock":
             co = '#542437';
             break;
@@ -119,7 +117,7 @@ cell.prototype.express = function() {
             break;
     }
     ctx.fillStyle = co;
-    ctx.fillRect(this.cposX, this.cposY, cellSize, cellSize); //dibujar la celda
+    ctx.fillRect(this.posX, this.posY, cellSize, cellSize); //dibujar la celda
 }
 
 var testArr = [
@@ -128,13 +126,34 @@ var testArr = [
     [5, 3]
 ];
 
+
+
+////////////////HELPER FUNCTIONS
+
+//Briefly highlights a cell.
 function ping(arrayOrX, y) {
     var loc = arguments;
-    var save = cellAt(loc).cType;
-    cellAt(loc).cType = "PING";
+    var save = cellAt(loc).Type;
+    cellAt(loc).Type = "PING";
     cellAt(loc).express();
     setTimeout(function() {
-        cellAt(loc).cType = save;
+        cellAt(loc).Type = save;
         cellAt(loc).express();
     }, 1000)
+}
+
+
+//Returns one of the possible cell types chosen randomly
+function getRandomTileType() {
+    switch (Math.floor(Math.random() * 3)) {
+        case 0:
+            return "rock";
+            break;
+        case 1:
+            return "wall";
+            break;
+        case 2:
+            return "floor";
+            break;
+    }
 }
