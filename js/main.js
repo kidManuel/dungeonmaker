@@ -25,6 +25,7 @@ function housekeeping() {
 }
 
 //returns a cell reference given an array of coordinates
+////////////////////////////////////////////////////////////// FIX FOR OUT OF BOUNDS
 function cellAt(arrOrX, Y) {
     if (typeof arrOrX == "object") {
         return mainArr[arrOrX[0]][arrOrX[1]]
@@ -131,6 +132,7 @@ var testArr = [
 ////////////////HELPER FUNCTIONS
 
 //Briefly highlights a cell.
+///////////////////////////////////////////OPTIMIZE
 function ping(arrayOrX, y) {
     var loc = arguments;
     var save = cellAt(loc).Type;
