@@ -15,7 +15,10 @@
          [3, 38],
          [3, 37],
 
-     ];
+     ],
+
+     foo = 40,
+     bar = 20;
 
  $(document).ready(function() {
      dun = new dungeon(40, 40);
@@ -150,46 +153,49 @@
 
  //dig a square in the rock
  dungeon.prototype.digSquare = function(width, height, x, y) {
+     var top = y-1,
+         left = x-1,
+         bot = y + height,
+         right = x + width;
+
      if (typeof width == "object") {
          rect = width;
      } else if (width && height && x && y) {
          var rect = this.drawRect(width, height, x, y);
      }
+
+
+     for (var i = top+1; i <= bot-1; i++) {
+         this.cells[left][i].type = "wall";
+         this.cells[right][i].type = "wall";
+     }
+
+     for (var i = left+1; i <= right-1; i++) {
+         this.cells[i][top].type = "wall";
+         this.cells[i][bot].type = "wall";
+     }
+
      this.massModify(rect, "type", "floor");
      this.massExpress(rect);
  }
 
  // polish up dungeon
 
-
- /////////ESTO NO FUNCIONA!!!!!!!
- /////////ESTO NO FUNCIONA!!!!!!!
- // (agregar variables para emprolijar)
- /////////ESTO NO FUNCIONA!!!!!!!
- /////////ESTO NO FUNCIONA!!!!!!!
- // |
- // |
- // |
- // |
- // |
- // v
-
-
  dungeon.prototype.polish = function(tilesToPolish) {
      var areaPolish = tilesToPolish || this.findTiles(null);
 
      for (var i = 0; i < areaPolish.length; i++) {
+         var singleCell = this.cellAt(areaPolish[i]);
          //lighten up wall tiles
-         if (this.cellAt(areaPolish[i])) {
+         if (singleCell) {
              var neighbours = this.getNeighs(areaPolish[i][0], areaPolish[i][1]);
-
              for (var j = 0; j < neighbours.length; j++) {
-                 if (this.cellAt(neighbours[j]) && this.cellAt(neighbours[j]).type === "floor" && this.cellAt(areaPolish[i]).type === "rock") {
-                     this.cellAt(areaPolish[i]).type = "wall";
+                 var singleNeighbour = this.cellAt(neighbours[j]);
+                 if (singleNeighbour && singleNeighbour.type === "floor" && singleCell.type === "rock") {
+                     singleCell.type = "wall";
                  }
              }
          }
-
      }
      this.massExpress(this.findTiles(null))
  }
@@ -313,9 +319,6 @@
          randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei),
          randX = Math.floor(Math.random() * (this.width - randWid - 1)) + 1,
          randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1;
-
-     this.digSquare(randWid, randHei, randX, randY);
-     console.log(randWid, randHei, randX, randY)
 
 
 
