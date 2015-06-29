@@ -2,9 +2,19 @@
      ctx = c.getContext("2d"),
      cellSize = 10,
      testArr = [
-         [3, 45],
-         [0, 2],
-         [5, 3]
+         [0, 39],
+         [0, 38],
+         [0, 37],
+         [1, 39],
+         [1, 38],
+         [1, 37],
+         [2, 39],
+         [2, 38],
+         [2, 37],
+         [3, 39],
+         [3, 38],
+         [3, 37],
+
      ];
 
  $(document).ready(function() {
@@ -31,13 +41,12 @@
  }
 
  dungeon.prototype.expressAll = function() {
-     this.massExpress(this.findTiles());
-     this.polish(this.findTiles());
+     this.massExpress(this.findTiles(null));
+     this.polish(this.findTiles(null));
  };
 
 
  //returns a cell reference given an array of coordinates
- ////////////////////////////////////////////////////////////// FIX FOR OUT OF BOUNDS
  dungeon.prototype.cellAt = function(X, Y) {
      if (typeof X == "object") {
          return this.cells[X[0]][X[1]]
@@ -50,27 +59,44 @@
 
 
  //helper function to get a certain type of tile. returns all cells in the floor if no argument is passed.
-//////////////////////TODO: MAKE IT SEARCH INSIDE A SUBARRAY
+ //////////////////////TODO: MAKE IT SEARCH INSIDE A SUBARRAY
 
 
- dungeon.prototype.findTiles = function(type, array) {
-     var allTiles = [];
-     if(array){console.log("SISI")}else{console.log("FORGET IT MAN")}
+ dungeon.prototype.findTiles = function(search, array) {
+     var allTiles = [],
+         cells = this.cells;
 
-     for (var i = 0; i < this.cells.length; i++) {
-         for (var j = 0, len2 = this.cells[i].length; j < len2; j++) {
-             if (this.cells[i][j] instanceof cell) {
-                 if (type === null) {
-                     if (this.cells[i][j].type == type) {
-                         allTiles.push([this.cells[i][j].X, this.cells[i][j].Y]);
-                     }
+     if (!array) {
+         for (var i = 0; i < cells.length; i++) {
+             for (var j = 0, len2 = cells[i].length; j < len2; j++) {
+                 var myPush = cells[i][j];
+                 pushing(myPush);
+             }
+         }
+     } else if (array) {
+         for (var k = 0; k < array.length; k++) {
+             var myPush = cells[array[k][0]][array[k][1]];
+             pushing(myPush);
+         }
+     }
+
+     function pushing(thisTile) {
+         if (thisTile instanceof cell) {
+             if (search !== null) {
+
+                 if (thisTile.type === search) {
+                     allTiles.push([thisTile.X, thisTile.Y]);
                  } else {
-                     allTiles.push([this.cells[i][j].X, this.cells[i][j].Y]);
+                     console.log("shit dawg")
                  }
+             } else {
+                 allTiles.push([thisTile.X, thisTile.Y]);
              }
          }
      }
+
      return allTiles;
+
  }
 
  //express an array of cells
@@ -135,22 +161,37 @@
 
  // polish up dungeon
 
- dungeon.prototype.polish = function(tilesToPolish) {
-     for (var i = 0; i < tilesToPolish.length; i++) {
 
+ /////////ESTO NO FUNCIONA!!!!!!!
+ /////////ESTO NO FUNCIONA!!!!!!!
+ // (agregar variables para emprolijar)
+ /////////ESTO NO FUNCIONA!!!!!!!
+ /////////ESTO NO FUNCIONA!!!!!!!
+ // |
+ // |
+ // |
+ // |
+ // |
+ // v
+
+
+ dungeon.prototype.polish = function(tilesToPolish) {
+     var areaPolish = tilesToPolish || this.findTiles(null);
+
+     for (var i = 0; i < areaPolish.length; i++) {
          //lighten up wall tiles
-         if (this.cellAt(tilesToPolish[i])) {
-             var neighbours = this.getNeighs(tilesToPolish[i][0], tilesToPolish[i][1]);
+         if (this.cellAt(areaPolish[i])) {
+             var neighbours = this.getNeighs(areaPolish[i][0], areaPolish[i][1]);
 
              for (var j = 0; j < neighbours.length; j++) {
-                 if (this.cellAt(neighbours[j]) && this.cellAt(neighbours[j]).type === "floor" && this.cellAt(tilesToPolish[i]).type === "rock") {
-                     this.cellAt(tilesToPolish[i]).type = "wall";
+                 if (this.cellAt(neighbours[j]) && this.cellAt(neighbours[j]).type === "floor" && this.cellAt(areaPolish[i]).type === "rock") {
+                     this.cellAt(areaPolish[i]).type = "wall";
                  }
              }
          }
 
      }
-     this.massExpress(this.findTiles())
+     this.massExpress(this.findTiles(null))
  }
 
  ////////////////MAIN CELL OBJECT DECLARATION
@@ -162,6 +203,21 @@
      this.posY = cellSize * this.Y;
      this.type = type;
  };
+
+
+
+
+ /////////ESTO NO FUNCIONA!!!!!!!
+ /////////ESTO NO FUNCIONA!!!!!!!
+ //(convertir a objetos)
+ /////////ESTO NO FUNCIONA!!!!!!!
+ /////////ESTO NO FUNCIONA!!!!!!!
+ // |
+ // |
+ // |
+ // |
+ // |
+ // v
 
  //funcion para dibujar esta celda.
  cell.prototype.express = function() {
@@ -185,7 +241,6 @@
  }
 
  ////////////////HELPER FUNCTIONS
-
  //Briefly highlights a cell.
  dungeon.prototype.ping = function(arrayOrX, y) {
      var loc = arguments;
@@ -199,7 +254,6 @@
  }
 
  // PATHING FUNCTIONS
-
  //random path of manhattan-distance length
 
  dungeon.prototype.simplePath = function(start, end) {
@@ -227,7 +281,6 @@
  }
 
  // brasenham's algorithm for lines
-
  dungeon.prototype.brasLine = function(x0, y0, x1, y1) {
      var dx = Math.abs(x1 - x0),
          dy = Math.abs(y1 - y0),
@@ -251,41 +304,47 @@
      return path;
  }
 
- /*
-  dungeon.prototype.randomDun = function(attempts) {
-      var maxWidth = this.width / 5,
-          maxHeight = this.height / 5;
+ dungeon.prototype.randomDun = function(attempts) {
+     var maxWid = this.width / 2,
+         maxHei = this.height / 2,
+         minWid = 3,
+         minHei = 3,
+         randWid = Math.floor(Math.random() * (maxWid - minWid + 1) + minWid),
+         randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei),
+         randX = Math.floor(Math.random() * (this.width - randWid - 1)) + 1,
+         randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1;
 
-      for (var i = 0; i < attempts; i++) {
-          if (this.findTiles("wall").length === 0;) {
-              this.digSquare()
-          }
-
-
-
-      }
-
-      function newRoom() {
-          this.digSquar
-          e
-      }
-
-  }
- */
+     this.digSquare(randWid, randHei, randX, randY);
+     console.log(randWid, randHei, randX, randY)
 
 
 
+     /*
+           for (var i = 0; i < attempts; i++) {
+               if (this.findTiles("wall").length === 0;) {
+                   this.digSquare()
+               }
 
+
+
+           }
+
+           function newRoom() {
+               this.digSquar
+               e
+           }
+
+       }
+    */
+ }
 
  dungeon.prototype.checkAvailable = function(room) {
      for (var i = 0; i < room.length; i++) {
          if (this.cells[room[i][0], room[i][1]].type == "floor") {
              return false
-         } else {
-             return true
          }
      }
-
+     return true
  }
 
  //Returns one of the possible cell types chosen randomly
