@@ -23,7 +23,8 @@
  $(document).ready(function() {
      dun = new dungeon(40, 40);
      dun.init();
-     dun.massModify(dun.simplePath([0, 39], [39, 0]), "type", "floor");
+     //dun.massModify(dun.simplePath([0, 39], [39, 0]), "type", "floor");
+     dun.randomDun();
      dun.expressAll();
  });
 
@@ -32,6 +33,8 @@
      this.width = width;
      this.height = height;
      this.cells = [];
+     this.unconnected = [];
+     this.connected = [];
  }
 
  dungeon.prototype.init = function() {
@@ -45,7 +48,7 @@
 
  dungeon.prototype.expressAll = function() {
      this.massExpress(this.findTiles(null));
-     this.polish(this.findTiles(null));
+     //this.polish(this.findTiles(null));
  };
 
 
@@ -86,11 +89,8 @@
      function pushing(thisTile) {
          if (thisTile instanceof cell) {
              if (search !== null) {
-
                  if (thisTile.type === search) {
                      allTiles.push([thisTile.X, thisTile.Y]);
-                 } else {
-                     console.log("shit dawg")
                  }
              } else {
                  allTiles.push([thisTile.X, thisTile.Y]);
@@ -153,8 +153,8 @@
 
  //dig a square in the rock
  dungeon.prototype.digSquare = function(width, height, x, y) {
-     var top = y-1,
-         left = x-1,
+     var top = y - 1,
+         left = x - 1,
          bot = y + height,
          right = x + width;
 
@@ -164,19 +164,16 @@
          var rect = this.drawRect(width, height, x, y);
      }
 
-
-     for (var i = top+1; i <= bot-1; i++) {
+     this.massModify(rect, "type", "floor");
+     for (var i = top + 1; i <= bot - 1; i++) {
          this.cells[left][i].type = "wall";
          this.cells[right][i].type = "wall";
      }
 
-     for (var i = left+1; i <= right-1; i++) {
+     for (var i = left + 1; i <= right - 1; i++) {
          this.cells[i][top].type = "wall";
          this.cells[i][bot].type = "wall";
      }
-
-     this.massModify(rect, "type", "floor");
-     this.massExpress(rect);
  }
 
  // polish up dungeon
@@ -249,13 +246,14 @@
  ////////////////HELPER FUNCTIONS
  //Briefly highlights a cell.
  dungeon.prototype.ping = function(arrayOrX, y) {
-     var loc = arguments;
-     var save = cellAt(loc).type;
-     cellAt(loc).type = "PING";
-     cellAt(loc).express();
+     var loc = arguments,
+         spot = this,
+         save = spot.cellAt(loc).type;
+     spot.cellAt(loc).type = "PING";
+     spot.cellAt(loc).express();
      setTimeout(function() {
-         cellAt(loc).type = save;
-         cellAt(loc).express();
+         spot.cellAt(loc).type = save;
+         spot.cellAt(loc).express();
      }, 1000)
  }
 
@@ -310,44 +308,81 @@
      return path;
  }
 
- dungeon.prototype.randomDun = function(attempts) {
-     var maxWid = this.width / 2,
-         maxHei = this.height / 2,
+
+/*
+*
+*
+*
+*FIX
+*THIS
+*SHIT
+*
+*
+*
+*/
+
+
+ dungeon.prototype.randomDun = function() {
+     var maxWid = this.width / 3,
+         maxHei = this.height / 3,
          minWid = 3,
          minHei = 3,
-         randWid = Math.floor(Math.random() * (maxWid - minWid + 1) + minWid),
-         randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei),
-         randX = Math.floor(Math.random() * (this.width - randWid - 1)) + 1,
-         randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1;
+         attempts = 40;
+
+     for (var i = 0; i < attempts; i++) {
+         var randWid = Math.floor(Math.random() * (maxWid - minWid + 1) + minWid),
+             randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei),
+             randX = Math.floor(Math.random() * (this.width - randWid - 1)) + 1,
+             randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1;
+
+         if (this.checkAvailable(this.drawRect(randWid, randHei, randX, randY))) {
+             this.digSquare(randWid, randHei, randX, randY);
+             this.unconnected.push(this.findTiles("wall", this.drawRect(randWid + 2, randHei + 2, randX - 1, randY - 1)));
+         }
+     }
+
+     this.connected.push(this.unconnected.pop());
+
+     while (this.unconnected.length > 0) {
+         var target = {
+                 distance: 1000,
+                 index: 0
+             },
+             start = [];
+             i = 0;
+
+         for (var j = 0; j < this.connected.length; j++) {
+            var manhDistance = Math.abs(this.connected[j][0][0] - this.unconnected[i][0][0]) + Math.abs(this.connected[j][0][1] - this.unconnected[i][0][1]);
+             if ( manhDistance < target.distance) {
+                target.distance = manhDistance;
+                target.index = j;
+             }
+         }
+
+         this.simplePath(this.unconnected[i][0],this.connected[target.index][0]);
+         console.log(this.unconnected[i][0]);
+         console.log(this.connected[target.index][0]);
+
+
+         this.connected.push(this.unconnected[i]);
+         this.unconnected.splice(i,1);
+         i++;
+     }
 
 
 
-     /*
-           for (var i = 0; i < attempts; i++) {
-               if (this.findTiles("wall").length === 0;) {
-                   this.digSquare()
-               }
 
-
-
-           }
-
-           function newRoom() {
-               this.digSquar
-               e
-           }
-
-       }
-    */
+     this.massExpress(this.findTiles(null));
  }
 
  dungeon.prototype.checkAvailable = function(room) {
+     var x = true;
      for (var i = 0; i < room.length; i++) {
-         if (this.cells[room[i][0], room[i][1]].type == "floor") {
-             return false
+         if (this.cells[room[i][0]][room[i][1]].type == "floor" || this.cells[room[i][0]][room[i][1]].type == "wall") {
+             return false;
          }
      }
-     return true
+     return true;
  }
 
  //Returns one of the possible cell types chosen randomly
@@ -373,3 +408,7 @@
  Array.prototype.randomElement = function() {
      return this[Math.floor(Math.random() * this.length)]
  }
+
+ Array.prototype.last = function() {
+     return this[this.length - 1];
+ };
