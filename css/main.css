@@ -1,6 +1,21 @@
-#main {
+body{
+	background-color: #C5E0DC;
+	color: #774F38;
+}
+
+canvas {
     background-color: #F0F0F0;
     display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#mainContainer{
+	position: relative;
+	width: 600px;
+	height: 600px;
+	display: inline-block;
 }
 
 .tile {
@@ -20,4 +35,32 @@
 
 .floor {
     background-color: #ECD078;
+}
+
+.counter li{
+	width: 15px;
+	height: 15px;
+	float: left;
+	font-family: "Lucida Console";
+	font-size: 9px;
+	text-align: center;
+	padding-top: 2px;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+#ver{
+	width: 15px;
+	float: left;
+}
+
+#hor{
+	margin-left: 15px;
+}
+
+#hor li{
+	border-right: 1px solid #C8C8A9;
+}
+#ver li{
+	border-bottom: 1px solid #C8C8A9;
 }

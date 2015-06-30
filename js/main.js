@@ -1,6 +1,6 @@
- var c = document.getElementById("main"),
-     ctx = c.getContext("2d"),
-     cellSize = 10,
+ var c = document.getElementById("layout"),
+     layout = c.getContext("2d"),
+     cellSize = 15,
      testArr = [
          [0, 39],
          [0, 38],
@@ -242,8 +242,8 @@
              co = '#C3E90D';
              break;
      }
-     ctx.fillStyle = co;
-     ctx.fillRect(this.posX, this.posY, cellSize, cellSize); //dibujar la celda
+     layout.fillStyle = co;
+     layout.fillRect(this.posX, this.posY, cellSize, cellSize); //dibujar la celda
  }
 
  ////////////////HELPER FUNCTIONS
