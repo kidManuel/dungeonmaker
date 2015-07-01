@@ -24,7 +24,7 @@
      bar = 20;
 
  $(document).ready(function() {
-     dun = new dungeon(40, 40);
+     dun = new dungeon(100, 100);
      dun.init();
      dun.randomDun();
      //dun.massModify(dun.simplePath([0, 39], [39, 0]), "type", "floor");
@@ -328,11 +328,11 @@
 
 
  dungeon.prototype.randomDun = function() {
-     var maxWid = Math.floor(this.width / 3),
-         maxHei = Math.floor(this.height / 3),
+     var maxWid = Math.floor(this.width / 4),
+         maxHei = Math.floor(this.height / 4),
          minWid = 3,
          minHei = 3,
-         attempts = 40,
+         attempts = 20,
          unconnected = [],
          connected = [];
 
@@ -342,7 +342,7 @@
              randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei),
              randX = Math.floor(Math.random() * (this.width - randWid - 1)) + 1,
              randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1,
-             
+
              target = this.drawRect(randWid, randHei, randX, randY);
 
          if (this.checkAvailable(target)) {
@@ -351,17 +351,22 @@
          }
      }
 
-     if (connected.length === 0) {
-         connected.push(unconnected.shift(););
-     }
 
      while (unconnected.length > 0) {
          var distance = 1000,
              index = 0,
-             first = unconnected[0];
+             seed = Math.floor(Math.random() * unconnected.length),
+             objective = unconnected[seed];
+
+         if (connected.length === 0) {
+             connected.push(unconnected[seed]);
+             unconnected.splice(seed, 1);
+             continue;
+         }
+
 
          for (var j = 0; j < connected.length; j++) {
-             var manhDistance = Math.abs(connected[j][0] - first[0]) + Math.abs(connected[j][1] - first[1]);
+             var manhDistance = Math.abs(connected[j][0] - objective[0]) + Math.abs(connected[j][1] - objective[1]);
 
              if (manhDistance < distance) {
                  distance = manhDistance;
@@ -369,9 +374,9 @@
              }
          }
 
-         this.simplePath(first, connected[index]);
-         console.log(first + " and " + unconnected[1] + " and " + unconnected[2] + " and " + unconnected[3] + " and " + unconnected[4]);
-         connected.push(unconnected.shift());
+         this.massModify(this.simplePath(objective, connected[index]), "type", "floor");
+         connected.push(unconnected[seed]);
+         unconnected.splice(seed, 1)
      }
 
      this.massExpress(this.findTiles(null));
@@ -418,3 +423,26 @@
  Array.prototype.last = function() {
      return this[this.length - 1];
  };
+
+ /*
+ function supertest(unconnected,connected){
+      while (unconnected.length > 0) {
+          var distance = 1000,
+              index = 0,
+              objective = unconnected[0];
+
+          for (var j = 0; j < connected.length; j++) {
+              var manhDistance = Math.abs(connected[j][0] - first[0]) + Math.abs(connected[j][1] - first[1]);
+
+              if (manhDistance < distance) {
+                  distance = manhDistance;
+                  index = j;
+              }
+          }
+
+          console.log(first + " and " + unconnected[1] + " and " + unconnected[2] + " and " + unconnected[3] + " and " + unconnected[4]);
+          connected.push(unconnected[0]);
+          unconnected.shift()
+      }
+  }
+ }*/
