@@ -14,6 +14,9 @@
          [3, 39],
          [3, 38],
          [3, 37],
+         [4, 39],
+         [4, 38],
+         [4, 37],
 
      ],
 
@@ -23,8 +26,9 @@
  $(document).ready(function() {
      dun = new dungeon(40, 40);
      dun.init();
-     //dun.massModify(dun.simplePath([0, 39], [39, 0]), "type", "floor");
      dun.randomDun();
+     //dun.massModify(dun.simplePath([0, 39], [39, 0]), "type", "floor");
+     dun.polish(dun.findTiles(null))
      dun.expressAll();
  });
 
@@ -44,6 +48,7 @@
              this.cells[i][j] = new cell(i, j, "rock");
          }
      }
+
  }
 
  dungeon.prototype.expressAll = function() {
@@ -309,68 +314,65 @@
  }
 
 
-/*
-*
-*
-*
-*FIX
-*THIS
-*SHIT
-*
-*
-*
-*/
+ /*
+  *
+  *
+  *
+  *FIX
+  *THIS
+  *SHIT
+  *
+  *
+  *
+  */
 
 
  dungeon.prototype.randomDun = function() {
-     var maxWid = this.width / 3,
-         maxHei = this.height / 3,
+     var maxWid = Math.floor(this.width / 3),
+         maxHei = Math.floor(this.height / 3),
          minWid = 3,
          minHei = 3,
-         attempts = 40;
+         attempts = 40,
+         unconnected = [],
+         connected = [];
+
 
      for (var i = 0; i < attempts; i++) {
          var randWid = Math.floor(Math.random() * (maxWid - minWid + 1) + minWid),
              randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei),
              randX = Math.floor(Math.random() * (this.width - randWid - 1)) + 1,
-             randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1;
+             randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1,
+             
+             target = this.drawRect(randWid, randHei, randX, randY);
 
-         if (this.checkAvailable(this.drawRect(randWid, randHei, randX, randY))) {
+         if (this.checkAvailable(target)) {
              this.digSquare(randWid, randHei, randX, randY);
-             this.unconnected.push(this.findTiles("wall", this.drawRect(randWid + 2, randHei + 2, randX - 1, randY - 1)));
+             unconnected.push(centerPoint(target));
          }
      }
 
-     this.connected.push(this.unconnected.pop());
+     if (connected.length === 0) {
+         connected.push(unconnected.shift(););
+     }
 
-     while (this.unconnected.length > 0) {
-         var target = {
-                 distance: 1000,
-                 index: 0
-             },
-             start = [];
-             i = 0;
+     while (unconnected.length > 0) {
+         var distance = 1000,
+             index = 0,
+             first = unconnected[0];
 
-         for (var j = 0; j < this.connected.length; j++) {
-            var manhDistance = Math.abs(this.connected[j][0][0] - this.unconnected[i][0][0]) + Math.abs(this.connected[j][0][1] - this.unconnected[i][0][1]);
-             if ( manhDistance < target.distance) {
-                target.distance = manhDistance;
-                target.index = j;
+         for (var j = 0; j < connected.length; j++) {
+             var manhDistance = Math.abs(connected[j][0] - first[0]) + Math.abs(connected[j][1] - first[1]);
+
+             if (manhDistance < distance) {
+                 distance = manhDistance;
+                 index = j;
              }
          }
 
-         this.simplePath(this.unconnected[i][0],this.connected[target.index][0]);
-         console.log(this.unconnected[i][0]);
-         console.log(this.connected[target.index][0]);
-
-
-         this.connected.push(this.unconnected[i]);
-         this.unconnected.splice(i,1);
-         i++;
+         this.simplePath(first, connected[index]);
+         console.log(first + " and " + unconnected[1] + " and " + unconnected[2] + " and " + unconnected[3] + " and " + unconnected[4]);
+         connected.push(unconnected.shift());
      }
-
-
-
 
      this.massExpress(this.findTiles(null));
  }
@@ -400,7 +402,11 @@
      }
  }
 
-
+ function centerPoint(room) {
+     var topLeft = room[0],
+         botRight = room[room.length - 1];
+     return [Math.floor((topLeft[0] + botRight[0]) / 2), Math.floor((topLeft[1] + botRight[1]) / 2)]
+ }
 
 
  ////////////////////////Stuff.
