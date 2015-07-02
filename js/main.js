@@ -328,11 +328,11 @@
 
 
  dungeon.prototype.randomDun = function() {
-     var maxWid = Math.floor(this.width / 4),
-         maxHei = Math.floor(this.height / 4),
+     var maxWid = Math.floor(this.width / 12),
+         maxHei = Math.floor(this.height / 12),
          minWid = 3,
          minHei = 3,
-         attempts = 20,
+         attempts = 100,
          unconnected = [],
          connected = [];
 
@@ -352,18 +352,14 @@
      }
 
 
+     connected.push(unconnected[0]);
+     unconnected.shift();
+
      while (unconnected.length > 0) {
          var distance = 1000,
              index = 0,
              seed = Math.floor(Math.random() * unconnected.length),
              objective = unconnected[seed];
-
-         if (connected.length === 0) {
-             connected.push(unconnected[seed]);
-             unconnected.splice(seed, 1);
-             continue;
-         }
-
 
          for (var j = 0; j < connected.length; j++) {
              var manhDistance = Math.abs(connected[j][0] - objective[0]) + Math.abs(connected[j][1] - objective[1]);
