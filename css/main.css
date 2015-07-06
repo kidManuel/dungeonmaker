@@ -4,7 +4,6 @@ body{
 }
 
 canvas {
-    background-color: #F0F0F0;
     display: block;
     position: absolute;
     top: 0;
@@ -13,9 +12,8 @@ canvas {
 
 #mainContainer{
 	position: relative;
-	width: 600px;
-	height: 600px;
 	display: inline-block;
+	float: left;
 }
 
 .tile {

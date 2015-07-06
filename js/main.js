@@ -20,19 +20,27 @@
      ],
      dunWid = 70,
      dunHei = 60,
-     cellSize = 12,
-     density = 20;
+     cellSize = 15,
+     density = 15,
+
+     fullSizeW = dunWid * cellSize,
+     fullSizeH = dunHei * cellSize;
+
 
  $(document).ready(function() {
 
      var listHor = document.querySelector("#hor"),
          listVer = document.querySelector("#ver"),
          x = document.createElement("STYLE"),
-         t = document.createTextNode(".counter li {width: " + cellSize + "px; height: " + cellSize + "px;}");
+         t = document.createTextNode(".counter li {width: " + cellSize + "px; height: " + cellSize + "px;}"),
+         container = document.getElementById("mainContainer");
+
+         container.style.width = fullSizeW + "px";
+         container.style.height = fullSizeH + "px";
 
      for (var i = 0; i < allCanvas.length; i++) {
-         allCanvas[i].width = dunWid * cellSize;
-         allCanvas[i].height = dunHei * cellSize;
+         allCanvas[i].width = fullSizeW;
+         allCanvas[i].height = fullSizeH;
      }
 
      for (var i = 0; i < dunWid; i++) {
