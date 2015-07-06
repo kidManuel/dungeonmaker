@@ -1,6 +1,6 @@
- var c = document.getElementById("main"),
-     ctx = c.getContext("2d"),
-     cellSize = 10,
+ var layoutElems = document.getElementById("layout"),
+     layout = layoutElems.getContext("2d"),
+     allCanvas = document.querySelectorAll("canvas"),
      testArr = [
          [0, 39],
          [0, 38],
@@ -17,18 +17,44 @@
          [4, 39],
          [4, 38],
          [4, 37],
-
      ],
-
-     foo = 40,
-     bar = 20;
+     dunWid = 70,
+     dunHei = 60,
+     cellSize = 12,
+     density = 20;
 
  $(document).ready(function() {
-     dun = new dungeon(60, 60);
+
+     var listHor = document.querySelector("#hor"),
+         listVer = document.querySelector("#ver"),
+         x = document.createElement("STYLE"),
+         t = document.createTextNode(".counter li {width: " + cellSize + "px; height: " + cellSize + "px;}");
+
+     for (var i = 0; i < allCanvas.length; i++) {
+         allCanvas[i].width = dunWid * cellSize;
+         allCanvas[i].height = dunHei * cellSize;
+     }
+
+     for (var i = 0; i < dunWid; i++) {
+         var count = document.createElement("li"),
+             text = document.createTextNode(i);
+         count.appendChild(text);
+         listHor.appendChild(count);
+     }
+
+     for (var i = 0; i < dunHei; i++) {
+         var count = document.createElement("li"),
+             text = document.createTextNode(i);
+         count.appendChild(text);
+         listVer.appendChild(count);
+     }
+
+     x.appendChild(t);
+     document.head.appendChild(x);
+     dun = new dungeon(dunWid, dunHei);
      dun.init();
      dun.randomDun();
-     //dun.massModify(dun.simplePath([0, 39], [39, 0]), "type", "floor");
-     dun.polish(dun.findTiles(null))
+     dun.polish(dun.findTiles(null));
      dun.expressAll();
  });
 
@@ -244,8 +270,8 @@
              co = '#C3E90D';
              break;
      }
-     ctx.fillStyle = co;
-     ctx.fillRect(this.posX, this.posY, cellSize, cellSize); //dibujar la celda
+     layout.fillStyle = co;
+     layout.fillRect(this.posX, this.posY, cellSize, cellSize); //dibujar la celda
  }
 
  ////////////////HELPER FUNCTIONS
@@ -332,7 +358,7 @@
          maxHei = Math.floor(this.height / 4),
          minWid = 3,
          minHei = 3,
-         attempts = 100,
+         attempts = density,
          unconnected = [],
          connected = [];
 
