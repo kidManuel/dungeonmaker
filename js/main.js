@@ -1,42 +1,26 @@
  var layoutElems = document.getElementById("layout"),
      layout = layoutElems.getContext("2d"),
      allCanvas = document.querySelectorAll("canvas"),
-     testArr = [
-         [0, 39],
-         [0, 38],
-         [0, 37],
-         [1, 39],
-         [1, 38],
-         [1, 37],
-         [2, 39],
-         [2, 38],
-         [2, 37],
-         [3, 39],
-         [3, 38],
-         [3, 37],
-         [4, 39],
-         [4, 38],
-         [4, 37],
-     ],
-     dunWid = 70,
+
+     dunWid = 70, //size in cells of the floor.
      dunHei = 60,
-     cellSize = 15,
-     density = 15,
+     cellSize = 12,
+     density = 15, // ammount of attempts at filling the floor.
 
-     fullSizeW = dunWid * cellSize,
+     fullSizeW = dunWid * cellSize, //size in pixels of the floor.
      fullSizeH = dunHei * cellSize;
-
 
  $(document).ready(function() {
 
+     //draws the rulers.
      var listHor = document.querySelector("#hor"),
          listVer = document.querySelector("#ver"),
          x = document.createElement("STYLE"),
          t = document.createTextNode(".counter li {width: " + cellSize + "px; height: " + cellSize + "px;}"),
          container = document.getElementById("mainContainer");
 
-         container.style.width = fullSizeW + "px";
-         container.style.height = fullSizeH + "px";
+     container.style.width = fullSizeW + "px";
+     container.style.height = fullSizeH + "px";
 
      for (var i = 0; i < allCanvas.length; i++) {
          allCanvas[i].width = fullSizeW;
@@ -216,7 +200,6 @@
  }
 
  // polish up dungeon
-
  dungeon.prototype.polish = function(tilesToPolish) {
      var areaPolish = tilesToPolish || this.findTiles(null);
 
@@ -237,7 +220,6 @@
  }
 
  ////////////////MAIN CELL OBJECT DECLARATION
-
  var cell = function(x, y, type) {
      this.X = x; //numero de x
      this.Y = y; //numero de x
@@ -245,9 +227,6 @@
      this.posY = cellSize * this.Y;
      this.type = type;
  };
-
-
-
 
  /////////ESTO NO FUNCIONA!!!!!!!
  /////////ESTO NO FUNCIONA!!!!!!!
@@ -282,7 +261,6 @@
      layout.fillRect(this.posX, this.posY, cellSize, cellSize); //dibujar la celda
  }
 
- ////////////////HELPER FUNCTIONS
  //Briefly highlights a cell.
  dungeon.prototype.ping = function(arrayOrX, y) {
      var loc = arguments,
@@ -296,7 +274,6 @@
      }, 1000)
  }
 
- // PATHING FUNCTIONS
  //random path of manhattan-distance length
 
  dungeon.prototype.simplePath = function(start, end) {
@@ -323,43 +300,7 @@
      return path;
  }
 
- // brasenham's algorithm for lines
- dungeon.prototype.brasLine = function(x0, y0, x1, y1) {
-     var dx = Math.abs(x1 - x0),
-         dy = Math.abs(y1 - y0),
-         sx = (x0 < x1) ? 1 : -1,
-         sy = (y0 < y1) ? 1 : -1,
-         err = dx - dy,
-         path = [];
-     while (true) {
-         path.push([x0, y0]);
-         if ((x0 == x1) && (y0 == y1)) break;
-         var e2 = 2 * err;
-         if (e2 > -dy) {
-             err -= dy;
-             x0 += sx;
-         }
-         if (e2 < dx) {
-             err += dx;
-             y0 += sy;
-         }
-     }
-     return path;
- }
-
-
- /*
-  *
-  *
-  *
-  *FIX
-  *THIS
-  *SHIT
-  *
-  *
-  *
-  */
-
+ //first go at dungeon generation. to be perfected.
 
  dungeon.prototype.randomDun = function() {
      var maxWid = Math.floor(this.width / 4),
@@ -412,8 +353,8 @@
      this.massExpress(this.findTiles(null));
  }
 
+ // given an array of coordinate-arrays ([x,y]) checks if there is space to dig the room. ; 
  dungeon.prototype.checkAvailable = function(room) {
-     var x = true;
      for (var i = 0; i < room.length; i++) {
          if (this.cells[room[i][0]][room[i][1]].type == "floor" || this.cells[room[i][0]][room[i][1]].type == "wall") {
              return false;
@@ -437,6 +378,10 @@
      }
  }
 
+
+ /* given an array of coordinate-arrays ([x,y]) gets the center of that room; 
+  ** assuming first and last arrays represent opposing borders */
+
  function centerPoint(room) {
      var topLeft = room[0],
          botRight = room[room.length - 1];
@@ -453,3 +398,47 @@
  Array.prototype.last = function() {
      return this[this.length - 1];
  };
+
+ // brasenham's algorithm for lines
+ dungeon.prototype.brasLine = function(x0, y0, x1, y1) {
+     var dx = Math.abs(x1 - x0),
+         dy = Math.abs(y1 - y0),
+         sx = (x0 < x1) ? 1 : -1,
+         sy = (y0 < y1) ? 1 : -1,
+         err = dx - dy,
+         path = [];
+     while (true) {
+         path.push([x0, y0]);
+         if ((x0 == x1) && (y0 == y1)) break;
+         var e2 = 2 * err;
+         if (e2 > -dy) {
+             err -= dy;
+             x0 += sx;
+         }
+         if (e2 < dx) {
+             err += dx;
+             y0 += sy;
+         }
+     }
+     return path;
+ }
+
+
+
+ var testArr = [ //just a silly old array for general purpose testing.
+     [0, 39],
+     [0, 38],
+     [0, 37],
+     [1, 39],
+     [1, 38],
+     [1, 37],
+     [2, 39],
+     [2, 38],
+     [2, 37],
+     [3, 39],
+     [3, 38],
+     [3, 37],
+     [4, 39],
+     [4, 38],
+     [4, 37],
+ ];
