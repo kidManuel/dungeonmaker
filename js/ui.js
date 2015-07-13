@@ -5,7 +5,8 @@ var uiElems = document.getElementById("ui"),
     currentY = 0;
 
 spriteSheet.src = "imgs/spr.png";
-document.onmousemove = getMouse;
+document.onmousemove = mouse.getMouse;
+
 
 
 //main sprite definition. parent for all graphical classess
@@ -43,9 +44,17 @@ var cursor = new sprite({
 
 
 
+var mouse = function() {
+    this.posX = 0,
+        posY = 0,
+        cellX = 0,
+        cellY = 0;
+        
+}
+
 
 //gets the current cell of the mouse, and determines if it has changed.
-function getMouse(e) {
+mouse.prototype.getMouse = function(e) {
     var tempX = Math.floor(e.pageX / cellSize) - 1,
         tempY = Math.floor(e.pageY / cellSize) - 1;
 
@@ -56,33 +65,30 @@ function getMouse(e) {
         tempY = 0
     }
 
-    document.getElementById("MouseX").value = tempX;
-    document.getElementById("MouseY").value = tempY;
+    // document.getElementById("MouseX").value = tempX;
+    // document.getElementById("MouseY").value = tempY;
 
     if (tempX !== currentX || tempY !== currentY) {
-        mouseMoved()
+        this.mouseMoved();
     }
 
 }
 
 //Handles functions triggered when mouse has moved.
 function mouseMoved() {
-    drawCursor();
+        eraseCursor();
+        currentX = tempX;
+        currentY = tempY;
+        cursor.render(currentX, currentY);
 }
 
 
 //draws the crosshairs
 function drawCursor() {
-    eraseCursor();
-    currentX = tempX;
-    currentY = tempY;
-    cursor.render(currentX, currentY);
+
 }
 
 //erases the crosshairs
 function eraseCursor() {
     ui.clearRect(currentX * cellSize, currentY * cellSize, cellSize, cellSize);
-    console.log(cellSize);
-    console.log("x is : " + currentX * cellSize);
-    console.log("Y is : " + currentY * cellSize);
 }

@@ -2,6 +2,8 @@
      layout = layoutElems.getContext("2d"),
      allCanvas = document.querySelectorAll("canvas"),
 
+/** MAKE PARAMS OBJECT **/
+
      dunWid = 70, //size in cells of the floor.
      dunHei = 60,
      cellSize = 12,
@@ -9,6 +11,9 @@
 
      fullSizeW = dunWid * cellSize, //size in pixels of the floor.
      fullSizeH = dunHei * cellSize;
+
+/** MAKE PARAMS OBJECT **/
+
 
  $(document).ready(function() {
 
@@ -71,7 +76,6 @@
 
  dungeon.prototype.expressAll = function() {
      this.massExpress(this.findTiles(null));
-     //this.polish(this.findTiles(null));
  };
 
 
