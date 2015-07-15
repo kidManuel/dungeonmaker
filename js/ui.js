@@ -1,6 +1,7 @@
 var uiElems = document.getElementById("ui"),
     ui = uiElems.getContext("2d");
-    
+
+
 //main sprite definition. parent for all graphical classess
 function sprite(options) {
     this.context = options.context; //this gets the canvas layer in wich the sprite should be rendered.
@@ -32,7 +33,13 @@ var mouseController = function() {
         cellY = 0,
         preCellX = 0,
         preCellY = 0;
+    draw = {
+        is: true,
+        drawMode: "line",
+        drawStart: []
+    };
 }
+
 mouse = new mouseController();
 
 //gets the current cell of the mouse, and determines if it has changed.
@@ -49,7 +56,7 @@ function getMouse(e) {
 
     if (tempX !== mouse.cellX || tempY !== mouse.cellY) {
         //UPDATE FOR OPTIMIZATION
-            ///////////
+        ///////////
         mouse.preCellX = mouse.cellX;
         mouse.preCellY = mouse.cellY;
         mouse.cellX = tempX;
@@ -61,7 +68,11 @@ function getMouse(e) {
 
 //Handles functions triggered when mouse has moved.
 mouseController.prototype.mouseMoved = function() {
+    /*if (mouse.drawing) {
+        ui.
+    }
     this.drawCursor();
+*/
 }
 
 
@@ -76,8 +87,37 @@ mouseController.prototype.eraseCursor = function() {
     ui.clearRect(this.preCellX * cellSize, this.preCellY * cellSize, cellSize, cellSize);
 }
 
+
+
+function massHightlight(myArray) {
+    ui.strokeStyle = "#9DE0AD";
+    ui.fillStyle = "rgba(229,252,194,0.5)"
+
+    for (var i = 0; i < myArray.length; i++) {
+        dun.cellAt(myArray[i][0], myArray[i][1]).highlight();
+    }
+
+}
+
+
+
 document.onmousemove = getMouse;
 
+uiElems.addEventListener('click', function(e) {
+    if (!mouse.draw.is) {
+        mouse.draw.drawStart[0] = mouse.cellX;
+        mouse.draw.drawStart[1] = mouse.cellY;
+    }
+    mouse.drawing = !mouse.drawing;
+})
 
 
+CanvasRenderingContext2D.prototype.clearCells = function(myArray) {
+    var a = myArray[0],
+        b = myArray[myArray.length - 1],
+        top = Math.min(a[1], b[1]),
+        bot = Math.max(a[1], b[1]),
+        left = Math.min(a[0], b[0]),
+        right = Math.max(a[0], b[0]);
 
+}

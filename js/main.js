@@ -157,6 +157,32 @@
      return rect;
  }
 
+
+/*
+
+MERGE THIS TWO????
+
+*/
+
+//gets a square given two opposing corner cells. might be used to check for bounding boxes in some cases.
+dungeon.prototype.drawRectCorners = function (a, b){
+    var rect = [],
+        top = Math.min(a[1],b[1]),
+        bot = Math.max(a[1],b[1]),
+        left = Math.min(a[0],b[0]),
+        right = Math.max(a[0],b[0]);
+
+
+     for (var i = left; i <= right; i++) {
+         for (var j = top; j <= bot; j++) {
+             if (this.cellAt(i, j)) {
+                 rect.push([i, j]);
+             }
+         }
+     }
+     return rect;
+}
+
  //get neighbouring cells
 
  dungeon.prototype.getNeighs = function(x, y) {
@@ -264,6 +290,15 @@
      layout.fillStyle = co;
      layout.fillRect(this.posX, this.posY, cellSize, cellSize); //dibujar la celda
  }
+
+
+//highlighting for ui functions
+cell.prototype.highlight = function(){
+    ui.fillRect(this.posX, this.posY, cellSize, cellSize);
+    ui.strokeRect(this.posX+1, this.posY+1, cellSize-2, cellSize-2);
+}
+
+
 
  //Briefly highlights a cell.
  dungeon.prototype.ping = function(arrayOrX, y) {
