@@ -1,14 +1,6 @@
 var uiElems = document.getElementById("ui"),
-    ui = uiElems.getContext("2d"),
-    spriteSheet = new Image(), // <--- move to separate js
-    currentX = 0,
-    currentY = 0;
-
-spriteSheet.src = "imgs/spr.png";
-document.onmousemove = mouse.getMouse;
-
-
-
+    ui = uiElems.getContext("2d");
+    
 //main sprite definition. parent for all graphical classess
 function sprite(options) {
     this.context = options.context; //this gets the canvas layer in wich the sprite should be rendered.
@@ -33,28 +25,18 @@ sprite.prototype.render = function(x, y) {
     );
 };
 
-var cursor = new sprite({
-    context: uiElems.getContext("2d"),
-    sourceX: 0,
-    sourceY: 0,
-    width: 15,
-    height: 15,
-    image: spriteSheet
-});
-
-
-
-var mouse = function() {
+var mouseController = function() {
     this.posX = 0,
         posY = 0,
         cellX = 0,
-        cellY = 0;
-        
+        cellY = 0,
+        preCellX = 0,
+        preCellY = 0;
 }
-
+mouse = new mouseController();
 
 //gets the current cell of the mouse, and determines if it has changed.
-mouse.prototype.getMouse = function(e) {
+function getMouse(e) {
     var tempX = Math.floor(e.pageX / cellSize) - 1,
         tempY = Math.floor(e.pageY / cellSize) - 1;
 
@@ -65,30 +47,37 @@ mouse.prototype.getMouse = function(e) {
         tempY = 0
     }
 
-    // document.getElementById("MouseX").value = tempX;
-    // document.getElementById("MouseY").value = tempY;
-
-    if (tempX !== currentX || tempY !== currentY) {
-        this.mouseMoved();
+    if (tempX !== mouse.cellX || tempY !== mouse.cellY) {
+        //UPDATE FOR OPTIMIZATION
+            ///////////
+        mouse.preCellX = mouse.cellX;
+        mouse.preCellY = mouse.cellY;
+        mouse.cellX = tempX;
+        mouse.cellY = tempY;
+        mouse.mouseMoved();
     }
 
 }
 
 //Handles functions triggered when mouse has moved.
-function mouseMoved() {
-        eraseCursor();
-        currentX = tempX;
-        currentY = tempY;
-        cursor.render(currentX, currentY);
+mouseController.prototype.mouseMoved = function() {
+    this.drawCursor();
 }
 
 
 //draws the crosshairs
-function drawCursor() {
-
+mouseController.prototype.drawCursor = function(x, y) {
+    this.eraseCursor();
+    cursor.render(this.cellX, this.cellY);
 }
 
 //erases the crosshairs
-function eraseCursor() {
-    ui.clearRect(currentX * cellSize, currentY * cellSize, cellSize, cellSize);
+mouseController.prototype.eraseCursor = function() {
+    ui.clearRect(this.preCellX * cellSize, this.preCellY * cellSize, cellSize, cellSize);
 }
+
+document.onmousemove = getMouse;
+
+
+
+
