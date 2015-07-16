@@ -27,14 +27,14 @@ sprite.prototype.render = function(x, y) {
 };
 
 var mouseController = function() {
-    this.posX = 0,
-        posY = 0,
-        cellX = 0,
-        cellY = 0,
-        preCellX = 0,
-        preCellY = 0;
-    draw = {
-        is: true,
+    this.posX = 0;
+    this.posY = 0;
+    this.cellX = 0;
+    this.cellY = 0;
+    this.preCellX = 0;
+    this.preCellY = 0;
+    this.draw = {
+        is: false,
         drawMode: "line",
         drawStart: []
     };
@@ -68,11 +68,11 @@ function getMouse(e) {
 
 //Handles functions triggered when mouse has moved.
 mouseController.prototype.mouseMoved = function() {
-    /*if (mouse.drawing) {
-        ui.
+    if (mouse.drawing) {
+        ui.clearCells(dun.drawRectCorners(mouse.draw.drawStart, [mouse.preCellX, mouse.preCellY]));
+        massHightlight(dun.brasLine(mouse.draw.drawStart, [mouse.cellX, mouse.cellY]));
     }
     this.drawCursor();
-*/
 }
 
 
@@ -105,6 +105,7 @@ document.onmousemove = getMouse;
 
 uiElems.addEventListener('click', function(e) {
     if (!mouse.draw.is) {
+        ui.clearRect(0,0, fullSizeW, fullSizeH);
         mouse.draw.drawStart[0] = mouse.cellX;
         mouse.draw.drawStart[1] = mouse.cellY;
     }
@@ -118,6 +119,9 @@ CanvasRenderingContext2D.prototype.clearCells = function(myArray) {
         top = Math.min(a[1], b[1]),
         bot = Math.max(a[1], b[1]),
         left = Math.min(a[0], b[0]),
-        right = Math.max(a[0], b[0]);
+        right = Math.max(a[0], b[0]),
+        topLeft = dun.cellAt(left, top),
+        botRight = dun.cellAt(right, bot)
 
+    this.clearRect(topLeft.posX, topLeft.posY, botRight.posX - topLeft.posX + cellSize, botRight.posY - topLeft.posY + cellSize);
 }

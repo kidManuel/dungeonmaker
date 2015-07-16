@@ -2,7 +2,7 @@
      layout = layoutElems.getContext("2d"),
      allCanvas = document.querySelectorAll("canvas"),
 
-/** MAKE PARAMS OBJECT **/
+     /** MAKE PARAMS OBJECT **/
 
      dunWid = 70, //size in cells of the floor.
      dunHei = 60,
@@ -12,7 +12,7 @@
      fullSizeW = dunWid * cellSize, //size in pixels of the floor.
      fullSizeH = dunHei * cellSize;
 
-/** MAKE PARAMS OBJECT **/
+ /** MAKE PARAMS OBJECT **/
 
 
  $(document).ready(function() {
@@ -158,19 +158,19 @@
  }
 
 
-/*
+ /*
 
-MERGE THIS TWO????
+ MERGE THIS TWO????
 
-*/
+ */
 
-//gets a square given two opposing corner cells. might be used to check for bounding boxes in some cases.
-dungeon.prototype.drawRectCorners = function (a, b){
-    var rect = [],
-        top = Math.min(a[1],b[1]),
-        bot = Math.max(a[1],b[1]),
-        left = Math.min(a[0],b[0]),
-        right = Math.max(a[0],b[0]);
+ //gets a square given two opposing corner cells. might be used to check for bounding boxes in some cases.
+ dungeon.prototype.drawRectCorners = function(a, b) {
+     var rect = [],
+         top = Math.min(a[1], b[1]),
+         bot = Math.max(a[1], b[1]),
+         left = Math.min(a[0], b[0]),
+         right = Math.max(a[0], b[0]);
 
 
      for (var i = left; i <= right; i++) {
@@ -181,7 +181,7 @@ dungeon.prototype.drawRectCorners = function (a, b){
          }
      }
      return rect;
-}
+ }
 
  //get neighbouring cells
 
@@ -251,9 +251,9 @@ dungeon.prototype.drawRectCorners = function (a, b){
 
  ////////////////MAIN CELL OBJECT DECLARATION
  var cell = function(x, y, type) {
-     this.X = x; //numero de x
-     this.Y = y; //numero de x
-     this.posX = cellSize * this.X; //numero de x
+     this.X = x; //x and y index number of cell
+     this.Y = y;
+     this.posX = cellSize * this.X; //x and y position in pix
      this.posY = cellSize * this.Y;
      this.type = type;
  };
@@ -292,11 +292,11 @@ dungeon.prototype.drawRectCorners = function (a, b){
  }
 
 
-//highlighting for ui functions
-cell.prototype.highlight = function(){
-    ui.fillRect(this.posX, this.posY, cellSize, cellSize);
-    ui.strokeRect(this.posX+1, this.posY+1, cellSize-2, cellSize-2);
-}
+ //highlighting for ui functions
+ cell.prototype.highlight = function() {
+     ui.fillRect(this.posX, this.posY, cellSize, cellSize);
+     ui.strokeRect(this.posX + 1, this.posY + 1, cellSize - 2, cellSize - 2);
+ }
 
 
 
@@ -439,8 +439,12 @@ cell.prototype.highlight = function(){
  };
 
  // brasenham's algorithm for lines
- dungeon.prototype.brasLine = function(x0, y0, x1, y1) {
-     var dx = Math.abs(x1 - x0),
+ dungeon.prototype.brasLine = function(a,b) {
+     var x0 = a[0],
+         x1 = b[0],
+         y0 = a[1],
+         y1 = b[1],
+         dx = Math.abs(x1 - x0),
          dy = Math.abs(y1 - y0),
          sx = (x0 < x1) ? 1 : -1,
          sy = (y0 < y1) ? 1 : -1,
