@@ -36,7 +36,8 @@ var mouseController = function() {
     this.draw = {
         is: false,
         drawMode: "line",
-        drawStart: []
+        drawStart: [],
+        drawPrev: []
     };
 }
 
@@ -47,6 +48,17 @@ function getMouse(e) {
     var tempX = Math.floor(e.pageX / cellSize) - 1,
         tempY = Math.floor(e.pageY / cellSize) - 1;
 
+    /**************************
+        NOT WORKING????????
+    /**************************
+
+    if (tempX > dunWid) {
+        tempX = dunWid
+    }
+    if (tempY > dunHei) {
+        tempY = dunHei
+    }*/
+
     if (tempX < 0) {
         tempX = 0
     }
@@ -54,9 +66,11 @@ function getMouse(e) {
         tempY = 0
     }
 
+
     if (tempX !== mouse.cellX || tempY !== mouse.cellY) {
-        //UPDATE FOR OPTIMIZATION
-        ///////////
+        /**************************
+        UPDATE FOR OPTIMIZATION?
+        /**************************/
         mouse.preCellX = mouse.cellX;
         mouse.preCellY = mouse.cellY;
         mouse.cellX = tempX;
@@ -68,17 +82,16 @@ function getMouse(e) {
 
 //Handles functions triggered when mouse has moved.
 mouseController.prototype.mouseMoved = function() {
-    if (mouse.drawing) {
+    this.eraseCursor();
+    if (mouse.draw.is) {
         ui.clearCells(dun.drawRectCorners(mouse.draw.drawStart, [mouse.preCellX, mouse.preCellY]));
         massHightlight(dun.brasLine(mouse.draw.drawStart, [mouse.cellX, mouse.cellY]));
     }
     this.drawCursor();
 }
 
-
 //draws the crosshairs
 mouseController.prototype.drawCursor = function(x, y) {
-    this.eraseCursor();
     cursor.render(this.cellX, this.cellY);
 }
 
@@ -86,8 +99,6 @@ mouseController.prototype.drawCursor = function(x, y) {
 mouseController.prototype.eraseCursor = function() {
     ui.clearRect(this.preCellX * cellSize, this.preCellY * cellSize, cellSize, cellSize);
 }
-
-
 
 function massHightlight(myArray) {
     ui.strokeStyle = "#9DE0AD";
@@ -99,17 +110,16 @@ function massHightlight(myArray) {
 
 }
 
-
-
 document.onmousemove = getMouse;
 
 uiElems.addEventListener('click', function(e) {
-    if (!mouse.draw.is) {
-        ui.clearRect(0,0, fullSizeW, fullSizeH);
+    var clear = !mouse.draw.is;
+    if (clear) {
+        ui.clearRect(0, 0, fullSizeW, fullSizeH);
         mouse.draw.drawStart[0] = mouse.cellX;
         mouse.draw.drawStart[1] = mouse.cellY;
     }
-    mouse.drawing = !mouse.drawing;
+    mouse.draw.is = !mouse.draw.is;
 })
 
 
