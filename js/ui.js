@@ -1,5 +1,7 @@
 var uiElems = document.getElementById("ui"),
-    ui = uiElems.getContext("2d");
+    ui = uiElems.getContext("2d"),
+    cursorElems = document.getElementById("cursor"),
+    cursor = cursorElems.getContext("2d");
 
 
 //main sprite definition. parent for all graphical classess
@@ -92,17 +94,17 @@ mouseController.prototype.mouseMoved = function() {
 
 //draws the crosshairs
 mouseController.prototype.drawCursor = function(x, y) {
-    cursor.render(this.cellX, this.cellY);
+    crosshair.render(this.cellX, this.cellY);
 }
 
 //erases the crosshairs
 mouseController.prototype.eraseCursor = function() {
-    ui.clearRect(this.preCellX * cellSize, this.preCellY * cellSize, cellSize, cellSize);
+    cursor.clearRect(this.preCellX * cellSize, this.preCellY * cellSize, cellSize, cellSize);
 }
 
 function massHightlight(myArray) {
     ui.strokeStyle = "#9DE0AD";
-    ui.fillStyle = "rgba(229,252,194,0.5)"
+    ui.fillStyle = "rgba(229,252,194,0.5)";
 
     for (var i = 0; i < myArray.length; i++) {
         dun.cellAt(myArray[i][0], myArray[i][1]).highlight();
@@ -112,7 +114,7 @@ function massHightlight(myArray) {
 
 document.onmousemove = getMouse;
 
-uiElems.addEventListener('click', function(e) {
+cursorElems.addEventListener('click', function(e) {
     var clear = !mouse.draw.is;
     if (clear) {
         ui.clearRect(0, 0, fullSizeW, fullSizeH);

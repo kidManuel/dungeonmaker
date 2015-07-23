@@ -1,8 +1,8 @@
 spriteSheet = new Image();
 spriteSheet.src = "imgs/spr.png";
 
-var cursor = new sprite({
-    context: uiElems.getContext("2d"),
+var crosshair = new sprite({
+    context: cursorElems.getContext("2d"),
     sourceX: 0,
     sourceY: 0,
     width: 15,
