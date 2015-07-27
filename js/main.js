@@ -365,9 +365,9 @@
          }
      }
 
-
-     connected.push(unconnected[0]);
-     unconnected.shift();
+     // Ya no sirve.
+     //connected.push(unconnected[0]);
+     //unconnected.shift();
 
      while (unconnected.length > 0) {
          var distance = 1000,
@@ -375,8 +375,21 @@
              seed = Math.floor(Math.random() * unconnected.length),
              objective = unconnected[seed];
 
-         for (var j = 0; j < connected.length; j++) {
-             var manhDistance = Math.abs(connected[j][0] - objective[0]) + Math.abs(connected[j][1] - objective[1]);
+         /*
+            1. Tomo un unconnected al azar (objective).
+            2. Busco el unconnected más cercano.
+            3. Creo un path entre ambos unconnected.
+            4. Mando el objective a los connected.
+
+            Nota: Técnicamente también debería mandar el unconnected más cercano a la lista de connected
+            porque ahora está connectado, pero si hacemos esto se crean varios grupitos de habitaciones
+            que no se conectan entre si.
+         */
+
+         for (var j = 0; j < unconnected.length; j++) {
+             if (seed == j)
+                 continue; // Si el objetivo es igual al unconnected que estoy buscando lo salteo.
+             var manhDistance = Math.abs(unconnected[j][0] - objective[0]) + Math.abs(unconnected[j][1] - objective[1]);
 
              if (manhDistance < distance) {
                  distance = manhDistance;
@@ -384,9 +397,9 @@
              }
          }
 
-         this.massModify(this.simplePath(objective, connected[index]), "type", "floor");
+         this.massModify(this.simplePath(objective, unconnected[index]), "type", "floor");
          connected.push(unconnected[seed]);
-         unconnected.splice(seed, 1)
+         unconnected.splice(seed, 1);
      }
 
      this.massExpress(this.findTiles(null));
@@ -439,7 +452,7 @@
  };
 
  // brasenham's algorithm for lines
- dungeon.prototype.brasLine = function(a,b) {
+ dungeon.prototype.brasLine = function(a, b) {
      var x0 = a[0],
          x1 = b[0],
          y0 = a[1],
