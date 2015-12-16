@@ -4,10 +4,10 @@
 
      /** MAKE PARAMS OBJECT **/
 
-     dunWid = 70, //size in cells of the floor.
+     dunWid = 60, //size in cells of the floor.
      dunHei = 60,
-     cellSize = 12,
-     density = 15, // ammount of attempts at filling the floor.
+     cellSize = 15,
+     density = 25, // ammount of attempts at filling the floor.
 
      fullSizeW = dunWid * cellSize, //size in pixels of the floor.
      fullSizeH = dunHei * cellSize;
@@ -342,10 +342,10 @@
  //first go at dungeon generation. to be perfected.
 
  dungeon.prototype.randomDun = function() {
-     var maxWid = Math.floor(this.width / 4),
-         maxHei = Math.floor(this.height / 4),
-         minWid = 3,
-         minHei = 3,
+     var maxWid = Math.floor(this.width / 2),
+         maxHei = Math.floor(this.height / 2),
+         minWid = 1,
+         minHei = 1,
          attempts = density,
          unconnected = [],
          connected = [];
@@ -498,3 +498,8 @@
      [4, 38],
      [4, 37],
  ];
+
+dungeon.prototype.dunurl = function(){
+    var canvas = document.getElementById("mainContainer"); 
+    console.log(canvas.toDataURL());
+}

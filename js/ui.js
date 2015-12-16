@@ -4,30 +4,6 @@ var uiElems = document.getElementById("ui"),
     cursor = cursorElems.getContext("2d");
 
 
-//main sprite definition. parent for all graphical classess
-function sprite(options) {
-    this.context = options.context; //this gets the canvas layer in wich the sprite should be rendered.
-    this.sX = options.sourceX;
-    this.sY = options.sourceY;
-    this.width = options.width;
-    this.height = options.height;
-    this.image = options.image;
-}
-
-sprite.prototype.render = function(x, y) {
-    this.context.drawImage(
-        this.image,
-        this.sX,
-        this.sY,
-        this.width,
-        this.height,
-        x * cellSize,
-        y * cellSize,
-        cellSize,
-        cellSize
-    );
-};
-
 var mouseController = function() {
     this.posX = 0;
     this.posY = 0;
@@ -50,16 +26,12 @@ function getMouse(e) {
     var tempX = Math.floor(e.pageX / cellSize) - 1,
         tempY = Math.floor(e.pageY / cellSize) - 1;
 
-    /**************************
-        NOT WORKING????????
-    /**************************
-
     if (tempX > dunWid) {
         tempX = dunWid
     }
     if (tempY > dunHei) {
         tempY = dunHei
-    }*/
+    }
 
     if (tempX < 0) {
         tempX = 0
@@ -85,9 +57,12 @@ function getMouse(e) {
 //Handles functions triggered when mouse has moved.
 mouseController.prototype.mouseMoved = function() {
     this.eraseCursor();
-    if (mouse.draw.is) {
+    document.getElementById("MouseX").value = mouse.CellX;
+    document.getElementById("MouseY").value = mouse.CellY;
+
+    if (mouse.draw.is) { //CURRENT DRAW / HIGHLIGHT FUNCTION, SEPARATE EVENTUALLY
         ui.clearCells(dun.drawRectCorners(mouse.draw.drawStart, [mouse.preCellX, mouse.preCellY]));
-        massHightlight(dun.brasLine(mouse.draw.drawStart, [mouse.cellX, mouse.cellY]));
+        ui.massHightlight(dun.brasLine(mouse.draw.drawStart, [mouse.cellX, mouse.cellY]));
     }
     this.drawCursor();
 }
@@ -102,28 +77,29 @@ mouseController.prototype.eraseCursor = function() {
     cursor.clearRect(this.preCellX * cellSize, this.preCellY * cellSize, cellSize, cellSize);
 }
 
-function massHightlight(myArray) {
-    ui.strokeStyle = "#9DE0AD";
-    ui.fillStyle = "rgba(229,252,194,0.5)";
-
-    for (var i = 0; i < myArray.length; i++) {
-        dun.cellAt(myArray[i][0], myArray[i][1]).highlight();
-    }
-
-}
 
 document.onmousemove = getMouse;
 
 cursorElems.addEventListener('click', function(e) {
-    var clear = !mouse.draw.is;
-    if (clear) {
-        ui.clearRect(0, 0, fullSizeW, fullSizeH);
+
+    if(!ui.pristine){
+        ui.massClear();
+        return;
+    }
+
+    if (!mouse.draw.is) {
         mouse.draw.drawStart[0] = mouse.cellX;
         mouse.draw.drawStart[1] = mouse.cellY;
+        mouse.draw.is = true;
+    }else{
+        ui.pristine = false;
+        mouse.draw.is = false;
     }
-    mouse.draw.is = !mouse.draw.is;
+
 })
 
+
+CanvasRenderingContext2D.prototype.pristine = true;
 
 CanvasRenderingContext2D.prototype.clearCells = function(myArray) {
     var a = myArray[0],
@@ -136,4 +112,18 @@ CanvasRenderingContext2D.prototype.clearCells = function(myArray) {
         botRight = dun.cellAt(right, bot)
 
     this.clearRect(topLeft.posX, topLeft.posY, botRight.posX - topLeft.posX + cellSize, botRight.posY - topLeft.posY + cellSize);
+}
+
+CanvasRenderingContext2D.prototype.massClear = function(){
+    this.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.pristine = true;
+}
+
+CanvasRenderingContext2D.prototype.massHightlight = function(myArray) {
+    ui.strokeStyle = "#9DE0AD";
+    ui.fillStyle = "rgba(229,252,194,0.5)";
+
+    for (var i = 0; i < myArray.length; i++) {
+        dun.cellAt(myArray[i][0], myArray[i][1]).highlight();
+    }
 }
