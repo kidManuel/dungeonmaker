@@ -4,10 +4,10 @@
 
      /** MAKE PARAMS OBJECT **/
 
-     dunWid = 60, //size in cells of the floor.
-     dunHei = 60,
+     dunWid = 80, //size in cells of the floor.
+     dunHei = 80,
      cellSize = 15,
-     density = 25, // ammount of attempts at filling the floor.
+     density = 40, // ammount of attempts at filling the floor.
 
      fullSizeW = dunWid * cellSize, //size in pixels of the floor.
      fullSizeH = dunHei * cellSize;
