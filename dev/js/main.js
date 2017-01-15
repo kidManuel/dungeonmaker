@@ -103,7 +103,7 @@ dungeon.prototype.findTiles = function(search, array) {
 
     if (!array) {
         for (var i = 0; i < cells.length; i++) {
-            for (var j = 0, len2 = cells[i].length; j < len2; j++) {
+            for (var j = 0; j < cells[i].length; j++) {
                 var myPush = cells[i][j];
                 pushing(myPush);
             }
