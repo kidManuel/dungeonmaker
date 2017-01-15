@@ -453,6 +453,14 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
+Array.prototype.iterate = function() {
+    var operation = arguments[0];
+    var extraArguments = arguments.split
+    for(var ind = 0; ind < this.length; ind++) {
+        operation.apply(this[ind])
+    }
+}
+
 
 function toArray(object){
     //Transform arguments objects (and array-like elements) into arrays.
