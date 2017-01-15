@@ -453,6 +453,12 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
+
+function toArray(object){
+    //Transform arguments objects (and array-like elements) into arrays.
+    return (object.length === 1 ? [object[0]] : Array.apply(null, object));
+}
+
 // brasenham's algorithm for lines
 dungeon.prototype.brasLine = function(a, b) {
     var x0 = a[0],
