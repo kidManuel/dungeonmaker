@@ -16,50 +16,37 @@ class dungeon {
 	}
 
 	findTiles(filter, array) {
-		//Review after array.prototype.iterate
-
     	var selection = [];
-    	var cells = this.cells;
+    	var cells = array || this.cells;
 
-	    if (array) {
-	    	for (var k = 0; k < array.length; k++) {
-	            var currentCell = cells[array[k][0]][array[k][1]];
-	            if(filter){
-    	            if(this.cellIsType(currentCell, filter)) {
-    	                selection.push(currentCell)
-    	            };
-	           	} else {
-	           		selection.push(currentCell);
-	           	}
-	        }
-	   	} else {
-	   		for (var i = 0; i < cells.length; i++) {
-	            for (var j = 0; j < cells[i].length; j++) {
-	                var currentCell = cells[i][j];
-	                if (filter){
-    	                if(this.cellIsType(currentCell, filter)) {
-    	                	selection.push(currentCell);
-    	                };
-	               	} else {
-	               		selection.push(currentCell);
-	               	}
-	            }
-	        }
-	   	}
+    	
+		//Review after array.prototype.flatten
+    	if(!filter && !array) {
+    		selection = cells.reduce(function(a, b) {
+  				return a.concat(b);
+			})
+			return selection;
+    	}
+
+    	cells.iterate(
+    		function() {
+    			if(dungeon.cellIsType(this, filter)) {
+    				selection.push(this)
+    			}
+    		}
+    	)
 
 	    return selection;
 	}
 
-	cellIsType(testCell, type) {
-	return (testCell instanceof cell && testCell.type === filter);
+	//Move to cell ?
+	static cellIsType(testCell, filter) {
+		return (testCell instanceof cell && testCell.type === filter);
+	}
 
-	/*
-	if (testCell instanceof cell && testCell.type === filter) {
-                return true;
-            } else {
-            	return false
-            }
-    }
-   	*/
-
+	massExpress(tilesArray) {
+	    for (var i = 0; i < tilesArray.length; i++) {
+	        this.cellAt(tilesArray[i].X, tilesArray[i].Y).express();
+	}
+	
 }
