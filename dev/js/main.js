@@ -103,7 +103,7 @@ dungeon.prototype.findTiles = function(search, array) {
 
     if (!array) {
         for (var i = 0; i < cells.length; i++) {
-            for (var j = 0, len2 = cells[i].length; j < len2; j++) {
+            for (var j = 0; j < cells[i].length; j++) {
                 var myPush = cells[i][j];
                 pushing(myPush);
             }
@@ -452,6 +452,20 @@ Array.prototype.randomElement = function() {
 Array.prototype.last = function() {
     return this[this.length - 1];
 };
+
+Array.prototype.iterate = function() {
+    var operation = arguments[0];
+    var extraArguments = arguments.split
+    for(var ind = 0; ind < this.length; ind++) {
+        operation.apply(this[ind])
+    }
+}
+
+
+function toArray(object){
+    //Transform arguments objects (and array-like elements) into arrays.
+    return (object.length === 1 ? [object[0]] : Array.apply(null, object));
+}
 
 // brasenham's algorithm for lines
 dungeon.prototype.brasLine = function(a, b) {
