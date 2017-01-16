@@ -1,0 +1,29 @@
+{
+  "name": "dungeonmaker",
+  "version": "1.0.0",
+  "description": "random map generator using customizable parameters.",
+  "main": "dev/index.html",
+  "dependencies": {
+    "gulp-concat": "^2.6.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp": "^3.9.1",
+    "gulp-replace": "^0.5.4",
+    "jshint-stylish": "^2.2.1",
+    "gulp-jsbeautifier": "^2.0.4",
+    "jshint": "^2.9.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kidManuel/dungeonmaker.git"
+  },
+  "author": "manuel cascallar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kidManuel/dungeonmaker/issues"
+  },
+  "homepage": "https://github.com/kidManuel/dungeonmaker#readme"
+}
