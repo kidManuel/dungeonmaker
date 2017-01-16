@@ -505,6 +505,7 @@ dungeon.prototype.brasLine = function(a, b) {
 
 
 
+var myArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 var testArr = [ //just a silly old array for general purpose testing.
     [0, 39],
     [0, 38],
