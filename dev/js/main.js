@@ -453,16 +453,24 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
-Array.prototype.iterate = function() {
-    var operation = arguments[0];
-    var extraArguments = arguments.split
-    for(var ind = 0; ind < this.length; ind++) {
-        operation.apply(this[ind])
+Array.prototype.removeIndex = function(index) {
+    if (typeof index === 'number') {
+        this.splice(index, 1)
+    }
+    return this;
+}
+
+Array.prototype.iterate = function(operation, extraArguments) {
+    for (var index = 0; index < this.length; index++) {
+        if (Array.isArray(this[index])) {
+            this[index].iterate(operation, extraArguments)
+        } else {
+            operation.apply(this[index], extraArguments)
+        }
     }
 }
 
-
-function toArray(object){
+function toArray(object) {
     //Transform arguments objects (and array-like elements) into arrays.
     return (object.length === 1 ? [object[0]] : Array.apply(null, object));
 }
