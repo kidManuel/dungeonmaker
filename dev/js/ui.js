@@ -81,20 +81,21 @@ mouseController.prototype.eraseCursor = function() {
 document.onmousemove = getMouse;
 
 cursorElems.addEventListener('click', function(e) {
+    console.log(dun.cellAt([mouse.cellX, mouse.cellY]))
 
-    if (!ui.pristine) {
-        ui.massClear();
-        return;
-    }
+    // if (!ui.pristine) {
+    //     ui.massClear();
+    //     return;
+    // }
 
-    if (!mouse.draw.is) {
-        mouse.draw.drawStart[0] = mouse.cellX;
-        mouse.draw.drawStart[1] = mouse.cellY;
-        mouse.draw.is = true;
-    } else {
-        ui.pristine = false;
-        mouse.draw.is = false;
-    }
+    // if (!mouse.draw.is) {
+    //     mouse.draw.drawStart[0] = mouse.cellX;
+    //     mouse.draw.drawStart[1] = mouse.cellY;
+    //     mouse.draw.is = true;
+    // } else {
+    //     ui.pristine = false;
+    //     mouse.draw.is = false;
+    // }
 
 })
 

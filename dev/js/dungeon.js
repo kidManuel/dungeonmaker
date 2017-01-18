@@ -1,4 +1,4 @@
-class dungeon {
+class Dungeon {
     constructor(width, height) {
         this.width = width;
         this.height = height;
@@ -10,32 +10,32 @@ class dungeon {
         for (var i = 0; i < this.width; i++) {
             this.cells[i] = [];
             for (var j = 0; j < this.height; j++) {
-                this.cells[i][j] = new cell(i, j, 'rock');
+                this.cells[i][j] = new Cell(i, j, 'rock');
             }
         }
     }
 
     findTiles(filter, array) {
-        var selection = [];
-        var cells = array || this.cells;
+            var selection = [];
+            var cells = array || this.cells;
 
 
-        //Review after array.prototype.flatten
-        if (!filter && !array) {
-            selection = cells.reduce(function(a, b) {
-                return a.concat(b);
-            });
+            //Review after array.prototype.flatten
+            if (!filter && !array) {
+                selection = cells.reduce(function(a, b) {
+                    return a.concat(b);
+                });
+                return selection;
+            }
+
+            cells.iterate(function() {
+                    if (dungeon.cellIsType(this, filter)) {
+                        selection.push(this);
+                    } //a
+                } //b
+            ); // c
             return selection;
-        }
-
-        cells.iterate(function() {
-                if (dungeon.cellIsType(this, filter)) {
-                    selection.push(this);
-                } //a
-            } //b
-        ); // c
-        return selection;
-    } //d
+        } //d
 
     massExpress(tilesArray) {
         for (var i = 0; i < tilesArray.length; i++) {
@@ -64,5 +64,17 @@ class dungeon {
 
     static cellIsType(testCell, filter) {
         return (testCell instanceof cell && testCell.type === filter);
+    }
+
+    drawRect(width, height, x, y) {
+        var rect = [];
+        for (var i = x; i < x + width; i++) {
+            for (var j = y; j < y + height; j++) {
+                if (this.cellAt(i, j)) {
+                    rect.push(this.cellAt([i, j]));
+                }
+            }
+        }
+        return rect;
     }
 }

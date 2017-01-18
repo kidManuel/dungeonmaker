@@ -1,20 +1,21 @@
-class gameMain() {
-    constructor {
+document.addEventListener('DOMContentLoaded', function(event) {
+    document.removeEventListener('DOMContentLoaded', arguments.callee, false);
+    Object.freeze(window.params = userParams ? userParams : defaultParams);
+    window.game = new GameMain(params);
+});
 
-    }
-
-    getConfig() {
-            var xobj = new XMLHttpRequest();
-            xobj.overrideMimeType("application/json");
-            xobj.open('GET', '../config/config.json', true); // Replace 'my_data' with the path to your file
-            xobj.onreadystatechange = function() {
-                if (xobj.readyState == 4 && xobj.status == "200") {
-                    // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-                    callback(xobj.responseText);
-                }
-            };
-            xobj.send(null);
+class GameMain {
+    constructor() {
+        this.density = params.density; // ammount of attempts at filling the floor.
+        this.graphics = new GraphicsController();
+        window.graphics = this.graphics;
+        this.dungeon = new Dungeon(params.dunWidth, params.dunHeigth);
+        if (params.devMode) {
+            window.dun = this.dungeon;
         }
-
     }
+
+    
+
+
 }
