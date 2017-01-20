@@ -38,9 +38,13 @@ class DungeonFloor {
         } //d
 
     massExpress(tilesArray) {
-        for (var i = 0; i < tilesArray.length; i++) {
-            this.cellAt(tilesArray[i].X, tilesArray[i].Y).express();
-        }
+        var tiles = tiles || this.cells;
+        tiles.iterate(
+            function() {
+                this.express();
+            }
+        )
+    }
     }
 
     static findNeighbours(cell) {
