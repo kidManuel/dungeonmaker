@@ -45,6 +45,13 @@ class DungeonFloor {
             }
         )
     }
+
+    massModify(tilesArray, property, value) {
+        tilesArray.iterate(
+            function() {
+                this[property] = value;
+            }
+        )
     }
 
     static findNeighbours(cell) {
@@ -66,11 +73,7 @@ class DungeonFloor {
         return neighbours;
     }
 
-    static cellIsType(testCell, filter) {
-        return (testCell instanceof cell && testCell.type === filter);
-    }
-
-    drawRect(width, height, x, y) {
+    getRect(width, height, x, y) {
         var rect = [];
         for (var i = x; i < x + width; i++) {
             for (var j = y; j < y + height; j++) {
@@ -81,4 +84,33 @@ class DungeonFloor {
         }
         return rect;
     }
+
+    checkAvailable(room) {
+        return room.every(
+            function(tile){
+                return (tile.floor !== 'floor' && tile.floor !== 'wall')
+            }
+        )
+    }
+
+
+    cellAt(X, Y) {
+        if (typeof X == 'number' && typeof Y == 'number') {
+            if (this.cells[X] && this.cells[X][Y]) {
+                return this.cells[X][Y]
+            }
+        } else if (Array.isArray(X)) {
+            return this.cells[X[0]][X[1]]
+        } else if (X instanceof cell) {
+            return X
+        } else {
+            throw new Error('can\'t retrieve cell with arguments: ' + toArray(arguments))
+        }
+    }
+
+    static cellIsType(testCell, filter) {
+        return (testCell instanceof cell && testCell.type === filter);
+    }
+
+    
 }
