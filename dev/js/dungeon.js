@@ -4,6 +4,7 @@ class DungeonFloor {
         this.height = height;
         this.cells = [];
         this.init();
+        this.randomDun();
     }
 
     init() {
@@ -15,27 +16,72 @@ class DungeonFloor {
         }
     }
 
-    findTiles(filter, array) {
-            var selection = [];
-            var cells = array || this.cells;
+    randomDun() {
+        var maxWid = Math.floor(this.width / 2);
+        var maxHei = Math.floor(this.height / 2);
+        var minWid = 1;
+        var minHei = 1;
+        var attempts = params.density;
+        var unconnected = [];
+        var connected = [];
 
+        for (var i = 0; i < attempts; i++) {
+            var randWid = Math.floor(Math.random() * (maxWid - minWid + 1) + minWid);
+            var randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei);
+            var randX = Math.floor(Math.random() * (this.width - randWid - 1)) + 1;
+            var randY = Math.floor(Math.random() * (this.height - randHei - 1)) + 1;
 
-            //Review after array.prototype.flatten
-            if (!filter && !array) {
-                selection = cells.reduce(function(a, b) {
-                    return a.concat(b);
-                });
-                return selection;
+            let target = this.getRect(randWid, randHei, randX, randY);
+
+            if (this.checkAvailable(target)) {
+                this.massModify(target, 'floor', 'floor');
+                // unconnected.push(centerPoint(target));
             }
+        }
 
-            cells.iterate(function() {
-                    if (dungeon.cellIsType(this, filter)) {
-                        selection.push(this);
-                    } //a
-                } //b
-            ); // c
+        // while (unconnected.length > 0) {
+        //     var distance = 1000,
+        //         index = 0,
+        //         seed = Math.floor(Math.random() * unconnected.length),
+        //         objective = unconnected[seed];
+
+        //     for (var j = 0; j < unconnected.length; j++) {
+        //         if (seed == j)
+        //             continue; // Si el objetivo es igual al unconnected que estoy buscando lo salteo.
+        //         var manhDistance = Math.abs(unconnected[j][0] - objective[0]) + Math.abs(unconnected[j][1] - objective[1]);
+
+        //         if (manhDistance < distance) {
+        //             distance = manhDistance;
+        //             index = j;
+        //         }
+        //     }
+
+        //     this.massModify(this.simplePath(objective, unconnected[index]), 'floor', 'floor');
+        //     connected.push(unconnected[seed]);
+        //     unconnected.splice(seed, 1);
+
+        this.massExpress();
+    }
+
+    findTiles(filter, array) {
+        var selection = [];
+        var cells = array || this.cells;
+
+        //Review after array.prototype.flatten
+        if (!filter && !array) {
+            selection = cells.reduce(function(a, b) {
+                return a.concat(b);
+            });
             return selection;
-        } //d
+        }
+
+        cells.iterate(function() {
+            if (dungeon.cellIsType(this, filter)) {
+                selection.push(this);
+            }
+        });
+        return selection;
+    }
 
     massExpress(tilesArray) {
         var tiles = tiles || this.cells;
