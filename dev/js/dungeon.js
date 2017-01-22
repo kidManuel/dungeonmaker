@@ -202,7 +202,31 @@ class DungeonFloor {
         return (testCell instanceof cell && testCell.type === filter);
     }
 
-    
+    //random path of manhattan-distance length
+    simplePath(start, end) {
+        var path = [];
+        path.push(this.cellAt(start.x, start.y));
+
+        while (start.x !== end.x || start.y !== end.y) {
+            var ran = Math.round(Math.random()) === 0 ? 'x' : 'y';
+            var sign = _getSign(ran);
+
+            if (sign === 0) {
+                ran = Math.abs(ran - 1);
+                sign = _getSign(ran);
+            }
+
+            start[ran] += sign;
+            path.push(this.cellAt(start.x, start.y));
+        }
+
+        function _getSign(ran) {
+            return (Math.sign(start[ran] - end[ran])) * -1;
+        }
+
+        return path;
+    }
+
     getManhattanDistance(a, b) {
         return (Math.abs(a.x - b.x) + Math.abs(a.y - b.y));
     }
