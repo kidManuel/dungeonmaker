@@ -151,12 +151,20 @@ class DungeonFloor {
         var east = room.last().x + 1 < params.dunHeight ? room.last().x + 1 : params.dunHeight; 
 
         for (let i = north; i <= south; i++) {
-            walls.push(this.cellAt(west, i));
-            walls.push(this.cellAt(east, i));
+            if(this.checkAvailable(this.cellAt(west, i))){
+                walls.push(this.cellAt(west, i));
+            }
+            if(this.checkAvailable(this.cellAt(east, i))){
+                walls.push(this.cellAt(east, i));
+            }
         }
         for (let e = west; e <= east; e++) {
-            walls.push(this.cellAt(e, north));
-            walls.push(this.cellAt(e, south));
+            if(this.checkAvailable(this.cellAt(e, north))){
+                walls.push(this.cellAt(e, north));
+            }
+            if(this.checkAvailable(this.cellAt(e, south))){
+                walls.push(this.cellAt(e, south));
+            }
         }
         return walls;
     }
