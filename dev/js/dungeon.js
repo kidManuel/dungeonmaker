@@ -38,6 +38,7 @@ class DungeonFloor {
         var attempts = params.density;
         var unconnected = [];
         var connected = [];
+        var pathsTiles = []; 
 
         for (var i = 0; i < attempts; i++) {
             var randWid = Math.floor(Math.random() * (maxWid - minWid + 1) + minWid);
@@ -72,9 +73,12 @@ class DungeonFloor {
                 }
             }
 
-            this.massModify(this.simplePath(objective, unconnected[closest]), 'floor', 'floor');
+            let tempPath = this.simplePath(objective, unconnected[closest]);
+            pathsTiles.attatch(tempPath);
+            this.massModify(tempPath, 'floor', 'floor');
             unconnected.splice(seed, 1);
         }
+        this.polish(pathsTiles);
         this.massExpress();
     }
 
