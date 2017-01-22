@@ -1,10 +1,7 @@
-var uiElems = document.getElementById('ui');
-var ui = uiElems.getContext('2d');
-var cursorElems = document.getElementById('cursor');
-var cursor = cursorElems.getContext('2d');
-
-
-var mouseController = function() {
+class mouseController{
+    constructor() {
+    this ui = document.getElementById('ui').getContext('2d');
+    this cursor = document.getElementById('cursor').getContext('2d');
     this.posX = 0;
     this.posY = 0;
     this.cellX = 0;
@@ -17,9 +14,8 @@ var mouseController = function() {
         drawStart: [],
         drawPrev: []
     };
-}
 
-mouse = new mouseController();
+
 
 //gets the current cell of the mouse, and determines if it has changed.
 function getMouse(e) {
@@ -77,6 +73,7 @@ mouseController.prototype.eraseCursor = function() {
     cursor.clearRect(this.preCellX * cellSize, this.preCellY * cellSize, cellSize, cellSize);
 }
 
+}
 
 document.onmousemove = getMouse;
 
