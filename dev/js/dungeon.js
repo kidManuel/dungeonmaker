@@ -198,7 +198,7 @@ class DungeonFloor {
     }
 
     static cellIsType(testCell, filter) {
-        return (testCell instanceof cell && testCell.type === filter);
+        return (testCell instanceof cell && testCell.floor === filter);
     }
 
     //random path of manhattan-distance length
