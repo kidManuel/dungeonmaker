@@ -16,6 +16,20 @@ class DungeonFloor {
         }
     }
 
+    cellAt(X, Y) {
+        if (typeof X == 'number' && typeof Y == 'number') {
+            if (this.cells[X] && this.cells[X][Y]) {
+                return this.cells[X][Y]
+            }
+        } else if (Array.isArray(X)) {
+            return this.cells[X[0]][X[1]]
+        } else if (X instanceof cell) {
+            return X
+        } else {
+            throw new Error('can\'t retrieve cell with arguments: ' + toArray(arguments))
+        }
+    }
+
     randomDun() {
         var maxWid = Math.floor(this.width / 2);
         var maxHei = Math.floor(this.height / 2);
@@ -179,21 +193,7 @@ class DungeonFloor {
         } else if (room instanceof Cell) {
             return (room.floor !== 'floor' && room.floor !== 'wall')
         } else {
-            throw new Error ('can\'t check that, brosky')
-        }
-    }
-
-    cellAt(X, Y) {
-        if (typeof X == 'number' && typeof Y == 'number') {
-            if (this.cells[X] && this.cells[X][Y]) {
-                return this.cells[X][Y]
-            }
-        } else if (Array.isArray(X)) {
-            return this.cells[X[0]][X[1]]
-        } else if (X instanceof cell) {
-            return X
-        } else {
-            throw new Error('can\'t retrieve cell with arguments: ' + toArray(arguments))
+            throw new Error ('can\'t check that, brosky: ' + toArray(arguments))
         }
     }
 
@@ -222,7 +222,6 @@ class DungeonFloor {
         function _getSign(ran) {
             return (Math.sign(start[ran] - end[ran])) * -1;
         }
-
         return path;
     }
 
