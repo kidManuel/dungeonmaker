@@ -9,7 +9,7 @@ class GameMain {
         this.density = params.density; // ammount of attempts at filling the floor.
         this.graphics = new GraphicsController();
         window.graphics = this.graphics;
-        this.dungeon = new DungeonFloor(params.dunWidth, params.dunHeigth);
+        this.dungeon = new DungeonFloor(params.dunWidth, params.dunHeight);
         if (params.devMode) {
             window.dun = this.dungeon;
         }

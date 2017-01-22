@@ -1,7 +1,7 @@
 class GraphicsController {
 	constructor() {
 		this.widthPixels = params.dunWidth * params.cellSize; //size in pixels of the floor.
-        this.heightPixels = params.dunHeigth * params.cellSize;
+        this.heightPixels = params.dunHeight * params.cellSize;
         this.allCanvas = document.querySelectorAll('canvas');
         this.layout = document.getElementById('layout').getContext('2d');
         this.mainContainer = document.getElementById('mainContainer');
