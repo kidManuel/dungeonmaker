@@ -19,8 +19,8 @@ class DungeonFloor {
     randomDun() {
         var maxWid = Math.floor(this.width / 2);
         var maxHei = Math.floor(this.height / 2);
-        var minWid = 1;
-        var minHei = 1;
+        var minWid = params.minRoomWidth;
+        var minHei = params.minRoomWidth;
         var attempts = params.density;
         var unconnected = [];
         var connected = [];
