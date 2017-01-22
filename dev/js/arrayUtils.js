@@ -13,6 +13,11 @@ Array.prototype.removeIndex = function(index) {
     return this;
 }
 
+Array.prototype.attatch = function(attatchment) {
+    this.push.apply(this, attatchment);
+    return this;
+} 
+
 Array.prototype.iterate = function(operation) {
     this.forEach(
         function(value, index, array){
