@@ -162,11 +162,17 @@ class DungeonFloor {
     }
 
     checkAvailable(room) {
-        return room.every(
-            function(tile){
-                return (tile.floor !== 'floor' && tile.floor !== 'wall')
-            }
-        )
+        if (Array.isArray(room)){         
+            return room.every(
+                function(tile){
+                    return (tile instanceof Cell && tile.floor !== 'floor' && tile.floor !== 'wall')
+                }
+            )
+        } else if (room instanceof Cell) {
+            return (room.floor !== 'floor' && room.floor !== 'wall')
+        } else {
+            throw new Error ('can\'t check that, brosky')
+        }
     }
 
 
