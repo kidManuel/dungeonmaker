@@ -63,10 +63,10 @@ class DungeonFloor {
 
             //Review once 'getClosest' rolls around.
             for (var j = 0; j < unconnected.length; j++) {
-                if (seed == j)
-                    continue; 
-                var manhDistance = this.getManhattanDistance(unconnected[j], objective)
-
+                if (seed == j){
+                    continue;
+                }
+                var manhDistance = this.getManhattanDistance(unconnected[j], objective);
                 if (manhDistance < maxDistance) {
                     maxDistance = manhDistance;
                     closest = j;
