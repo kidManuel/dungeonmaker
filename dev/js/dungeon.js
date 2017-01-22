@@ -35,7 +35,8 @@ class DungeonFloor {
 
             if (this.checkAvailable(target)) {
                 this.massModify(target, 'floor', 'floor');
-                // unconnected.push(centerPoint(target));
+                this.massModify(this.getWallsSquareRoom(target), 'floor', 'wall');
+                unconnected.push(this.centerPoint(target));
             }
         }
 
