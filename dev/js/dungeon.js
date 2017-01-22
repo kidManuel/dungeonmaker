@@ -101,6 +101,13 @@ class DungeonFloor {
         )
     }
 
+    centerPoint(room) {
+        //also works with two oposing NW and SE corners.
+        var topLeft = room[0];
+        var botRight = room.last();
+        return this.cellAt(Math.floor((topLeft.x + botRight.x) / 2), Math.floor((topLeft.y + botRight.y) / 2))
+    }
+
     static findNeighbours(cell) {
         var neighbours = [];
         var x = cell.X;
@@ -130,6 +137,28 @@ class DungeonFloor {
             }
         }
         return rect;
+    }
+
+    getWallsSquareRoom(room) {
+        //abstract gettin bounding coordinates?
+        //make it so it doesn't cut border rooms
+
+        var walls = [];
+        var north = room[0].y ? room[0].y - 1 :  0;
+        //if room is on y = 0 return 0;
+        var south = room.last().y + 1 < params.dunHeight ? room.last().y + 1 : params.dunHeight; 
+        var west = room[0].x ? room[0].x - 1 :  0;
+        var east = room.last().x + 1 < params.dunHeight ? room.last().x + 1 : params.dunHeight; 
+
+        for (let i = north; i <= south; i++) {
+            walls.push(this.cellAt(west, i));
+            walls.push(this.cellAt(east, i));
+        }
+        for (let e = west; e <= east; e++) {
+            walls.push(this.cellAt(e, north));
+            walls.push(this.cellAt(e, south));
+        }
+        return walls;
     }
 
     checkAvailable(room) {
