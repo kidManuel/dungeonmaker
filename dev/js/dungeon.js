@@ -122,23 +122,23 @@ class DungeonFloor {
         return this.cellAt(Math.floor((topLeft.x + botRight.x) / 2), Math.floor((topLeft.y + botRight.y) / 2))
     }
 
-    static findNeighbours(cell) {
-        var neighbours = [];
-        var x = cell.X;
-        var y = cell.Y;
+    findNeighbors(cell) {
+        var neighbors = [];
+        var x = cell.x;
+        var y = cell.y;
         if (this.cellAt(x, y - 1)) {
-            neighbours.push(this.cells[x, y - 1]);
-        }
-        if (this.cellAt(x + 1, y)) {
-            neighbours.push(this.cells[x + 1, y]);
+            neighbors.push(this.cells[x][y - 1]);
         }
         if (this.cellAt(x, y + 1)) {
-            neighbours.push(this.cells[x, y + 1]);
+            neighbors.push(this.cells[x][y + 1]);
+        }
+        if (this.cellAt(x + 1, y)) {
+            neighbors.push(this.cells[x + 1][y]);
         }
         if (this.cellAt(x - 1, y)) {
-            neighbours.push(this.cells[x - 1, y]);
+            neighbors.push(this.cells[x - 1][y]);
         }
-        return neighbours;
+        return neighbors;
     }
 
     getRect(width, height, x, y) {
