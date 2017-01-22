@@ -78,6 +78,28 @@ class DungeonFloor {
         this.massExpress();
     }
 
+    polish(customSelection) {
+        //REVIEW WHENEVER
+        var tilesToPolish = customSelection || this.cells;
+        var dungeon = this;
+        var needsUpdate = [];
+
+        tilesToPolish.iterate(
+            function(tile){
+                let neighbors = dungeon.findNeighbors(tile);
+                neighbors.iterate(
+                    function(singleNeighbor){
+                        if (singleNeighbor.floor === 'rock') {
+                            singleNeighbor.floor = 'wall';
+                            needsUpdate.push(singleNeighbor);
+                        }
+                    }
+                )
+            }
+        ) 
+        this.massExpress(needsUpdate);
+    }
+
     findTiles(filter, array) {
         var selection = [];
         var cells = array || this.cells;
