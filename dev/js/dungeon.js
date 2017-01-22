@@ -40,27 +40,27 @@ class DungeonFloor {
             }
         }
 
-        // while (unconnected.length > 0) {
-        //     var distance = 1000,
-        //         index = 0,
-        //         seed = Math.floor(Math.random() * unconnected.length),
-        //         objective = unconnected[seed];
+        while (unconnected.length > 0) {
+            let maxDistance = 1000;
+            let closest = 0;
+            let seed = Math.floor(Math.random() * unconnected.length);
+            let objective = unconnected[seed];
 
-        //     for (var j = 0; j < unconnected.length; j++) {
-        //         if (seed == j)
-        //             continue; // Si el objetivo es igual al unconnected que estoy buscando lo salteo.
-        //         var manhDistance = Math.abs(unconnected[j][0] - objective[0]) + Math.abs(unconnected[j][1] - objective[1]);
+            //Review once 'getClosest' rolls around.
+            for (var j = 0; j < unconnected.length; j++) {
+                if (seed == j)
+                    continue; 
+                var manhDistance = this.getManhattanDistance(unconnected[j], objective)
 
-        //         if (manhDistance < distance) {
-        //             distance = manhDistance;
-        //             index = j;
-        //         }
-        //     }
+                if (manhDistance < maxDistance) {
+                    maxDistance = manhDistance;
+                    closest = j;
+                }
+            }
 
-        //     this.massModify(this.simplePath(objective, unconnected[index]), 'floor', 'floor');
-        //     connected.push(unconnected[seed]);
-        //     unconnected.splice(seed, 1);
-
+            this.massModify(this.simplePath(objective, unconnected[closest]), 'floor', 'floor');
+            unconnected.splice(seed, 1);
+        }
         this.massExpress();
     }
 
@@ -182,7 +182,6 @@ class DungeonFloor {
             throw new Error ('can\'t check that, brosky')
         }
     }
-
 
     cellAt(X, Y) {
         if (typeof X == 'number' && typeof Y == 'number') {
