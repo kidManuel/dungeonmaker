@@ -83,58 +83,53 @@ dungeon.prototype.expressAll = function() {
 
 //returns a cell reference given an array of coordinates
 dungeon.prototype.cellAt = function(X, Y) {
-    if (typeof X == 'object') {
+    if (X instanceof cell) {
+        return X
+    } else if (Array.isArray(X)) {
         return this.cells[X[0]][X[1]]
     } else if (typeof X == 'number' && typeof Y == 'number') {
         if (this.cells[X] && this.cells[X][Y]) {
             return this.cells[X][Y]
         }
+    } else {
+        throw new Error ('can\'t retrieve cell with arguments: ' + toArray(arguments))
     }
 }
 
 
 //helper function to get a certain type of tile. returns all cells in the floor if no argument is passed.
-//////////////////////TODO: MAKE IT SEARCH INSIDE A SUBARRAY
 
+dungeon.prototype.findTiles = function(filter, array) {
+        var selection = [];
+        var cells = array || this.cells;
+        var filter = filter;
 
-dungeon.prototype.findTiles = function(search, array) {
-    var allTiles = [],
-        cells = this.cells;
-
-    if (!array) {
-        for (var i = 0; i < cells.length; i++) {
-            for (var j = 0, len2 = cells[i].length; j < len2; j++) {
-                var myPush = cells[i][j];
-                pushing(myPush);
-            }
+        if(!filter && !array) {
+            selection = cells.reduce(function(a, b) {
+                return a.concat(b);
+            })
+            return selection;
         }
-    } else if (array) {
-        for (var k = 0; k < array.length; k++) {
-            var myPush = cells[array[k][0]][array[k][1]];
-            pushing(myPush);
-        }
-    }
 
-    function pushing(thisTile) {
-        if (thisTile instanceof cell) {
-            if (search !== null) {
-                if (thisTile.type === search) {
-                    allTiles.push([thisTile.X, thisTile.Y]);
+        cells.iterate(
+            function() {
+                if(cellIsType(this, filter)) {
+                    selection.push(this)
                 }
-            } else {
-                allTiles.push([thisTile.X, thisTile.Y]);
             }
-        }
-    }
-
-    return allTiles;
-
+        )
 }
+
+// Move to 
+function cellIsType(testCell, filter) {
+        return (testCell instanceof cell && testCell.type === filter);
+}
+
 
 //express an array of cells
 dungeon.prototype.massExpress = function(tilesArray) {
     for (var i = 0; i < tilesArray.length; i++) {
-        this.cellAt(tilesArray[i]).express();
+        this.cellAt(tilesArray[i].X, tilesArray[i].Y).express();
     }
 }
 
@@ -232,6 +227,9 @@ dungeon.prototype.digSquare = function(width, height, x, y) {
 }
 
 // polish up dungeon
+//REVIEW FUNCTIONALITY
+
+
 dungeon.prototype.polish = function(tilesToPolish) {
     var areaPolish = tilesToPolish || this.findTiles(null);
 
@@ -322,8 +320,8 @@ dungeon.prototype.simplePath = function(start, end) {
     path.push([start[0], start[1]]);
 
     while (start[0] !== end[0] || start[1] !== end[1]) {
-        var ran = Math.round(Math.random()),
-            sign = _getSign(ran);
+        var ran = Math.round(Math.random());
+        var sign = _getSign(ran);
 
         if (sign === 0) {
             ran = Math.abs(ran - 1);
@@ -453,6 +451,28 @@ Array.prototype.last = function() {
     return this[this.length - 1];
 };
 
+Array.prototype.removeIndex = function(index) {
+    if (typeof index === 'number') {
+        this.splice(index, 1)
+    }
+    return this;
+}
+
+Array.prototype.iterate = function(operation, extraArguments) {
+    for (var index = 0; index < this.length; index++) {
+        if (Array.isArray(this[index])) {
+            this[index].iterate(operation, extraArguments)
+        } else {
+            operation.apply(this[index], extraArguments)
+        }
+    }
+}
+
+function toArray(object) {
+    //Transform arguments objects (and array-like elements) into arrays.
+    return (object.length === 1 ? [object[0]] : Array.apply(null, object));
+}
+
 // brasenham's algorithm for lines
 dungeon.prototype.brasLine = function(a, b) {
     var x0 = a[0],
@@ -483,6 +503,7 @@ dungeon.prototype.brasLine = function(a, b) {
 
 
 
+var myArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 var testArr = [ //just a silly old array for general purpose testing.
     [0, 39],
     [0, 38],
