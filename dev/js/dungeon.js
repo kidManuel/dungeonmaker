@@ -240,7 +240,7 @@ class DungeonFloor {
                 ran = Math.abs(ran - 1);
                 sign = _getSign(ran);
             }
-
+            //BUG HERE3
             start[ran] += sign;
             path.push(this.cellAt(start.x, start.y));
         }
