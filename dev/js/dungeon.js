@@ -230,9 +230,13 @@ class DungeonFloor {
     //random path of manhattan-distance length
     simplePath(start, end) {
         var path = [];
-        path.push(this.cellAt(start.x, start.y));
+        var currentStep = {
+            x: start.x, 
+            y: start.y
+        }
+        path.push(start);
 
-        while (start.x !== end.x || start.y !== end.y) {
+        while (currentStep.x !== end.x || currentStep.y !== end.y) {
             var ran = Math.round(Math.random()) === 0 ? 'x' : 'y';
             var sign = _getSign(ran);
 
@@ -240,13 +244,13 @@ class DungeonFloor {
                 ran = Math.abs(ran - 1);
                 sign = _getSign(ran);
             }
-            //BUG HERE3
-            start[ran] += sign;
-            path.push(this.cellAt(start.x, start.y));
+            currentStep[ran] += sign;
+            path.push(this.cellAt(currentStep.x, currentStep.y));
         }
 
         function _getSign(ran) {
-            return (Math.sign(start[ran] - end[ran])) * -1;
+            //review so that it does not return 0;
+            return (Math.sign(currentStep[ran] - end[ran])) * -1;
         }
         return path;
     }
