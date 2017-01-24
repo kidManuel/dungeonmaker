@@ -12,7 +12,9 @@
     "gulp-jsbeautifier": "^2.0.4",
     "jshint": "^2.9.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "rollup": "^0.41.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
