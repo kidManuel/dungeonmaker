@@ -9,7 +9,7 @@ class GameMain {
     constructor() {
         this.graphics = new GraphicsController();
         window.graphics = this.graphics;
-        this.dungeon = new DungeonFloor(params.dunWidth, params.dunHeight);
+        this.dungeonGen = new DungeonGenerator(globalparams.dunWidth, globalparams.dunHeight);
         this.mouse = new MouseController();
         if (globalparams.devMode) {
             window.dun = this.dungeon;
