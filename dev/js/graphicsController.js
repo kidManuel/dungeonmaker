@@ -5,8 +5,8 @@ spriteSheet.src = 'imgs/spr.png';
 
 class GraphicsController {
     constructor() {
-        this.widthPixels = params.dunWidth * params.cellSize; //size in pixels of the floor.
-        this.heightPixels = params.dunHeight * params.cellSize;
+        this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
+        this.heightPixels = globalparams.dunHeight * globalparams.cellSize;
         this.allCanvas = document.querySelectorAll('canvas');
         this.layout = document.getElementById('layout').getContext('2d');
         this.cursorElems = document.getElementById('cursor');
@@ -45,7 +45,7 @@ class GraphicsController {
         }
         var color = pallette[floorType];
         this.layout.fillStyle = color;
-        this.layout.fillRect(x, y, params.cellSize, params.cellSize);
+        this.layout.fillRect(x, y, globalparams.cellSize, globalparams.cellSize);
     }
 
     render(imageToDraw, x, y) {
@@ -56,10 +56,10 @@ class GraphicsController {
             target.sourceY,
             target.width,
             target.height,
-            x * params.cellSize,
-            y * params.cellSize,
-            params.cellSize,
-            params.cellSize
+            x * globalparams.cellSize,
+            y * globalparams.cellSize,
+            globalparams.cellSize,
+            globalparams.cellSize
         );
     }
 }

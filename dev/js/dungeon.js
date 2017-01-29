@@ -33,9 +33,9 @@ class DungeonFloor {
     randomDun() {
         var maxWid = Math.floor(this.width / 2);
         var maxHei = Math.floor(this.height / 2);
-        var minWid = params.minRoomWidth;
-        var minHei = params.minRoomWidth;
-        var attempts = params.density;
+        var minWid = globalparams.minRoomWidth;
+        var minHei = globalparams.minRoomWidth;
+        var attempts = globalparams.density;
         var unconnected = [];
         var connected = [];
         var pathsTiles = []; 
@@ -186,9 +186,9 @@ class DungeonFloor {
         var walls = [];
         var north = room[0].y ? room[0].y - 1 :  0;
         //if room is on y = 0 return 0;
-        var south = room.last().y + 1 < params.dunHeight ? room.last().y + 1 : params.dunHeight; 
+        var south = room.last().y + 1 < globalparams.dunHeight ? room.last().y + 1 : globalparams.dunHeight; 
         var west = room[0].x ? room[0].x - 1 :  0;
-        var east = room.last().x + 1 < params.dunHeight ? room.last().x + 1 : params.dunHeight; 
+        var east = room.last().x + 1 < globalparams.dunHeight ? room.last().x + 1 : globalparams.dunHeight; 
 
         for (let i = north; i <= south; i++) {
             if(this.checkAvailable(this.cellAt(west, i))){

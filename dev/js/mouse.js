@@ -44,14 +44,14 @@ class MouseController{
 
 //gets the current cell of the mouse, and determines if it has changed.
     getMouse(e) {
-        var tempX = Math.floor(e.pageX / params.cellSize);
-        var tempY = Math.floor(e.pageY / params.cellSize);
+        var tempX = Math.floor(e.pageX / globalparams.cellSize);
+        var tempY = Math.floor(e.pageY / globalparams.cellSize);
 
-        if (tempX > params.dunWid) {
-            tempX = params.dunWid
+        if (tempX > globalparams.dunWid) {
+            tempX = globalparams.dunWid
         }
-        if (tempY > params.dunHei) {
-            tempY = params.dunHei
+        if (tempY > globalparams.dunHei) {
+            tempY = globalparams.dunHei
         }
 
         if (tempX < 0) {
@@ -95,7 +95,7 @@ class MouseController{
 
 //erases the crosshairs
     eraseCursor() {
-        this.cursor.clearRect(this.preCellX * params.cellSize, this.preCellY * params.cellSize, params.cellSize, params.cellSize);
+        this.cursor.clearRect(this.preCellX * globalparams.cellSize, this.preCellY * globalparams.cellSize, globalparams.cellSize, globalparams.cellSize);
     }
 
 }

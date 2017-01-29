@@ -10,11 +10,11 @@ class Cell {
     }
 
     getPosX() {
-    	return params.cellSize * this.x;
+    	return globalparams.cellSize * this.x;
     }
 
     getPosY() {
-    	return params.cellSize * this.y
+    	return globalparams.cellSize * this.y
     }
 
 }
