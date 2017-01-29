@@ -11,7 +11,7 @@ class DungeonFloor {
         for (var i = 0; i < this.width; i++) {
             this.cells[i] = [];
             for (var j = 0; j < this.height; j++) {
-                this.cells[i][j] = new Cell(i, j, 'rock');
+                this.cells[i][j] = new Terrain(i, j, 'rock');
             }
         }
     }
@@ -23,7 +23,7 @@ class DungeonFloor {
             }
         } else if (Array.isArray(X)) {
             return this.cells[X[0]][X[1]]
-        } else if (X instanceof cell) {
+        } else if (X instanceof Terrain) {
             return X
         } else {
             throw new Error('can\'t retrieve cell with arguments: ' + toArray(arguments))
@@ -213,10 +213,10 @@ class DungeonFloor {
         if (Array.isArray(room)){         
             return room.every(
                 function(tile){
-                    return (tile instanceof Cell && tile.floor !== 'floor' && tile.floor !== 'wall')
+                    return (tile instanceof Terrain && tile.floor !== 'floor' && tile.floor !== 'wall')
                 }
             )
-        } else if (room instanceof Cell) {
+        } else if (room instanceof Terrain) {
             return (room.floor !== 'floor' && room.floor !== 'wall')
         } else {
             throw new Error ('can\'t check that, brosky: ' + toArray(arguments))
@@ -224,7 +224,7 @@ class DungeonFloor {
     }
 
     static cellIsType(testCell, filter) {
-        return (testCell instanceof cell && testCell.floor === filter);
+        return (testCell instanceof Terrain && testCell.floor === filter);
     }
 
     //random path of manhattan-distance length
