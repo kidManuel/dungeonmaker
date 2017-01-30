@@ -1,19 +1,21 @@
 document.addEventListener('DOMContentLoaded', function(event) {
     document.removeEventListener('DOMContentLoaded', arguments.callee, false);
-    Object.freeze(window.params = userParams ? userParams : defaultParams);
-    window.game = new GameMain(params);
-    game.afterReady();
+    Object.freeze(window.globalparams = userParams ? userParams : defaultParams);
+    window.game = new GameMain(globalparams);
 });
 
 class GameMain {
     constructor() {
         this.graphics = new GraphicsController();
-        window.graphics = this.graphics;
-        this.dungeon = new DungeonFloor(params.dunWidth, params.dunHeight);
+        this.dungeonGen = new DungeonGenerator();
         this.mouse = new MouseController();
-        if (params.devMode) {
-            window.dun = this.dungeon;
+        this.floor = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
+        this.graphics.massExpress(this.floor);
+        if (globalparams.devMode) {
+            window.dun = this.floor;
         }
+
+        //this.afterReady();
     }
 
     afterReady() {

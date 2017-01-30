@@ -1,20 +1,20 @@
-class Cell {
+class Terrain {
     constructor(x, y, floor) {
         this.x = x; //x and y index number of cell
         this.y = y;
         this.floor = floor;
     }
 
-    express() {
-    	graphics.drawTile(this.getPosX(), this.getPosY(), this.floor)
-    }
-
     getPosX() {
-    	return params.cellSize * this.x;
+    	return globalparams.cellSize * this.x;
     }
 
     getPosY() {
-    	return params.cellSize * this.y
+    	return globalparams.cellSize * this.y
+    }
+
+    isAvailable() {
+        return this.floor === 'rock';
     }
 
 }
