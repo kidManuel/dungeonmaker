@@ -17,4 +17,8 @@ class Terrain {
     	return globalparams.cellSize * this.y
     }
 
+    isAvailable() {
+        return this.floor === 'rock';
+    }
+
 }
