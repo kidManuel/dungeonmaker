@@ -9,16 +9,14 @@ class GameMain {
         this.graphics = new GraphicsController();
         this.dungeonGen = new DungeonGenerator();
         this.mouse = new MouseController();
-        this.floor = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
-        this.graphics.massExpress(this.floor);
         if (globalparams.devMode) {
             window.dun = this.floor;
         }
-
-        //this.afterReady();
+        this.onReady();
     }
 
-    afterReady() {
-        //review sometime
+    onReady() {
+        this.floor = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
+        this.graphics.massExpress(this.floor);
     }
 }
