@@ -20,7 +20,7 @@ class Grid extends Array {
         }
     }
 
-    getRect(width, height, x, y) {
+    getPlane(width, height, x, y) {
         //gets a subgrid
         var rect = new Grid;
         rect.initialize(width);
@@ -105,7 +105,7 @@ class DungeonZone extends Grid {
         this.biome = biome;
     } */
 
-    getRect(width, height, x, y) {
+    getPlane(width, height, x, y) {
         //gets a subgrid
         var rect = new DungeonZone;
         rect.initialize(width);
@@ -159,54 +159,35 @@ class DungeonZone extends Grid {
         )
     }
 
-    getSurroundingCells(room) {
-        //abstract gettin bounding coordinates?
-        //allow passing of measures, getRect style.
-        //make it so it doesn't cut border rooms
+    getRect(width, height, x, y) {
+        let rect = [];
+        let south = y + height;
+        let east = x + width;
 
-        let walls = [];
-        let north = room[0].y ? room[0].y - 1 :  0;
-        //if room is on y = 0 return 0;
-        let south = room.last().y + 1 < globalparams.dunHeight ? room.last().y + 1 : globalparams.dunHeight; 
-        let west = room[0].x ? room[0].x - 1 :  0;
-        let east = room.last().x + 1 < globalparams.dunHeight ? room.last().x + 1 : globalparams.dunHeight; 
-
-        for (let i = north; i <= south; i++) {
-            let left = this.cellAt(west, i);
-            let right = this.cellAt(east, i);
-
+        for (let currX = x; currX < east; currX++) {
+            let left = this.cellAt(currX, y);
             if (left && left.isAvailable()) {
-                walls.push(left);
+                rect.push(left);
             }
 
+            let right = this.cellAt(currX, south);
             if (right && right.isAvailable()) {
-                walls.push(right);
+                rect.push(right);
             }
         }
 
-        for (let e = west; e <= east; e++) {
-            let up = this.cellAt(e, north);
-            let down = this.cellAt(e, south);
-
-
-            if (up && up.isAvailable()) {
-                walls.push(up);
+        for (let currY = y; currY <= south; currY++) {
+            let upper = this.cellAt(x, currY);
+            if (upper && upper.isAvailable()) {
+                rect.push(upper);
             }
 
-            if (down && down.isAvailable()) {
-                walls.push(down);
+            let lower = this.cellAt(east, currY);
+            if (lower && lower.isAvailable()) {
+                rect.push(lower);
             }
         }
-        return walls;
+
+        return rect;
     }
 }
-
-/*
-    centerPoint(room) {
-        //gridutils
-        //also works with two oposing NW and SE corners.
-        var topLeft = room[0];
-        var botRight = room.last();
-        return this.cellAt(Math.floor((topLeft.x + botRight.x) / 2), Math.floor((topLeft.y + botRight.y) / 2))
-    }
-*/
