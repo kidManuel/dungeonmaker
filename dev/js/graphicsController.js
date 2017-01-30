@@ -35,17 +35,17 @@ class GraphicsController {
         }
     }
 
-    drawTile(x, y, floorType) {
+    drawTerrain(terrainTile) {
         //review once sprites roll around
-        var pallette = {
+        let pallette = {
             'rock':'#542437',
             'wall':'#A43F68',
             'floor':'#ECD078',
             'PING':'#C3E90D'
         }
-        var color = pallette[floorType];
+        let color = pallette[terrainTile.floor];
         this.layout.fillStyle = color;
-        this.layout.fillRect(x, y, globalparams.cellSize, globalparams.cellSize);
+        this.layout.fillRect(terrainTile.getPosX(), terrainTile.getPosY(), globalparams.cellSize, globalparams.cellSize);
     }
 
     render(imageToDraw, x, y) {
@@ -61,5 +61,14 @@ class GraphicsController {
             globalparams.cellSize,
             globalparams.cellSize
         );
+    }
+
+    massExpress(tilesArray) {
+        let controller = this;
+        tilesArray.iterate(
+            function(tile) {
+                controller.drawTerrain(tile);
+            }
+        )
     }
 }
