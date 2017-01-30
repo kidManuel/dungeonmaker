@@ -26,11 +26,13 @@ class DungeonGenerator {
             var randX = Math.floor(Math.random() * (width - randWid - 1)) + 1;
             var randY = Math.floor(Math.random() * (height - randHei - 1)) + 1;
 
-            let target = floor.getRect(randWid, randHei, randX, randY);
+            let target = floor.getPlane(randWid, randHei, randX, randY);
 
             if (target.isAvailable()) {
                 this.massModify(target, 'floor', 'floor');
-                this.massModify(floor.getSurroundingCells(target), 'floor', 'wall');
+                let wallsX = randX ? randX - 1 :  0;
+                let wallsY = randY ? randY - 1 :  0;
+                this.massModify(floor.getRect(randWid + 1, randHei + 1, wallsX, wallsY), 'floor', 'wall');
                 unconnected.push(target.centerPoint());
             }
         }
