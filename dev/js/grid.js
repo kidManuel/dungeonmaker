@@ -79,6 +79,21 @@ class Grid extends Array {
         return selection;
     }
 
+    topLeft() {
+        return this[0][0];
+    }
+
+    topRight() {
+        return this.last()[0];
+    }
+    
+    bottomLeft() {
+        return this[0].last();
+    }
+
+    bottomRight() {
+        return this.last().last();
+    }
 }
 
 class DungeonZone extends Grid {
