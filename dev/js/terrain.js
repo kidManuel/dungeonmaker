@@ -5,10 +5,6 @@ class Terrain {
         this.floor = floor;
     }
 
-    express() {
-    	graphics.drawTile(this.getPosX(), this.getPosY(), this.floor)
-    }
-
     getPosX() {
     	return globalparams.cellSize * this.x;
     }
