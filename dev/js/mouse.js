@@ -25,7 +25,7 @@ class MouseController{
     }
 
     onClick() {
-        console.log(dun.cellAt([this.cellX, this.cellY]))
+        console.log(dun.cellAt(this.cellX, this.cellY))
 
         // if (!ui.pristine) {
         //     ui.massClear();
