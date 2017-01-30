@@ -12,10 +12,10 @@ class DungeonGenerator {
         let floor = new DungeonZone;
         //review here on optimization
         this.init(floor, width, height);
-        let maxWid = Math.floor(width / 4);
-        let maxHei = Math.floor(height / 4);
+        let maxWid = globalparams.maxRoomWidth;
+        let maxHei = globalparams.maxRoomHeight;
         let minWid = globalparams.minRoomWidth;
-        let minHei = globalparams.minRoomWidth;
+        let minHei = globalparams.minRoomHeight;
         let attempts = globalparams.density;
         let unconnected = [];
         let pathsTiles = []; 
