@@ -90,7 +90,7 @@ class MouseController{
 
 //draws the crosshairs
     drawCursor(x, y) {
-        game.graphics.render('crosshair', this.cellX, this.cellY);
+        game.graphics.render('crosshair', this.cellX, this.cellY, 'cursor');
     }
 
 //erases the crosshairs
