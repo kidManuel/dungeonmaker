@@ -14,19 +14,22 @@ class GameMain {
         this.graphics = new GraphicsController();
         this.dungeonGen = new DungeonGenerator();
         this.mouse = new MouseController();
-        this.floor = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
+        this.layout = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
+        this.entities = new EntitiesController(this.layout);
         this.onReady();
     }
 
     onReady() {
-        this.initTestEntity();
+        this.initTestEntity(2,2);
         if (globalparams.devMode) {
-            window.dun = this.floor;
+            window.dun = this.layout;
+            window.graphs = this.graphics;
         }
-        this.graphics.massExpress(this.floor);
+        this.graphics.massExpress(this.layout);
     }
 
-    initTestEntity() {
-        this.floor[0][2].entity = new Entity('testInstance', 'character');
+    initTestEntity(x, y) {
+        window.testdude = new Entity('testInstance', x, y, 'character')
+        this.layout[x][y].entity = testdude;
     }
 }
