@@ -7,7 +7,6 @@ document.addEventListener('DOMContentLoaded', function(event) {
     document.removeEventListener('DOMContentLoaded', arguments.callee, false);
     Object.freeze(window.globalparams = userParams ? userParams : defaultParams);
     window.game = new GameMain(globalparams);
-    game.initTestEntity();
 });
 
 class GameMain {
@@ -15,11 +14,12 @@ class GameMain {
         this.graphics = new GraphicsController();
         this.dungeonGen = new DungeonGenerator();
         this.mouse = new MouseController();
+        this.floor = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
         this.onReady();
     }
 
     onReady() {
-        this.floor = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
+        this.initTestEntity();
         if (globalparams.devMode) {
             window.dun = this.floor;
         }
@@ -28,7 +28,5 @@ class GameMain {
 
     initTestEntity() {
         this.floor[0][2].entity = new Entity('testInstance', 'character');
-        this.graphics.expressCellEntity(this.floor[0][2]);
-        this.graphics.expressCellEntity(this.floor[0][2]);
     }
 }

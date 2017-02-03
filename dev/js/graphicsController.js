@@ -1,4 +1,3 @@
-// figure out what do we do with this 
 class GraphicsController {
     constructor() {
         this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
