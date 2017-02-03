@@ -1,6 +1,8 @@
 class Entity {
-	constructor(id, sprite) {
-		this.id = id;
+	constructor(id, x, y, sprite) {
+		this.x = x;
+		this.y = y;
 		this.sprite = sprite;
+		this.id = id;
 	}
 }
