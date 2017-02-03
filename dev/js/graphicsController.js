@@ -1,7 +1,4 @@
 // figure out what do we do with this 
-
-
-
 class GraphicsController {
     constructor() {
         this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
@@ -10,17 +7,21 @@ class GraphicsController {
         this.layout = document.getElementById('layout').getContext('2d');
         this.cursor = document.getElementById('cursor').getContext('2d');
         this.mainContainer = document.getElementById('mainContainer');
+        this.sources = {
+            'general': document.getElementById('general'),
+            'characters': document.getElementById('characters')
+        }
         this.options = {
             //review when xhr solution rolls around -__-
             'crosshair': {
-                source: spriteSheet,
+                source: 'general',
                 sourceX: 0,
                 sourceY: 0,
                 width: 15,
                 height: 15,
             },
             'character': {
-                source: characters,
+                source: 'characters',
                 sourceX: 0,
                 sourceY: 0,
                 width: 23,
@@ -67,7 +68,7 @@ class GraphicsController {
         let target = this.options[imageToDraw];
         let context = specialContext ? this[specialContext] : this.layout;
         context.drawImage(
-            target.source,
+            this.sources[target.source],
             target.sourceX,
             target.sourceY,
             target.width,

@@ -61,3 +61,7 @@ canvas {
 #ver li {
     border-bottom: 1px solid #C8C8A9;
 }
+
+.imagedependencies {
+    display: none;
+}
