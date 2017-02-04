@@ -1,26 +1,35 @@
-// figure out what do we do with this 
-
-spriteSheet = new Image();
-spriteSheet.src = 'imgs/spr.png';
-
 class GraphicsController {
     constructor() {
         this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
         this.heightPixels = globalparams.dunHeight * globalparams.cellSize;
         this.allCanvas = document.querySelectorAll('canvas');
         this.layout = document.getElementById('layout').getContext('2d');
-        this.cursorElems = document.getElementById('cursor');
+        this.cursor = document.getElementById('cursor').getContext('2d');
         this.mainContainer = document.getElementById('mainContainer');
+        this.sources = {
+            'general': document.getElementById('general'),
+            'characters': document.getElementById('characters')
+        }
         this.options = {
             //review when xhr solution rolls around -__-
             'crosshair': {
-                source: spriteSheet,
+                source: 'general',
                 sourceX: 0,
                 sourceY: 0,
                 width: 15,
                 height: 15,
-                context: this.cursorElems.getContext('2d')
-            }
+            },
+            'character': {
+                source: 'characters',
+                sourceX: 0,
+                sourceY: 0,
+                width: 23,
+                height: 23,
+            },
+            'rock':'#542437',
+            'wall':'#A43F68',
+            'floor':'#ECD078',
+            'PING':'#C3E90D'
         }
         this.initializeCanvases();
     }
@@ -35,23 +44,30 @@ class GraphicsController {
         }
     }
 
-    drawTerrain(terrainTile) {
-        //review once sprites roll around
-        let pallette = {
-            'rock':'#542437',
-            'wall':'#A43F68',
-            'floor':'#ECD078',
-            'PING':'#C3E90D'
+    expressCellFull(cell) {
+        this.expressCellTerrain(cell);
+        if (cell.entity) {
+            this.expressCellEntity(cell);
         }
-        let color = pallette[terrainTile.floor];
-        this.layout.fillStyle = color;
-        this.layout.fillRect(terrainTile.getPosX(), terrainTile.getPosY(), globalparams.cellSize, globalparams.cellSize);
     }
 
-    render(imageToDraw, x, y) {
+    expressCellTerrain(cell) {
+        //review once sprites roll around
+        let color = this.options[cell.floor];
+        this.layout.fillStyle = color;
+        this.layout.fillRect(cell.getPosX(), cell.getPosY(), globalparams.cellSize, globalparams.cellSize);
+    }
+
+    expressCellEntity(cell) {
+        if (cell.entity){
+                this.render(cell.entity.sprite, cell.x, cell.y)}
+    }
+
+    render(imageToDraw, x, y, specialContext) {
         let target = this.options[imageToDraw];
-        target.context.drawImage(
-            target.source,
+        let context = specialContext ? this[specialContext] : this.layout;
+        context.drawImage(
+            this.sources[target.source],
             target.sourceX,
             target.sourceY,
             target.width,
@@ -67,7 +83,7 @@ class GraphicsController {
         let controller = this;
         tilesArray.iterate(
             function(tile) {
-                controller.drawTerrain(tile);
+                controller.expressCellFull(tile);
             }
         )
     }

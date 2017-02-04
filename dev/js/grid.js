@@ -18,6 +18,7 @@ class Grid extends Array {
                 this[i] = [];
             }
         }
+        return this
     }
 
     getPlane(width, height, x, y) {
