@@ -1,5 +1,6 @@
-class EntitiesController {
-    constructor(layout) {
+class EntitiesController extends Speaker{
+    constructor(comunications, layout) {
+        super(comunications);
         this.layout = layout;
     }
 
