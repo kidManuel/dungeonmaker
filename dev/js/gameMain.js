@@ -12,11 +12,12 @@ document.addEventListener('DOMContentLoaded', function(event) {
 
 class GameMain {
     constructor() {
-        this.graphics = new GraphicsController();
+        let coms = this.comunications = new ComunicationController();
+        this.graphics = new GraphicsController(coms);
         this.dungeonGen = new DungeonGenerator();
         this.mouse = new MouseController();
         this.layout = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
-        this.entities = new EntitiesController(this.layout);
+        this.entities = new EntitiesController(coms, this.layout);
         this.onReady();
     }
 
