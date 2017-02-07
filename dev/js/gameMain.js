@@ -6,6 +6,7 @@ characters.src = 'imgs/characters.png';
 document.addEventListener('DOMContentLoaded', function(event) {
     document.removeEventListener('DOMContentLoaded', arguments.callee, false);
     Object.freeze(window.globalparams = userParams ? userParams : defaultParams);
+    window.devmode = globalparams.devMode;
     window.game = new GameMain(globalparams);
 });
 
@@ -21,7 +22,7 @@ class GameMain {
 
     onReady() {
         this.initTestEntity(2,2);
-        if (globalparams.devMode) {
+        if (devmode) {
             window.dun = this.layout;
             window.graphs = this.graphics;
         }
