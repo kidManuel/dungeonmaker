@@ -16,7 +16,7 @@ class EntitiesController extends Speaker{
             delete initialCell.entity;
             graphs.massExpress(needsUpdate);
         } else {
-            console.log('collision brah');
+            devLog('collision brah');
         }
     }
 

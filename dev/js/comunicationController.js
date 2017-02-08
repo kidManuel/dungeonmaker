@@ -2,6 +2,7 @@ class ComunicationController {
     constructor() {
         this.topics = {};
     }
+
     registerListener(object, topic) {
         if (!this.topics[topic]) {
             this.topics[topic] = [object]
@@ -11,15 +12,16 @@ class ComunicationController {
         }
     }
     broadcastTopic(topic, data) {
+        typeof topic !== 'string' && devError('not a valid event')
         let currentTopic = this.topics[topic];
         if (currentTopic) {
             currentTopic.iterate(function(object) {
                 object['on' + topic.capitalize()] ?
                     object['on' + topic.capitalize()].call(object, data) :
-                    devmode && console.log('object not ready for topic: ' + topic)
+                    devError('object not ready for topic: ' + topic)
             })
         } else {
-            devmode && console.log('no souch topic: ' + topic)
+            devError('no souch topic: ' + topic)
         }
     }
 }
