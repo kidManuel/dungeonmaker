@@ -1,3 +1,16 @@
+function devError(error) {
+    // let extraData = '' || Array.from(arguments).splice(0,1);
+    if(devmode) {
+        throw new Error(error)
+    }
+}
+
+function devLog(info) {
+    if(devmode) {
+        console.log(info)
+    }
+}
+
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
