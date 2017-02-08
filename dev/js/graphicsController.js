@@ -33,7 +33,9 @@ class GraphicsController extends Speaker {
             'PING':'#C3E90D'
         }
         this.initializeCanvases();
+        this.listenTo('cellsUpdate');
     }
+
 
     initializeCanvases() {
         this.mainContainer.style.width = this.widthPixels + 'px';
@@ -87,5 +89,8 @@ class GraphicsController extends Speaker {
                 controller.expressCellFull(tile);
             }
         )
+    }
+    onCellsUpdate(data) {
+        this.massExpress(data);
     }
 }
