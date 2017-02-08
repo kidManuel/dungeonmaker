@@ -1,5 +1,6 @@
-class GraphicsController {
-    constructor() {
+class GraphicsController extends Speaker {
+    constructor(comunications) {
+        super(comunications);
         this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
         this.heightPixels = globalparams.dunHeight * globalparams.cellSize;
         this.allCanvas = document.querySelectorAll('canvas');
@@ -32,7 +33,9 @@ class GraphicsController {
             'PING':'#C3E90D'
         }
         this.initializeCanvases();
+        this.listenTo('cellsUpdate');
     }
+
 
     initializeCanvases() {
         this.mainContainer.style.width = this.widthPixels + 'px';
@@ -86,5 +89,8 @@ class GraphicsController {
                 controller.expressCellFull(tile);
             }
         )
+    }
+    onCellsUpdate(data) {
+        this.massExpress(data);
     }
 }

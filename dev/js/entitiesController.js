@@ -1,5 +1,6 @@
-class EntitiesController {
-    constructor(layout) {
+class EntitiesController extends Speaker{
+    constructor(comunications, layout) {
+        super(comunications);
         this.layout = layout;
     }
 
@@ -13,9 +14,9 @@ class EntitiesController {
             ent.y = y;
             targetCell.entity = ent; 
             delete initialCell.entity;
-            graphs.massExpress(needsUpdate);
+            this.dispatch('cellsUpdate', needsUpdate);
         } else {
-            console.log('collision brah');
+            devLog('collision brah');
         }
     }
 
