@@ -3,11 +3,11 @@ class Speaker {
         this.comunications = comunications;
     }
 
-    dispatchTopic(topic, data){
+    dispatch(topic, data){
         this.comunications.broadcastTopic(topic, data)
     }
 
-    registerFor(topic){
+    listenTo(topic){
         this.comunications.registerListener(this, topic)
     }
 }
