@@ -2,6 +2,7 @@ class EntitiesController extends Speaker{
     constructor(comunications, layout) {
         super(comunications);
         this.layout = layout;
+        this.listenTo('requestEntityMove');
     }
 
     moveEntity(ent, x, y) {
@@ -24,6 +25,10 @@ class EntitiesController extends Speaker{
         let targetCellX = ent.x + x;
         let targetCellY = ent.y + y;
         this.moveEntity(ent, targetCellX, targetCellY);
+    }
+
+    onRequestEntityMove(data) {
+        this.impulseEntity(data.entity, data.x, data.y)
     }
 }
 
