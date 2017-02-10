@@ -18,6 +18,7 @@ class GameMain {
         this.mouse = new MouseController();
         this.layout = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
         this.entities = new EntitiesController(coms, this.layout);
+        this.player = new Player();
         this.onReady();
     }
 
@@ -33,5 +34,6 @@ class GameMain {
     initTestEntity(x, y) {
         window.testdude = new Entity('testInstance', x, y, 'character')
         this.layout[x][y].entity = testdude;
+        this.player.setEntityControl(testdude);
     }
 }
