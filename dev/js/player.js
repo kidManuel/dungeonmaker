@@ -1,5 +1,6 @@
 class Player extends Speaker{
     constructor(controllingEntity) {
+        super()
         if (typeof controllingEntity !== 'undefined') {
             this.setControllingEntiy(controllingEntity);
         }
