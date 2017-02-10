@@ -16,9 +16,10 @@ class GameMain {
         this.graphics = new GraphicsController(coms);
         this.dungeonGen = new DungeonGenerator();
         this.mouse = new MouseController();
+        this.keyboard = new KeyboardController(coms);
         this.layout = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
         this.entities = new EntitiesController(coms, this.layout);
-        this.player = new Player();
+        this.player = new Player(coms);
         this.onReady();
     }
 
