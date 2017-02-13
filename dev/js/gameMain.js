@@ -1,8 +1,3 @@
-spriteSheet = new Image();
-spriteSheet.src = 'imgs/spr.png';
-characters = new Image();
-characters.src = 'imgs/characters.png';
-
 document.addEventListener('DOMContentLoaded', function(event) {
     document.removeEventListener('DOMContentLoaded', arguments.callee, false);
     Object.freeze(window.globalparams = userParams ? userParams : defaultParams);
