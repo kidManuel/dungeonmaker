@@ -6,7 +6,7 @@ var defaultParams = {
     'minRoomHeight': 6,
     'maxRoomWidth': 6,
     'maxRoomHeight': 6,
-    'cellSize': 23,
+    'cellSize': 34,
     'density': 200, // ammount of attempts at filling the floor.
     'devMode': true
 }
