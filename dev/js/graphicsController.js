@@ -52,14 +52,20 @@ class GraphicsController extends Speaker {
 
     expressCellTerrain(cell) {
         //review once sprites roll around
-        let color = this.options[cell.floor];
-        this.layout.fillStyle = color;
-        this.layout.fillRect(cell.getPosX(), cell.getPosY(), globalparams.cellSize, globalparams.cellSize);
+        let terrainOptions = this.options[cell.floor];
+        if (typeof terrainOptions === 'object') {
+            this.render(cell.floor, cell.getPosX(), cell.getPosY());
+        } else if(typeof terrainOptions === 'string') {
+            this.drawCellAsColor(terrainOptions, cell.getPosX(), cell.getPosY());
+        }
     }
+
+
 
     expressCellEntity(cell) {
         if (cell.entity){
-                this.render(cell.entity.sprite, cell.x, cell.y)}
+            this.render(cell.entity.sprite, cell.x, cell.y)
+        }
     }
 
     render(imageToDraw, x, y, specialContext) {
@@ -76,6 +82,11 @@ class GraphicsController extends Speaker {
             globalparams.cellSize,
             globalparams.cellSize
         );
+    }
+
+    drawCellAsColor(color, x, y) {
+        this.layout.fillStyle = color;
+        this.layout.fillRect(x, y, globalparams.cellSize, globalparams.cellSize);
     }
 
     massExpress(tilesArray) {
