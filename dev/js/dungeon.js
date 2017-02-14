@@ -107,6 +107,15 @@ class DungeonGenerator {
             throw new Error ('can\'t check that, brosky: ' + Array.from(arguments))
         }
     }
+    findNearestIn(cell, candidates) {
+        let closest = Infinity;
+        candidates.iterate(function(candidate) {
+            if (DungeonGenerator.getManhattanDistance(cell, candidate) < closest) {
+                closest = candidate;
+            }
+        })
+        return closest;
+    }
 
     getManhattanDistance(a, b) {
         //gridutils
