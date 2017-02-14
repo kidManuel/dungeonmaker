@@ -30,8 +30,12 @@ class GraphicsController extends Speaker {
         }
         this.initializeCanvases();
         this.listenTo('cellsUpdate');
+        this.listenTo('drawCursor');
     }
 
+    onDrawCursor(event) {
+        this.render('crosshair', event.x * globalparams.cellSize, event.y * globalparams.cellSize, 'cursor');
+    }
 
     initializeCanvases() {
         this.mainContainer.style.width = this.widthPixels + 'px';
