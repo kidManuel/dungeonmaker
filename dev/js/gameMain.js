@@ -10,7 +10,7 @@ class GameMain {
         let coms = this.comunications = new ComunicationController();
         this.graphics = new GraphicsController(coms);
         this.dungeonGen = new DungeonGenerator();
-        this.mouse = new MouseController();
+        this.mouse = new MouseController(coms);
         this.keyboard = new KeyboardController(coms);
         this.layout = this.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight);
         this.entities = new EntitiesController(coms, this.layout);
