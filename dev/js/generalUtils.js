@@ -25,9 +25,10 @@ Array.prototype.last = function() {
 
 Array.prototype.removeIndex = function(index) {
     if (typeof index === 'number') {
+        var element = this[index];
         this.splice(index, 1)
     }
-    return this;
+    return element;
 }
 
 Array.prototype.attatch = function(attatchment) {
