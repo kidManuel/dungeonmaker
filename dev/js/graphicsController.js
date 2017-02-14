@@ -9,7 +9,8 @@ class GraphicsController extends Speaker {
         this.mainContainer = document.getElementById('mainContainer');
         this.sources = {
             'general': document.getElementById('general'),
-            'characters': document.getElementById('characters')
+            'characters': document.getElementById('characters'),
+            'ground': document.getElementById('ground')
         }
         this.options = {
             //review when xhr solution rolls around -__-
@@ -24,7 +25,11 @@ class GraphicsController extends Speaker {
                 sourceY: 0,
             },
             'rock':'#542437',
-            'wall':'#A43F68',
+            'wall': {
+                source: 'ground',
+                sourceX: 0,
+                sourceY: 0,
+            },
             'floor':'#ECD078',
             'PING':'#C3E90D'
         }
