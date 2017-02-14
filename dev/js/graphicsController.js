@@ -64,7 +64,7 @@ class GraphicsController extends Speaker {
 
     expressCellEntity(cell) {
         if (cell.entity){
-            this.render(cell.entity.sprite, cell.x, cell.y)
+            this.render(cell.entity.sprite, cell.getPosX(), cell.getPosY())
         }
     }
 
@@ -77,8 +77,8 @@ class GraphicsController extends Speaker {
             target.sourceY,
             target.width || globalparams.cellSize,
             target.height || globalparams.cellSize,
-            x * globalparams.cellSize,
-            y * globalparams.cellSize,
+            x,
+            y,
             globalparams.cellSize,
             globalparams.cellSize
         );
