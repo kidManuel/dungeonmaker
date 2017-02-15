@@ -1,4 +1,8 @@
 class DungeonGenerator {
+    constructor() {
+        this.readyCells = [];
+    }
+
     init(array, width, height) {
         for (let i = 0; i < width; i++) {
             array[i] = [];
@@ -29,6 +33,7 @@ class DungeonGenerator {
             let target = floor.getPlane(randWid, randHei, randX, randY);
 
             if (target.isAvailable()) {
+                this.readyCells.merge(target);
                 this.massModify(target, 'floor', 'floor');
                 let wallsX = randX ? randX - 1 :  0;
                 let wallsY = randY ? randY - 1 :  0;
@@ -57,6 +62,7 @@ class DungeonGenerator {
 
             let tempPath = floor.simplePath(objective, unconnected[closest]);
             pathsTiles.attatch(tempPath);
+            this.readyCells.merge(tempPath);
             this.massModify(tempPath, 'floor', 'floor');
             unconnected.splice(seed, 1);
         }
