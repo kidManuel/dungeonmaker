@@ -57,6 +57,16 @@ Array.prototype.iterate = function(operation) {
     // }
 }
 
+Array.prototype.merge = function(nextArray) {
+    let me = this;
+    nextArray.iterate(function(index) {
+        if(!me.includes(index)){
+            me.push(index);
+        }
+    })
+    return this;
+}
+
 var myArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 var testArr = [ //just a silly old array for general purpose testing.
     [0, 39],
