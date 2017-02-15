@@ -19,7 +19,7 @@ class GameMain {
     }
 
     onReady() {
-        this.initTestEntity(2,2);
+        this.initTestEntity();
         if (devmode) {
             window.dun = this.layout;
             window.graphs = this.graphics;
@@ -27,9 +27,10 @@ class GameMain {
         this.graphics.massExpress(this.layout);
     }
 
-    initTestEntity(x, y) {
-        window.testdude = new Entity('testInstance', x, y, 'character')
-        this.layout[x][y].entity = testdude;
+    initTestEntity() {
+        let initialCell = this.dungeonGen.readyCells.randomElement();
+        window.testdude = new Entity('testInstance', initialCell.x, initialCell.y, 'character')
+        initialCell.entity = testdude;
         this.player.setEntityControl(testdude);
     }
 }

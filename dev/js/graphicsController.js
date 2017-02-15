@@ -69,8 +69,6 @@ class GraphicsController extends Speaker {
         }
     }
 
-
-
     expressCellEntity(cell) {
         if (cell.entity){
             this.render(cell.entity.sprite, cell.getPosX(), cell.getPosY())
