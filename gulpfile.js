@@ -9,6 +9,15 @@ var devScriptImports = /<!-- script imports [^]*end -->/g
 var distScriptImports = '<script src="js/all.js"></script>'
 var devStyleImports = /<!-- style imports [^]*end -->/g
 var distStyleImports = '<link href="css/all.css" rel="stylesheet"></script>'
+var webserver = require('gulp-webserver');
+ 
+gulp.task('serve', function() {
+  gulp.src('dev')
+    .pipe(webserver({
+      livereload: false,
+      open: true
+    }));
+});
 
 gulp.task('lint', function() {
     return gulp.src('dev/js/*.js')
