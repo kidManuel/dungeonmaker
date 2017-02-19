@@ -1,0 +1,20 @@
+{
+    "crosshair": {
+        "source": "general",
+        "sourceX": 0,
+        "sourceY": 0
+    },
+    "character": {
+        "source": "characters",
+        "sourceX": 0,
+        "sourceY": 0
+    },
+    "rock": "#542437",
+    "wall": {
+        "source": "ground",
+        "sourceX": 0,
+        "sourceY": 0
+    },
+    "floor":"#ECD078",
+    "PING":"#C3E90D"
+}
