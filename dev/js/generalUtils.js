@@ -28,13 +28,13 @@ function dataLoad(query) {
 
 function devError(error) {
     // let extraData = '' || Array.from(arguments).splice(0,1);
-    if(devmode) {
+    if (devmode) {
         throw new Error(error)
     }
 }
 
 function devLog(info) {
-    if(devmode) {
+    if (devmode) {
         console.log(info)
     }
 }
@@ -62,12 +62,12 @@ Array.prototype.removeIndex = function(index) {
 Array.prototype.attatch = function(attatchment) {
     this.push.apply(this, attatchment);
     return this;
-} 
+}
 
 Array.prototype.iterate = function(operation) {
     this.forEach(
-        function(value, index, array){
-            if (Array.isArray(array[index])){
+        function(value, index, array) {
+            if (Array.isArray(array[index])) {
                 array[index].iterate(operation);
             } else {
                 operation.call(array[index], value, index, array);
@@ -88,7 +88,7 @@ Array.prototype.iterate = function(operation) {
 Array.prototype.merge = function(nextArray) {
     let me = this;
     nextArray.iterate(function(index) {
-        if(!me.includes(index)){
+        if (!me.includes(index)) {
             me.push(index);
         }
     })
