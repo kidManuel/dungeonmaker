@@ -1,3 +1,31 @@
+function dataLoad(query) {
+    //review with promises
+    function failure() {
+        devError('can\'t create request for ' + query);
+        return null;
+    }
+
+    let response;
+    let dataRequest = new XMLHttpRequest();
+    if (!dataRequest) {
+        failure();
+    }
+
+    dataRequest.onreadystatechange = function() {
+        if (dataRequest.readyState === XMLHttpRequest.DONE) {
+            if (dataRequest.status === 200) {
+                response = dataRequest.responseText;
+            } else {
+                failure()
+            }
+        }
+    }
+
+    dataRequest.open('GET', './data/' + query + '.json', false);
+    dataRequest.send();
+    return JSON.parse(response);
+}
+
 function devError(error) {
     // let extraData = '' || Array.from(arguments).splice(0,1);
     if(devmode) {
