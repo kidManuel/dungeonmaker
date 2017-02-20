@@ -1,0 +1,7 @@
+{
+    "orc": {
+        "race": "Orc",
+        "isunique": true,
+        "hitpoints": 10
+    }
+}

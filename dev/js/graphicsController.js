@@ -12,27 +12,7 @@ class GraphicsController extends Speaker {
             'characters': document.getElementById('characters'),
             'ground': document.getElementById('ground')
         }
-        this.options = {
-            //review when xhr solution rolls around -__-
-            'crosshair': {
-                source: 'general',
-                sourceX: 0,
-                sourceY: 0,
-            },
-            'character': {
-                source: 'characters',
-                sourceX: 0,
-                sourceY: 0,
-            },
-            'rock':'#542437',
-            'wall': {
-                source: 'ground',
-                sourceX: 0,
-                sourceY: 0,
-            },
-            'floor':'#ECD078',
-            'PING':'#C3E90D'
-        }
+        this.options = dataLoad('sprites')
         this.initializeCanvases();
         this.listenTo('cellsUpdate');
         this.listenTo('drawCursor');

@@ -2,6 +2,7 @@ class EntitiesController extends Speaker{
     constructor(comunications, layout) {
         super(comunications);
         this.layout = layout;
+        this.decorators = loadData('decorators')
         this.listenTo('requestEntityMove');
     }
 
@@ -30,6 +31,11 @@ class EntitiesController extends Speaker{
     onRequestEntityMove(data) {
         this.impulseEntity(data.entity, data.x, data.y)
     }
+
+    decorateEntity(entity, decorationsObject) {
+
+    }
+
 }
 
 
