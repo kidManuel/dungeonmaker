@@ -2,16 +2,14 @@ class DungeonGenerator {
     constructor() {
         this.readyCells = [];
     }
-
     init(array, width, height) {
         for (let i = 0; i < width; i++) {
             array[i] = [];
             for (let j = 0; j < height; j++) {
-                array[i][j] = new Terrain(i, j, 'rock');
+                array[i][j] = new Cell(i, j, 'rock');
             }
         }
     }
-
     generateFloor(width, height) {
         let floor = new DungeonZone;
         //review here on optimization

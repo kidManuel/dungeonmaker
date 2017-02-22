@@ -1,8 +1,10 @@
-class Terrain {
+class Cell {
     constructor(x, y, floor) {
         this.x = x; //x and y index number of cell
         this.y = y;
         this.floor = floor;
+        this.calculatedDistances = [];
+        this.connections = [];
     }
 
     getPosX() {
