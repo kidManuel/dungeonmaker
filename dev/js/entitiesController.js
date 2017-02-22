@@ -2,7 +2,7 @@ class EntitiesController extends Speaker{
     constructor(comunications, layout) {
         super(comunications);
         this.layout = layout;
-        this.decorators = loadData('decorators')
+        this.decorators = loadData('decorator')
         this.listenTo('requestEntityMove');
     }
 

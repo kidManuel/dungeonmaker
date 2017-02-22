@@ -1,4 +1,4 @@
-function dataLoad(query) {
+function loadData(query) {
     //review with promises
     function failure() {
         devError('can\'t create request for ' + query);

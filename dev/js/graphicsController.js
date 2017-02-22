@@ -12,7 +12,7 @@ class GraphicsController extends Speaker {
             'characters': document.getElementById('characters'),
             'ground': document.getElementById('ground')
         }
-        this.options = dataLoad('sprites')
+        this.options = loadData('sprites')
         this.initializeCanvases();
         this.listenTo('cellsUpdate');
         this.listenTo('drawCursor');
