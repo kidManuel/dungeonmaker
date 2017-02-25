@@ -98,7 +98,7 @@ class DungeonGenerator {
             let tempPath = floor.simplePath(a, b);
             pathsTiles.attatch(tempPath);
             me.readyCells.merge(tempPath);
-            me.massModify(tempPath, 'floor', 'PING');
+            me.massModify(tempPath, 'floor', 'floor');
         }
 
         this.polish(floor, pathsTiles);

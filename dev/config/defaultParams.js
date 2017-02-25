@@ -1,7 +1,7 @@
 var userParams = null;
 var defaultParams = {
-    'dunWidth': 100, //size in cells of the floor.
-    'dunHeight': 100,
+    'dunWidth': 20, //size in cells of the floor.
+    'dunHeight': 20,
     'minRoomWidth': 3,
     'minRoomHeight': 3,
     'maxRoomWidth': 10,
