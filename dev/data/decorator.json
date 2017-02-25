@@ -1,7 +1,17 @@
 {
-    "orc": {
-        "race": "Orc",
-        "isunique": true,
-        "hitpoints": 10
+    "race": {
+        "orc": {
+            "race": "Orc",
+            "hitpoints": 10
+        },
+        "human": {
+            "race": "Human",
+            "attack": 10
+        }
+    },
+    "uncategorized": {
+        "fast": {
+            "speed": 2
+        }
     }
 }
