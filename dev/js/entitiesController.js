@@ -32,7 +32,34 @@ class EntitiesController extends Speaker{
         this.impulseEntity(data.entity, data.x, data.y)
     }
 
-    decorateEntity(entity, decorationsObject) {
+    decorateEntityMultiple(entity, decorationsList) {
+        let me = this;
+        decorationsList.forEach(function(singleDecor){
+            me.decorateEntity(entity, singleDecor);
+        })
+    }
+
+    decorateEntity(entity, decoration) {
+        let category = 'uncategorized';
+        let myDecor = decoration;
+        if(myDecor.includes('.')){
+            let separation = myDecor.indexOf('.');
+            category = myDecor.substring(0, separation);
+            myDecor = myDecor.substring(separation + 1)
+        }
+        let decorObject = this.decorators[category][myDecor];
+        for(let modifier in decorObject) {
+            let modifierValue = decorObject[modifier];
+            if (typeof modifierValue === 'number') {
+                if (modifier in entity) {
+                    entity[modifier] += modifierValue;
+                } else {
+                    entity[modifier] = modifierValue;
+                }
+            } else {
+                entity[modifier] = modifierValue;
+            }
+        }
 
     }
 
