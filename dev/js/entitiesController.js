@@ -3,6 +3,7 @@ class EntitiesController extends Speaker{
         super(comunications);
         this.layout = layout;
         this.decorators = loadData('decorator')
+        this.template = loadData('template')
         this.listenTo('requestEntityMove');
     }
 
@@ -61,6 +62,13 @@ class EntitiesController extends Speaker{
             }
         }
 
+    addTemplate(entity, template) {
+        let me = this;
+        let currentTemplate = this.template[template];
+        currentTemplate.forEach(function(decoration) {
+            me.decorateEntity(entity, decoration)
+        })
+        return entity;
     }
 
 }
