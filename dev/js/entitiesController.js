@@ -42,25 +42,31 @@ class EntitiesController extends Speaker{
 
     decorateEntity(entity, decoration) {
         let category = 'uncategorized';
-        let myDecor = decoration;
-        if(myDecor.includes('.')){
-            let separation = myDecor.indexOf('.');
-            category = myDecor.substring(0, separation);
-            myDecor = myDecor.substring(separation + 1)
+        let currentDecoration = decoration;
+        if (currentDecoration.includes('.')) {
+            let separation = currentDecoration.indexOf('.');
+            category = currentDecoration.substring(0, separation);
+            currentDecoration = currentDecoration.substring(separation + 1)
         }
-        let decorObject = this.decorators[category][myDecor];
-        for(let modifier in decorObject) {
-            let modifierValue = decorObject[modifier];
-            if (typeof modifierValue === 'number') {
-                if (modifier in entity) {
-                    entity[modifier] += modifierValue;
+        let decorObject = this.decorators[category][currentDecoration];
+        if (decorObject) {
+            for (let modifier in decorObject) {
+                let modifierValue = decorObject[modifier];
+                if (typeof modifierValue === 'number') {
+                    if (modifier in entity) {
+                        entity[modifier] += modifierValue;
+                    } else {
+                        entity[modifier] = modifierValue;
+                    }
                 } else {
                     entity[modifier] = modifierValue;
                 }
-            } else {
-                entity[modifier] = modifierValue;
             }
+        } else {
+            devError('no souch decoration: ' + decoration)
         }
+        return entity
+    }
 
     addTemplate(entity, template) {
         let me = this;
@@ -72,6 +78,4 @@ class EntitiesController extends Speaker{
     }
 
 }
-
-
 
