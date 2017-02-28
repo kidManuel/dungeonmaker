@@ -7,11 +7,21 @@
         "human": {
             "race": "Human",
             "attack": 10
+        },
+        "goblin": {
+            "sprite": "goblin"
+        },
+        "beholder": {
+            "sprite": "beholder"
         }
     },
     "uncategorized": {
         "fast": {
             "speed": 2
+        },
+        "agressive": {
+            "attack": 2
         }
+
     }
 }

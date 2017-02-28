@@ -6,7 +6,17 @@
     },
     "character": {
         "source": "characters",
-        "sourceX": 0,
+        "sourceX": 34,
+        "sourceY": 0
+    },
+    "goblin": {
+        "source": "characters",
+        "sourceX": 68,
+        "sourceY": 0
+    },
+    "beholder": {
+        "source": "characters",
+        "sourceX": 102,
         "sourceY": 0
     },
     "rock": "#542437",
