@@ -1,14 +1,14 @@
 class Speaker {
-    constructor(comunications) {
-        this.comunications = comunications;
+    constructor(communications) {
+        this.communications = communications;
     }
 
     dispatch(topic, data){
-        this.comunications.broadcastTopic(topic, data)
+        this.communications.broadcastTopic(topic, data)
     }
 
     listenTo(topic){
-        this.comunications.registerListener(this, topic)
+        this.communications.registerListener(this, topic)
     }
 
     registerMethod(methodName, method) {

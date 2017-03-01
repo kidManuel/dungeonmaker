@@ -1,6 +1,6 @@
-class EntitiesController extends Speaker{
-    constructor(comunications, layout) {
-        super(comunications);
+class EntitiesController extends Speaker {
+    constructor(communications, layout) {
+        super(communications);
         this.layout = layout;
         this.decorators = loadData('decorator')
         this.template = loadData('template')

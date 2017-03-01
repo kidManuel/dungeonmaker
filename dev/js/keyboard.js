@@ -1,6 +1,6 @@
 class KeyboardController extends Speaker {
-    constructor(comunications) {
-        super(comunications);
+    constructor(communications) {
+        super(communications);
         var me = this;
         window.addEventListener('keydown', function(event) {me.keydown(event)}, false);
     }
