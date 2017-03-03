@@ -13,7 +13,7 @@ canvas {
 #mainContainer {
     position: relative;
     display: inline-block;
-    float: left;
+    overflow:hidden;
 }
 
 .tile {
@@ -64,4 +64,8 @@ canvas {
 
 .imagedependencies {
     display: none;
+}
+
+#layout {
+    transition: all 0.8s;
 }

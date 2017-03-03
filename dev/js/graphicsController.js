@@ -23,9 +23,6 @@ class GraphicsController extends Speaker {
     }
 
     initializeCanvases() {
-        this.mainContainer.style.width = this.widthPixels + 'px';
-        this.mainContainer.style.height = this.heightPixels + 'px';
-
         for (var i = 0; i < this.allCanvas.length; i++) {
             this.allCanvas[i].width = this.widthPixels;
             this.allCanvas[i].height = this.heightPixels;
