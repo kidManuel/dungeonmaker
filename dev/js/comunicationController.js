@@ -1,12 +1,13 @@
 class ComunicationController {
     constructor() {
         this.topics = {};
+        this.methodProviders= {};
     }
 
     registerListener(object, topic) {
         if (!this.topics[topic]) {
             this.topics[topic] = [object]
-            devmode && console.log('creating new topic: ' + topic)
+            devLog('creating new topic: ' + topic)
         } else {
             this.topics[topic].push(object);
         }
@@ -15,13 +16,30 @@ class ComunicationController {
         typeof topic !== 'string' && devError('not a valid event')
         let currentTopic = this.topics[topic];
         if (currentTopic) {
-            currentTopic.iterate(function(object) {
+            currentTopic.forEach(function(object) {
                 object['on' + topic.capitalize()] ?
                     object['on' + topic.capitalize()].call(object, data) :
                     devError('object not ready for topic: ' + topic)
             })
         } else {
             devError('no souch topic: ' + topic)
+        }
+    }
+
+    registerMethodProvider(methodName, object) {
+        if (!this.methodProviders[methodName]) {
+            this.methodProviders[methodName] = object;
+            devLog('registering provider for method: ' + methodName); 
+        } else {
+            devError('already got a provider for ' + methodName + ', buddy');
+        }
+    }
+
+    provideMethod(methodName, extraData) {
+        if(this.methodProviders[methodName]){
+            return this.methodProviders[methodName][methodName]();
+        } else {
+            devError('can\'t get you ' + methodName)
         }
     }
 }

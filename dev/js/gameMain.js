@@ -3,7 +3,7 @@ window.addEventListener('load', function(event) {
     Object.freeze(window.globalparams = userParams ? userParams : defaultParams);
     window.devmode = globalparams.devMode;
     window.game = new GameMain(globalparams);
-});
+})
 
 function elel(){
     console.log(this)
@@ -11,7 +11,7 @@ function elel(){
 
 class GameMain {
     constructor() {
-        let coms = this.comunications = new ComunicationController();
+        let coms = this.communications = new ComunicationController();
         this.graphics = new GraphicsController(coms);
         this.dungeonGen = new DungeonGenerator();
         this.camera = new CameraController(coms);
