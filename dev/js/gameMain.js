@@ -1,5 +1,5 @@
 window.addEventListener('load', function(event) {
-    window.removeEventListener('DOMContentLoaded', arguments.callee, false);
+    window.removeEventListener('load', arguments.callee, false);
     Object.freeze(window.globalparams = userParams ? userParams : defaultParams);
     window.devmode = globalparams.devMode;
     window.game = new GameMain(globalparams);
