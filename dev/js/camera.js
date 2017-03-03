@@ -17,11 +17,11 @@ class CameraController extends Speaker {
     }
 
     getCameraWidth() {
-        return Math.floor((this.windowWidth * 0.8) / globalparams.cellSize);
+        return Math.min(Math.floor((this.windowWidth * 0.8) / globalparams.cellSize), globalparams.dunWidth);
     }
 
     getCameraHeight() {
-        return Math.floor((this.windowHeight * 0.8) / globalparams.cellSize);
+        return Math.min(Math.floor((this.windowHeight * 0.8) / globalparams.cellSize), globalparams.dunHeight);
     }
 
     getMaxOffsetX() {
@@ -33,19 +33,9 @@ class CameraController extends Speaker {
     }
 
     setCameraPositionCell(x, y) {
-        console.log(x);
-        console.log(y);
-        if (y <= this.getMaxOffsetY()) {
-            this.camera.style.top = -(y * globalparams.cellSize) + 'px';
-        } else {
-            this.camera.style.top = -(this.getMaxOffsetY() * globalparams.cellSize) + 'px';
-        }
-
-        if (x <= this.getMaxOffsetX()) {
-            this.camera.style.left = -(x * globalparams.cellSize) + 'px';
-        } else {
-            this.camera.style.left = -(this.getMaxOffsetX() * globalparams.cellSize) + 'px';
-        }
+        //make sure the value is between 0 and the maximum possible offset for the camera/map size
+        this.camera.style.top = -(Math.max(0, Math.min(y, this.getMaxOffsetY())) * globalparams.cellSize) + 'px';
+        this.camera.style.left = -(Math.max(0, Math.min(x, this.getMaxOffsetX())) * globalparams.cellSize) + 'px';
     }
 
     setCameraCenterCell(x, y) {

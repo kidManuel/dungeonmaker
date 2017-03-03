@@ -30,6 +30,7 @@ class GameMain {
             window.graphs = this.graphics;
             window.playerpos = this.player.getPlayerLocation();
         }
+        this.camera.setCameraCenterCell(testdude.x, testdude.y)
         this.graphics.massExpress(this.layout);
     }
 
