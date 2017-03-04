@@ -1,4 +1,5 @@
 class Speaker {
+    //deprecated
     constructor(communications) {
         this.communications = communications;
     }

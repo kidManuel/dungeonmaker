@@ -1,6 +1,6 @@
-class GraphicsController extends Speaker {
+class GraphicsController  {
     constructor(communications) {
-        super(communications);
+        this.coms = communications;;
         this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
         this.heightPixels = globalparams.dunHeight * globalparams.cellSize;
         this.allCanvas = document.querySelectorAll('canvas');
@@ -14,8 +14,8 @@ class GraphicsController extends Speaker {
         }
         this.options = loadData('sprites')
         this.initializeCanvases();
-        this.listenTo('cellsUpdate');
-        this.listenTo('drawCursor');
+        this.coms.listenTo('cellsUpdate', this) ;
+        this.coms.listenTo('drawCursor', this) ;
     }
 
     onDrawCursor(event) {

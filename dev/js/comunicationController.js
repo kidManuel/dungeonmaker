@@ -4,7 +4,7 @@ class ComunicationController {
         this.methodProviders= {};
     }
 
-    registerListener(object, topic) {
+    listenTo(topic, object) {
         if (!this.topics[topic]) {
             this.topics[topic] = [object]
             devLog('creating new topic: ' + topic)
@@ -12,7 +12,8 @@ class ComunicationController {
             this.topics[topic].push(object);
         }
     }
-    broadcastTopic(topic, data) {
+    
+    dispatch(topic, data) {
         typeof topic !== 'string' && devError('not a valid event')
         let currentTopic = this.topics[topic];
         if (currentTopic) {
@@ -26,7 +27,7 @@ class ComunicationController {
         }
     }
 
-    registerMethodProvider(methodName, object) {
+    registerMethod(methodName, object) {
         if (!this.methodProviders[methodName]) {
             this.methodProviders[methodName] = object;
             devLog('registering provider for method: ' + methodName); 
@@ -35,7 +36,7 @@ class ComunicationController {
         }
     }
 
-    provideMethod(methodName, extraData) {
+    request(methodName, extraData) {
         if(this.methodProviders[methodName]){
             return this.methodProviders[methodName][methodName]();
         } else {

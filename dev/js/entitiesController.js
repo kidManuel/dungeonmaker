@@ -1,10 +1,10 @@
-class EntitiesController extends Speaker {
+class EntitiesController  {
     constructor(communications, layout) {
-        super(communications);
+        this.coms = communications;;
         this.layout = layout;
         this.decorators = loadData('decorator')
         this.template = loadData('template')
-        this.listenTo('requestEntityMove');
+        this.coms.listenTo('requestEntityMove', this) ;
     }
 
     moveEntity(ent, x, y) {
@@ -15,9 +15,9 @@ class EntitiesController extends Speaker {
             let needsUpdate = [initialCell, targetCell];
             ent.x = x; //review to setget
             ent.y = y;
-            targetCell.entity = ent; 
+            targetCell.entity = ent;
             delete initialCell.entity;
-            this.dispatch('cellsUpdate', needsUpdate);
+            this.coms.dispatch('cellsUpdate', needsUpdate);
         } else {
             devLog('collision brah');
         }
@@ -35,7 +35,7 @@ class EntitiesController extends Speaker {
 
     decorateEntityMultiple(entity, decorationsList) {
         let me = this;
-        decorationsList.forEach(function(singleDecor){
+        decorationsList.forEach(function(singleDecor) {
             me.decorateEntity(entity, singleDecor);
         })
     }

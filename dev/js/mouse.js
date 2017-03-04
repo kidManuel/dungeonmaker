@@ -1,6 +1,6 @@
-class MouseController extends Speaker{
+class MouseController {
     constructor(communications) {
-        super(communications)
+        this.coms = communications;
         this.ui = document.getElementById('ui').getContext('2d');
         this.cursorElems = document.getElementById('cursor');
         this.cursor = this.cursorElems.getContext('2d');
@@ -86,7 +86,7 @@ class MouseController extends Speaker{
             ui.clearCells(dun.drawRectCorners(this.draw.drawStart, [this.preCellX, this.preCellY]));
             ui.massHightlight(dun.brasLine(this.draw.drawStart, [this.cellX, this.cellY]));
         }
-        this.dispatch('drawCursor',{x: this.cellX, y: this.cellY})
+        this.coms.dispatch('drawCursor', {x: this.cellX, y: this.cellY})
     }
 
 //erases the crosshairs

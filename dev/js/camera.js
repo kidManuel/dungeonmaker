@@ -1,13 +1,13 @@
-class CameraController extends Speaker {
+class CameraController  {
     constructor(communications) {
-        super(communications);
+        this.coms = communications;;
         this.mainContainer = document.getElementById('mainContainer');
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
         this.camera = document.getElementById('layout');
         this.cameraWidth = this.getCameraWidth();
         this.cameraHeight = this.getCameraHeight();
-        this.listenTo('requestCameraOn');
+        this.coms.listenTo('requestCameraOn', this) ;
         this.setMainContainerSize();
     }
 

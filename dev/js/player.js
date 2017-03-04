@@ -1,13 +1,13 @@
-class Player extends Speaker {
+class Player  {
     constructor(communications, controllingEntity) {
-        super(communications)
+        this.coms = communications;
         if (typeof controllingEntity !== 'undefined') {
             this.setControllingEntiy(controllingEntity);
         }
-        this.listenTo('keyMoveUp');
-        this.listenTo('keyMoveDown');
-        this.listenTo('keyMoveLeft');
-        this.listenTo('keyMoveRight');
+        this.coms.listenTo('keyMoveUp', this) ;
+        this.coms.listenTo('keyMoveDown', this) ;
+        this.coms.listenTo('keyMoveLeft', this) ;
+        this.coms.listenTo('keyMoveRight', this) ;
     }
 
     setEntityControl(entity) {
@@ -17,20 +17,20 @@ class Player extends Speaker {
     }
 
     onKeyMoveUp(){
-        this.dispatch('requestEntityMove', {entity: this.entity, x:0 , y:-1 })
-        this.dispatch('requestCameraOn', this.getPlayerLocation());
+        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:0 , y:-1 })
+        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
     }
     onKeyMoveDown(){
-        this.dispatch('requestEntityMove', {entity: this.entity, x:0 , y:1 })
-        this.dispatch('requestCameraOn', this.getPlayerLocation());
+        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:0 , y:1 })
+        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
     }
     onKeyMoveLeft(){
-        this.dispatch('requestEntityMove', {entity: this.entity, x:-1 , y:0 })
-        this.dispatch('requestCameraOn', this.getPlayerLocation());
+        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:-1 , y:0 })
+        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
     }
     onKeyMoveRight(){
-        this.dispatch('requestEntityMove', {entity: this.entity, x:1 , y:0 })
-        this.dispatch('requestCameraOn', this.getPlayerLocation());
+        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:1 , y:0 })
+        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
     }
 
     getPlayerLocation() {
