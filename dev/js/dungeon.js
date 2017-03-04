@@ -43,15 +43,11 @@ class DungeonGenerator {
 
         //calculate each individual distance between two nodes only once
         rooms.forEach(function(initial, iIndex) {
-            rooms.forEach(function(objective, oIndex) {
-                if (initial !== objective && !objective.calculatedDistances.includes(initial)) {
-                    distances.push([me.getManhattanDistance(initial, objective), initial, objective]);
-                    initial.calculatedDistances.push(objective);
-                    objective.calculatedDistances.push(initial)
-                }
-            })
+            for(let i = iIndex + 1; i < rooms.length; i++) {
+                let objective = rooms[i];
+                distances.push([me.getManhattanDistance(initial, objective), initial, objective]);
+            }
         })
-
         //sort all the possible distances 
         distances.sort(function(a, b) {
             return a[0] - b[0]
