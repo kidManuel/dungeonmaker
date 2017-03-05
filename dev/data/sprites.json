@@ -19,6 +19,11 @@
         "sourceX": 102,
         "sourceY": 0
     },
+    "poring": {
+        "source": "characters",
+        "sourceX": 136,
+        "sourceY": 0
+    },
     "rock": "#542437",
     "wall": {
         "source": "ground",
