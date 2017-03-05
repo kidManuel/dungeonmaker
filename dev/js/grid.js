@@ -14,7 +14,7 @@ class Grid extends Array {
     initialize(width) {
         // Ensures every element in x axis up to a width is an array.
         for (let i = 0; i < width; i++) {
-            if (!Array.isArray(this[i])){
+            if (!Array.isArray(this[i])) {
                 this[i] = [];
             }
         }
@@ -87,7 +87,7 @@ class Grid extends Array {
     topRight() {
         return this.last()[0];
     }
-    
+
     bottomLeft() {
         return this[0].last();
     }
@@ -95,6 +95,14 @@ class Grid extends Array {
     bottomRight() {
         return this.last().last();
     }
+
+    flatten() {
+        let me = this;
+        return me.reduce(function(a, b) {
+            return a.concat(b instanceof Grid ? b.flatten() : b);
+        }, []);
+    }
+
 }
 
 class DungeonZone extends Grid {
