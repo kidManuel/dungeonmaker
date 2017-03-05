@@ -2,6 +2,7 @@ class DungeonGenerator {
     constructor() {
         this.readyCells = [];
     }
+
     init(array, width, height) {
         for (let i = 0; i < width; i++) {
             array[i] = [];
@@ -10,6 +11,7 @@ class DungeonGenerator {
             }
         }
     }
+
     generateFloor(width, height) {
         let floor = new DungeonZone;
         //review here on optimization
@@ -32,7 +34,7 @@ class DungeonGenerator {
             var randY = Math.floor(Math.random() * (height - randHei - 1)) + 1;
             let target = floor.getPlane(randWid, randHei, randX, randY);
             if (target.isAvailable()) {
-                this.readyCells.merge(target);
+                this.readyCells.attatch(target);
                 this.massModify(target, 'floor', 'floor');
                 let wallsX = randX ? randX - 1 : 0;
                 let wallsY = randY ? randY - 1 : 0;
@@ -152,5 +154,9 @@ class DungeonGenerator {
     getManhattanDistance(a, b) {
         //gridutils
         return (Math.abs(a.x - b.x) + Math.abs(a.y - b.y));
+    }
+
+    getReadyCells() {
+        return this.readyCells();
     }
 }
