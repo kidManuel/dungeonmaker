@@ -68,13 +68,27 @@ class EntitiesController  {
         return entity
     }
 
-    addTemplate(entity, template) {
+    applyTemplate(entity, template) {
+        //move to entity prototoype?
         let me = this;
-        let currentTemplate = this.template[template];
+        let currentTemplate = Array.isArray(template) ? template : this.template[template];
         currentTemplate.forEach(function(decoration) {
             me.decorateEntity(entity, decoration)
         })
         return entity;
+    }
+
+    populate(location, population, templateCollection) {
+        let collection = this.template[templateCollection];
+        while(population) {
+            let candidateTile = location.randomElement()
+            if(!candidateTile.entity){
+                let citizen = new Entity('enemy_' + population, candidateTile.x, candidateTile.y);
+                this.applyTemplate(citizen, collection.randomElement());
+                candidateTile.entity = citizen;
+            }
+            population--;
+        }
     }
 
 }

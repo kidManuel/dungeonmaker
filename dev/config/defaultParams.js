@@ -8,5 +8,6 @@ var defaultParams = {
     'maxRoomHeight': 10,
     'cellSize': 34,
     'density': 150, // ammount of attempts at filling the floor.
+    'population': 100, //how dense is the dungeon's population
     'devMode': true
 }

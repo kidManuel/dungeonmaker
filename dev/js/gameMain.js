@@ -9,7 +9,7 @@ class GameMain {
     constructor() {
         let coms = this.communications = new ComunicationController();
         this.graphics = new GraphicsController(coms);
-        this.dungeonGen = new DungeonGenerator();
+        this.dungeonGen = new DungeonGenerator(coms);
         this.camera = new CameraController(coms);
         this.mouse = new MouseController(coms);
         this.keyboard = new KeyboardController(coms);
@@ -25,7 +25,8 @@ class GameMain {
             window.dun = this.layout;
             window.graphs = this.graphics;
         }
-        this.camera.setCameraCenterCell(kiwi.x, kiwi.y)
+        this.camera.setCameraCenterCell(kiwi.x, kiwi.y);
+        this.entities.populate(this.communications.request('getReadyCells'), globalparams.population, 'enemies');
         this.graphics.massExpress(this.layout);
     }
 
