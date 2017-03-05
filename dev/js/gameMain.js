@@ -5,10 +5,6 @@ window.addEventListener('load', function(event) {
     window.game = new GameMain(globalparams);
 })
 
-function elel(){
-    console.log(this)
-}
-
 class GameMain {
     constructor() {
         let coms = this.communications = new ComunicationController();
@@ -28,16 +24,15 @@ class GameMain {
         if (devmode) {
             window.dun = this.layout;
             window.graphs = this.graphics;
-            window.playerpos = this.player.getPlayerLocation();
         }
-        this.camera.setCameraCenterCell(testdude.x, testdude.y)
+        this.camera.setCameraCenterCell(kiwi.x, kiwi.y)
         this.graphics.massExpress(this.layout);
     }
 
     initTestEntity() {
         let initialCell = this.dungeonGen.readyCells.randomElement();
-        window.testdude = new Entity('testInstance', initialCell.x, initialCell.y, 'character')
-        initialCell.entity = testdude;
-        this.player.setEntityControl(testdude);
+        window.kiwi = new Entity('testInstance', initialCell.x, initialCell.y, 'character')
+        initialCell.entity = kiwi;
+        this.player.setEntityControl(kiwi);
     }
 }

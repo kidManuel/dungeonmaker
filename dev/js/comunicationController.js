@@ -1,7 +1,7 @@
 class ComunicationController {
     constructor() {
         this.topics = {};
-        this.methodProviders= {};
+        this.methodProviders = {};
     }
 
     listenTo(topic, object) {

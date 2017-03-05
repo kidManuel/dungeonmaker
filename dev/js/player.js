@@ -4,10 +4,11 @@ class Player  {
         if (typeof controllingEntity !== 'undefined') {
             this.setControllingEntiy(controllingEntity);
         }
-        this.coms.listenTo('keyMoveUp', this) ;
-        this.coms.listenTo('keyMoveDown', this) ;
-        this.coms.listenTo('keyMoveLeft', this) ;
-        this.coms.listenTo('keyMoveRight', this) ;
+        this.coms.listenTo('keyMoveUp', this);
+        this.coms.listenTo('keyMoveDown', this);
+        this.coms.listenTo('keyMoveLeft', this);
+        this.coms.listenTo('keyMoveRight', this);
+        this.coms.registerMethod('getPlayerLocation', this);
     }
 
     setEntityControl(entity) {
@@ -36,5 +37,7 @@ class Player  {
     getPlayerLocation() {
         return [this.entity.x, this.entity.y];
     }
+
+
 
 }
