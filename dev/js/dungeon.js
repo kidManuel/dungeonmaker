@@ -1,6 +1,8 @@
 class DungeonGenerator {
-    constructor() {
+    constructor(communications) {
+        this.coms = communications;
         this.readyCells = [];
+        this.coms.registerMethod('getReadyCells', this);
     }
 
     init(array, width, height) {
@@ -34,7 +36,7 @@ class DungeonGenerator {
             var randY = Math.floor(Math.random() * (height - randHei - 1)) + 1;
             let target = floor.getPlane(randWid, randHei, randX, randY);
             if (target.isAvailable()) {
-                this.readyCells.attatch(target);
+                this.readyCells.attatch(target.flatten());
                 this.massModify(target, 'floor', 'floor');
                 let wallsX = randX ? randX - 1 : 0;
                 let wallsY = randY ? randY - 1 : 0;
@@ -157,6 +159,6 @@ class DungeonGenerator {
     }
 
     getReadyCells() {
-        return this.readyCells();
+        return this.readyCells;
     }
 }
