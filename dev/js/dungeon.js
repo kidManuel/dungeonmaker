@@ -25,7 +25,7 @@ class DungeonGenerator {
         let pathsTiles = [];
         let me = this;
 
-        for (var i = 0; i < attempts; i++) {
+        while (attempts) {
             var randWid = Math.floor(Math.random() * (maxWid - minWid + 1) + minWid);
             var randHei = Math.floor(Math.random() * (maxHei - minHei + 1) + minHei);
             var randX = Math.floor(Math.random() * (width - randWid - 1)) + 1;
@@ -39,6 +39,7 @@ class DungeonGenerator {
                 this.massModify(floor.getRect(randWid + 1, randHei + 1, wallsX, wallsY), 'floor', 'wall');
                 rooms.push(target.centerPoint());
             }
+            attempts--;
         }
 
         //calculate each individual distance between two nodes only once
