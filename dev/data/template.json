@@ -1,3 +1,8 @@
 {
-	"berserk": ["race.orc", "agressive"]
+	"berserk": ["race.orc", "agressive"],
+	"enemies": {
+		"goblin_scout": ["race.goblin", "fast"],
+		"beholder": ["race.beholder", "agressive"],
+		"poring": ["race.poring", "slow"]
+	}
 }

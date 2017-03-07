@@ -1,10 +1,10 @@
-class EntitiesController extends Speaker {
+class EntitiesController  {
     constructor(communications, layout) {
-        super(communications);
+        this.coms = communications;;
         this.layout = layout;
         this.decorators = loadData('decorator')
         this.template = loadData('template')
-        this.listenTo('requestEntityMove');
+        this.coms.listenTo('requestEntityMove', this) ;
     }
 
     moveEntity(ent, x, y) {
@@ -15,9 +15,9 @@ class EntitiesController extends Speaker {
             let needsUpdate = [initialCell, targetCell];
             ent.x = x; //review to setget
             ent.y = y;
-            targetCell.entity = ent; 
+            targetCell.entity = ent;
             delete initialCell.entity;
-            this.dispatch('cellsUpdate', needsUpdate);
+            this.coms.dispatch('cellsUpdate', needsUpdate);
         } else {
             devLog('collision brah');
         }
@@ -35,7 +35,7 @@ class EntitiesController extends Speaker {
 
     decorateEntityMultiple(entity, decorationsList) {
         let me = this;
-        decorationsList.forEach(function(singleDecor){
+        decorationsList.forEach(function(singleDecor) {
             me.decorateEntity(entity, singleDecor);
         })
     }
@@ -68,13 +68,27 @@ class EntitiesController extends Speaker {
         return entity
     }
 
-    addTemplate(entity, template) {
+    applyTemplate(entity, template) {
+        //move to entity prototoype?
         let me = this;
-        let currentTemplate = this.template[template];
+        let currentTemplate = Array.isArray(template) ? template : this.template[template];
         currentTemplate.forEach(function(decoration) {
             me.decorateEntity(entity, decoration)
         })
         return entity;
+    }
+
+    populate(location, population, templateCollection) {
+        let collection = this.template[templateCollection];
+        while(population) {
+            let candidateTile = location.randomElement()
+            if(!candidateTile.entity){
+                let citizen = new Entity('enemy_' + population, candidateTile.x, candidateTile.y);
+                this.applyTemplate(citizen, collection.randomElement());
+                candidateTile.entity = citizen;
+            }
+            population--;
+        }
     }
 
 }

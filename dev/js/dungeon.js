@@ -1,7 +1,10 @@
 class DungeonGenerator {
-    constructor() {
+    constructor(communications) {
+        this.coms = communications;
         this.readyCells = [];
+        this.coms.registerMethod('getReadyCells', this);
     }
+
     init(array, width, height) {
         for (let i = 0; i < width; i++) {
             array[i] = [];
@@ -10,6 +13,7 @@ class DungeonGenerator {
             }
         }
     }
+
     generateFloor(width, height) {
         let floor = new DungeonZone;
         //review here on optimization
@@ -32,7 +36,7 @@ class DungeonGenerator {
             var randY = Math.floor(Math.random() * (height - randHei - 1)) + 1;
             let target = floor.getPlane(randWid, randHei, randX, randY);
             if (target.isAvailable()) {
-                this.readyCells.merge(target);
+                this.readyCells.attatch(target.flatten());
                 this.massModify(target, 'floor', 'floor');
                 let wallsX = randX ? randX - 1 : 0;
                 let wallsY = randY ? randY - 1 : 0;
@@ -44,15 +48,11 @@ class DungeonGenerator {
 
         //calculate each individual distance between two nodes only once
         rooms.forEach(function(initial, iIndex) {
-            rooms.forEach(function(objective, oIndex) {
-                if (initial !== objective && !objective.calculatedDistances.includes(initial)) {
-                    distances.push([me.getManhattanDistance(initial, objective), initial, objective]);
-                    initial.calculatedDistances.push(objective);
-                    objective.calculatedDistances.push(initial)
-                }
-            })
+            for(let i = iIndex + 1; i < rooms.length; i++) {
+                let objective = rooms[i];
+                distances.push([me.getManhattanDistance(initial, objective), initial, objective]);
+            }
         })
-
         //sort all the possible distances 
         distances.sort(function(a, b) {
             return a[0] - b[0]
@@ -157,5 +157,9 @@ class DungeonGenerator {
     getManhattanDistance(a, b) {
         //gridutils
         return (Math.abs(a.x - b.x) + Math.abs(a.y - b.y));
+    }
+
+    getReadyCells() {
+        return this.readyCells;
     }
 }

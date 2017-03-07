@@ -47,6 +47,10 @@ Array.prototype.randomElement = function() {
     return this[Math.floor(Math.random() * this.length)]
 }
 
+Object.prototype.randomElement = function() {
+    return this[Object.keys(this).randomElement()]
+}
+
 Array.prototype.last = function() {
     return this[this.length - 1];
 };
@@ -60,8 +64,8 @@ Array.prototype.removeIndex = function(index) {
 }
 
 Array.prototype.attatch = function(attatchment) {
+    // to attatch grids and other array extending classes to arrays.
     this.push.apply(this, attatchment);
-    return this;
 }
 
 Array.prototype.iterate = function(operation) {

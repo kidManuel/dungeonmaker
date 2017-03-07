@@ -9,15 +9,24 @@
             "attack": 10
         },
         "goblin": {
-            "sprite": "goblin"
+            "sprite": "goblin", 
+            "race": "goblin"
         },
         "beholder": {
-            "sprite": "beholder"
+            "sprite": "beholder",
+            "race": "goblin"
+        },
+        "poring": {
+            "sprite": "poring",
+            "race": "jelly"
         }
     },
     "uncategorized": {
         "fast": {
             "speed": 2
+        },
+        "slow": {
+            "speed": -2
         },
         "agressive": {
             "attack": 2
