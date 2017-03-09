@@ -1,4 +1,4 @@
-class GraphicsController  {
+class GraphicsController {
     constructor(communications) {
         this.coms = communications;;
         this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
@@ -12,10 +12,11 @@ class GraphicsController  {
             'characters': document.getElementById('characters'),
             'ground': document.getElementById('ground')
         }
-        this.options = loadData('sprites')
+        this.options = loadData('sprites');
+        this.svg = {};
         this.initializeCanvases();
-        this.coms.listenTo('cellsUpdate', this) ;
-        this.coms.listenTo('drawCursor', this) ;
+        this.coms.listenTo('cellsUpdate', this);
+        this.coms.listenTo('drawCursor', this);
     }
 
     onDrawCursor(event) {
@@ -41,13 +42,13 @@ class GraphicsController  {
         let terrainOptions = this.options[cell.floor];
         if (typeof terrainOptions === 'object') {
             this.render(cell.floor, cell.getPosX(), cell.getPosY());
-        } else if(typeof terrainOptions === 'string') {
+        } else if (typeof terrainOptions === 'string') {
             this.drawCellAsColor(terrainOptions, cell.getPosX(), cell.getPosY());
         }
     }
 
     expressCellEntity(cell) {
-        if (cell.entity){
+        if (cell.entity) {
             this.render(cell.entity.sprite, cell.getPosX(), cell.getPosY())
         }
     }
@@ -83,5 +84,19 @@ class GraphicsController  {
     }
     onCellsUpdate(data) {
         this.massExpress(data);
+    }
+
+    getSVG(svgname) {
+        if(this.svg[svgname]) {
+            return this.svg[svgname]
+        } else {
+            return new Promise();    
+        }
+
+
+        
+
+
+
     }
 }
