@@ -33,6 +33,7 @@ class GameMain {
     initTestEntity() {
         let initialCell = this.dungeonGen.readyCells.randomElement();
         window.kiwi = new Entity('testInstance', initialCell.x, initialCell.y, 'character')
+        this.entities.decorateEntity(kiwi, 'race.human');
         initialCell.entity = kiwi;
         this.player.setEntityControl(kiwi);
     }

@@ -1,10 +1,20 @@
-class EntitiesController  {
+class EntitiesController {
     constructor(communications, layout) {
-        this.coms = communications;;
+        this.coms = communications;
         this.layout = layout;
-        this.decorators = loadData('decorator')
-        this.template = loadData('template')
-        this.coms.listenTo('requestEntityMove', this) ;
+        this.decorators = loadData('decorator');
+        this.template = loadData('template');
+        this.actions = loadData('actions');
+        this.coms.listenTo('requestEntityMove', this);
+        this.coms.registerMethod('action', this);
+        this.actions = {
+            attack: {
+                execute: function (a, b) {
+                    console.log(this.id + ' hits ' + b.id + ' for ' + this.attack + ' points of damage');
+                    b.hitpoints -= this.attack;
+                }
+            }
+        }
     }
 
     moveEntity(ent, x, y) {
@@ -35,7 +45,7 @@ class EntitiesController  {
 
     decorateEntityMultiple(entity, decorationsList) {
         let me = this;
-        decorationsList.forEach(function(singleDecor) {
+        decorationsList.forEach(function (singleDecor) {
             me.decorateEntity(entity, singleDecor);
         })
     }
@@ -72,7 +82,7 @@ class EntitiesController  {
         //move to entity prototoype?
         let me = this;
         let currentTemplate = Array.isArray(template) ? template : this.template[template];
-        currentTemplate.forEach(function(decoration) {
+        currentTemplate.forEach(function (decoration) {
             me.decorateEntity(entity, decoration)
         })
         return entity;
@@ -80,9 +90,9 @@ class EntitiesController  {
 
     populate(location, population, templateCollection) {
         let collection = this.template[templateCollection];
-        while(population) {
+        while (population) {
             let candidateTile = location.randomElement()
-            if(!candidateTile.entity){
+            if (!candidateTile.entity) {
                 let citizen = new Entity('enemy_' + population, candidateTile.x, candidateTile.y);
                 this.applyTemplate(citizen, collection.randomElement());
                 candidateTile.entity = citizen;
@@ -91,5 +101,8 @@ class EntitiesController  {
         }
     }
 
+    action(actionName, a) {
+        this.actions[actionName].execute.apply(a, Array.prototype.slice.call(arguments, 2));
+    }
 }
 
