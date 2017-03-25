@@ -4,7 +4,6 @@ class EntitiesController {
         this.layout = layout;
         this.decorators = loadData('decorator');
         this.template = loadData('template');
-        this.actions = loadData('actions');
         this.coms.listenTo('requestEntityMove', this);
         this.coms.registerMethod('action', this);
         this.actions = {
