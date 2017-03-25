@@ -37,4 +37,8 @@ class GameMain {
         initialCell.entity = kiwi;
         this.player.setEntityControl(kiwi);
     }
+
+    getEntity(x,y) {
+        return this.layout.cellAt(x,y).entity
+    }
 }

@@ -5,4 +5,9 @@ class Entity {
 		this.sprite = sprite;
 		this.id = id;
 	}
+
+	placeIn(x,y) {
+		this.x = x;
+		this.y = y;
+	}
 }
