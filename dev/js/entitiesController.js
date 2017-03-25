@@ -6,9 +6,10 @@ class EntitiesController {
         this.template = loadData('template');
         this.coms.listenTo('requestEntityMove', this);
         this.coms.registerMethod('action', this);
+        this.idCounter = 0;
         this.actions = {
             attack: {
-                execute: function (a, b) {
+                execute: function (b) {
                     console.log(this.id + ' hits ' + b.id + ' for ' + this.attack + ' points of damage');
                     b.hitpoints -= this.attack;
                 }
@@ -92,12 +93,28 @@ class EntitiesController {
         while (population) {
             let candidateTile = location.randomElement()
             if (!candidateTile.entity) {
-                let citizen = new Entity('enemy_' + population, candidateTile.x, candidateTile.y);
-                this.applyTemplate(citizen, collection.randomElement());
+                let citizen = this.createEntity(collection.randomElement(), null, 'enemy_' + population, candidateTile.x, candidateTile.y)
                 candidateTile.entity = citizen;
             }
             population--;
         }
+    }
+
+    createEntity(templates, decorators, id, x, y) {
+        let candidate = new Entity(id ? id : 'enemy_' + this.idCounter++, x, y);
+        let me = this;
+        this.decorateEntity(candidate, 'base');
+        if(templates) {
+            [].concat(templates).forEach(function(singleTemplate){
+                me.decorateEntity(candidate, singleTemplate);
+            })
+        }
+        if(decorators) {
+            [].concat(decorators).forEach(function(singleDecorator){
+                me.decorateEntity(candidate, singleDecorator);
+            })
+        }
+        return candidate;
     }
 
     action(actionName, a) {
