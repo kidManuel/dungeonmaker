@@ -8,6 +8,7 @@ class CameraController  {
         this.cameraWidth = this.getCameraWidth();
         this.cameraHeight = this.getCameraHeight();
         this.coms.listenTo('requestCameraOn', this) ;
+        this.coms.registerMethod('getCurrentCameraOffset', this) ;
         this.setMainContainerSize();
     }
 
@@ -33,9 +34,12 @@ class CameraController  {
     }
 
     setCameraPositionCell(x, y) {
+        //sets the top left of the camera to [x,y]
         //make sure the value is between 0 and the maximum possible offset for the camera/map size
-        this.camera.style.top = -(Math.max(0, Math.min(y, this.getMaxOffsetY())) * globalparams.cellSize) + 'px';
+        this.offsetX = x;
+        this.offsetY = y;
         this.camera.style.left = -(Math.max(0, Math.min(x, this.getMaxOffsetX())) * globalparams.cellSize) + 'px';
+        this.camera.style.top = -(Math.max(0, Math.min(y, this.getMaxOffsetY())) * globalparams.cellSize) + 'px';
     }
 
     setCameraCenterCell(x, y) {
@@ -47,5 +51,13 @@ class CameraController  {
         this.setCameraCenterCell(data[0], data[1]) :
         this.setCameraCenterCell(arguments[0], arguments[1])
     }
+
+    getCurrentCameraOffset() {
+        return {
+            x: this.offsetX,
+            y: this.offsetY
+        }
+    }
+
 
 }
