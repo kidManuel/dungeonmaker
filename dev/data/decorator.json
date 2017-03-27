@@ -32,7 +32,7 @@
             "attack": 2
         },
         "base": {
-            "hitpoints": 10,
+            "hitpoints": 50,
             "attack": 2,
             "speed": 1
         }
