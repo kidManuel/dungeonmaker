@@ -54,8 +54,8 @@ class CameraController  {
 
     getCurrentCameraOffset() {
         return {
-            x: this.offsetX,
-            y: this.offsetY
+            x: Math.max(0, this.offsetX),
+            y: Math.max(0, this.offsetY)
         }
     }
 
