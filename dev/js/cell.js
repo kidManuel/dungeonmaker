@@ -18,4 +18,14 @@ class Cell {
         return this.floor === 'rock';
     }
 
+    setEntity(entity) {
+        this.entity = entity; 
+        if(entity.x !== this.x) {
+            entity.x = this.x; 
+        }
+        if(entity.y !== this.y) {
+            entity.y = this.y; 
+        }
+    }
+
 }
