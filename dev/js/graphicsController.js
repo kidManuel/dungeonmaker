@@ -12,10 +12,11 @@ class GraphicsController  {
             'characters': document.getElementById('characters'),
             'ground': document.getElementById('ground')
         }
-        this.options = loadData('sprites')
+        this.options = loadData('sprites');
         this.initializeCanvases();
-        this.coms.listenTo('cellsUpdate', this) ;
-        this.coms.listenTo('drawCursor', this) ;
+        this.coms.listenTo('cellsUpdate', this);
+        this.coms.listenTo('drawCursor', this);
+        this.coms.registerMethod('expressCellFull', this);
     }
 
     onDrawCursor(event) {
