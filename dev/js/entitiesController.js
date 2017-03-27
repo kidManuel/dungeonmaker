@@ -7,11 +7,22 @@ class EntitiesController {
         this.coms.listenTo('requestEntityMove', this);
         this.coms.registerMethod('action', this);
         this.idCounter = 0;
-        this.actions = {
+        var me = this;
+        this.actionsData = {
             attack: {
                 execute: function (b) {
                     console.log(this.id + ' hits ' + b.id + ' for ' + this.attack + ' points of damage');
-                    b.hitpoints -= this.attack;
+                    b.updateHp(-this.attack);
+                    
+                }
+            },
+            die: {
+                execute: function() {
+                    let holdingCell = me.layout.cellAt(this.x, this.y);
+                    holdingCell.entity = null;
+                    delete holdingCell.entity;
+                    this.coms.request('expressCellFull', holdingCell);
+                    console.log(this.id + ' is ded, bruh');
                 }
             }
         }
@@ -19,9 +30,12 @@ class EntitiesController {
 
     moveEntity(ent, x, y) {
         //review on subpub
+        //review move/impulse. 
         let targetCell = this.layout.cellAt(x, y);
         let initialCell = this.layout.cellAt(ent.x, ent.y);
-        if (targetCell.floor === 'floor') {
+        if (targetCell.entity) {
+            this.action('attack', ent, targetCell.entity)
+        } else if (targetCell.floor === 'floor') {
             let needsUpdate = [initialCell, targetCell];
             ent.x = x; //review to setget
             ent.y = y;
@@ -101,7 +115,7 @@ class EntitiesController {
     }
 
     createEntity(templates, decorators, id, x, y) {
-        let candidate = new Entity(id ? id : 'enemy_' + this.idCounter++, x, y);
+        let candidate = new Entity(this.coms, id ? id : 'enemy_' + this.idCounter++, x, y);
         let me = this;
         this.decorateEntity(candidate, 'base');
         if(templates) {
@@ -118,7 +132,7 @@ class EntitiesController {
     }
 
     action(actionName, a) {
-        this.actions[actionName].execute.apply(a, Array.prototype.slice.call(arguments, 2));
+        this.actionsData[actionName].execute.apply(a, Array.prototype.slice.call(arguments, 2));
     }
 }
 
