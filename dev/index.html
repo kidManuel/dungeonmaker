@@ -9,6 +9,7 @@
     <!-- style imports -->
     <link href="css/plugs.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Space+Mono:700" rel="stylesheet">
     <!-- end -->
 </head>
 
@@ -18,6 +19,7 @@
     <ul class="counter cf" id="ver">
     </ul>
     <div id="mainContainer">
+        <div id="uielements"></div>
         <canvas id="layout" tabindex="0"></canvas>
         <canvas id="ui"></canvas>
         <canvas id="cursor"></canvas>
@@ -32,13 +34,13 @@
         <img alt="image dependancy" id="ground" src="imgs/ground.png"> 
     </div>
 
-
     <!-- script imports -->
     <!-- <script src="js/testmain.js"></script> -->
     <script src="config/defaultParams.js"></script>
     <script src="js/generalUtils.js"></script>
     <script src="js/comunicationController.js"></script>
     <script src="js/grid.js"></script>
+    <script src="js/uielement.js"></script>
     <script src="js/canvasRenderingContextUtils.js"></script>
     <script src="js/camera.js"></script>
     <script src="js/mouse.js"></script>

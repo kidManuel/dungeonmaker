@@ -1,6 +1,8 @@
 body {
     background-color: #C5E0DC;
     color: #774F38;
+    font-family: 'Space Mono', monospace;
+    color: white;
 }
 
 canvas {
@@ -14,6 +16,7 @@ canvas {
     position: relative;
     display: inline-block;
     overflow:hidden;
+    min-height: 680px;
 }
 
 .tile {
@@ -60,6 +63,42 @@ canvas {
 
 #ver li {
     border-bottom: 1px solid #C8C8A9;
+}
+
+#uielements {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    font-size: 20px;
+    z-index: 99999;
+}
+
+.uielement {
+    position: absolute;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.damageNotification {
+    text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
+    transition: all 1s;
+    animation-name: fadeout;
+    animation-duration: 0.8s;
+    display: flex;
+    justify-content: center;
+    width: 34px;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-40%);
+    }
 }
 
 .imagedependencies {
