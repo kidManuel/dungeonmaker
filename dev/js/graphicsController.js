@@ -16,8 +16,17 @@ class GraphicsController  {
         this.initializeCanvases();
         this.coms.listenTo('cellsUpdate', this);
         this.coms.listenTo('drawCursor', this);
+        this.coms.listenTo('screenshake', this);
         this.coms.registerMethod('expressCellFull', this);
     }
+
+    onScreenshake() {
+        let me = this;
+        let mainCont = this.mainContainer;
+        mainCont.className += ' screenshaking';
+        setTimeout(function(){mainCont.className = mainCont.className.replace(' screenshaking', '')}, 60)
+    }
+
 
     onDrawCursor(event) {
         this.render('crosshair', event.x * globalparams.cellSize, event.y * globalparams.cellSize, 'cursor');
