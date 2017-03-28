@@ -26,7 +26,8 @@ class MouseController {
     }
 
     onClick() {
-        console.log(dun.cellAt(this.cellX, this.cellY))
+        let offset = this.coms.request('getCurrentCameraOffset');
+        console.log(dun.cellAt(this.cellX + offset.x, this.cellY + offset.y).entity);
 
         // if (!ui.pristine) {
         //     ui.massClear();

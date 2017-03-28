@@ -1,17 +1,44 @@
-class EntitiesController  {
+class EntitiesController {
     constructor(communications, layout) {
-        this.coms = communications;;
+        this.coms = communications;
         this.layout = layout;
-        this.decorators = loadData('decorator')
-        this.template = loadData('template')
-        this.coms.listenTo('requestEntityMove', this) ;
+        this.decorators = loadData('decorator');
+        this.template = loadData('template');
+        this.coms.listenTo('requestEntityMove', this);
+        this.coms.registerMethod('action', this);
+        this.idCounter = 0;
+        var me = this;
+        this.actionsData = {
+            attack: {
+                execute: function (b) {
+                    let damage = getRandomInt(this.attack - 3, this.attack + 3);
+                    console.log(this.id + ' hits ' + b.id + ' for ' + damage + ' points of damage');
+                    let pos = b.getScreenPosition();
+                    me.coms.dispatch('screenshake');
+                    new damageNotification(pos.x, pos.y, damage);
+                    b.updateHp(-damage);
+                }
+            },
+            die: {
+                execute: function() {
+                    let holdingCell = me.layout.cellAt(this.x, this.y);
+                    holdingCell.entity = null;
+                    delete holdingCell.entity;
+                    this.coms.request('expressCellFull', holdingCell);
+                    console.log(this.id + ' is ded, bruh');
+                }
+            }
+        }
     }
 
     moveEntity(ent, x, y) {
         //review on subpub
+        //review move/impulse. 
         let targetCell = this.layout.cellAt(x, y);
         let initialCell = this.layout.cellAt(ent.x, ent.y);
-        if (targetCell.floor === 'floor') {
+        if (targetCell.entity) {
+            this.action('attack', ent, targetCell.entity)
+        } else if (targetCell.floor === 'floor') {
             let needsUpdate = [initialCell, targetCell];
             ent.x = x; //review to setget
             ent.y = y;
@@ -35,7 +62,7 @@ class EntitiesController  {
 
     decorateEntityMultiple(entity, decorationsList) {
         let me = this;
-        decorationsList.forEach(function(singleDecor) {
+        decorationsList.forEach(function (singleDecor) {
             me.decorateEntity(entity, singleDecor);
         })
     }
@@ -72,7 +99,7 @@ class EntitiesController  {
         //move to entity prototoype?
         let me = this;
         let currentTemplate = Array.isArray(template) ? template : this.template[template];
-        currentTemplate.forEach(function(decoration) {
+        currentTemplate.forEach(function (decoration) {
             me.decorateEntity(entity, decoration)
         })
         return entity;
@@ -80,16 +107,35 @@ class EntitiesController  {
 
     populate(location, population, templateCollection) {
         let collection = this.template[templateCollection];
-        while(population) {
+        while (population) {
             let candidateTile = location.randomElement()
-            if(!candidateTile.entity){
-                let citizen = new Entity('enemy_' + population, candidateTile.x, candidateTile.y);
-                this.applyTemplate(citizen, collection.randomElement());
+            if (!candidateTile.entity) {
+                let citizen = this.createEntity(collection.randomElement(), null, 'enemy_' + population, candidateTile.x, candidateTile.y)
                 candidateTile.entity = citizen;
             }
             population--;
         }
     }
 
+    createEntity(templates, decorators, id, x, y) {
+        let candidate = new Entity(this.coms, id ? id : 'enemy_' + this.idCounter++, x, y);
+        let me = this;
+        this.decorateEntity(candidate, 'base');
+        if(templates) {
+            [].concat(templates).forEach(function(singleTemplate){
+                me.decorateEntity(candidate, singleTemplate);
+            })
+        }
+        if(decorators) {
+            [].concat(decorators).forEach(function(singleDecorator){
+                me.decorateEntity(candidate, singleDecorator);
+            })
+        }
+        return candidate;
+    }
+
+    action(actionName, a) {
+        this.actionsData[actionName].execute.apply(a, Array.prototype.slice.call(arguments, 2));
+    }
 }
 

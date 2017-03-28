@@ -36,9 +36,10 @@ class ComunicationController {
         }
     }
 
-    request(methodName, extraData) {
-        if(this.methodProviders[methodName]){
-            return this.methodProviders[methodName][methodName]();
+    request(methodName) {
+        let provider = this.methodProviders[methodName];
+        if(provider){
+            return provider[methodName].apply(provider, Array.prototype.slice.call(arguments, 1));
         } else {
             devError('can\'t get you ' + methodName)
         }

@@ -30,6 +30,11 @@
         },
         "agressive": {
             "attack": 2
+        },
+        "base": {
+            "hitpoints": 50,
+            "attack": 2,
+            "speed": 1
         }
 
     }

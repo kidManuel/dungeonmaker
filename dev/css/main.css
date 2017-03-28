@@ -1,6 +1,8 @@
 body {
     background-color: #C5E0DC;
     color: #774F38;
+    font-family: 'Space Mono', monospace;
+    color: white;
 }
 
 canvas {
@@ -14,6 +16,7 @@ canvas {
     position: relative;
     display: inline-block;
     overflow:hidden;
+    min-height: 680px;
 }
 
 .tile {
@@ -61,6 +64,152 @@ canvas {
 #ver li {
     border-bottom: 1px solid #C8C8A9;
 }
+
+#uielements {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    font-size: 20px;
+    z-index: 99999;
+}
+
+.uielement {
+    position: absolute;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.damageNotification {
+    text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
+    transition: all 1s;
+    animation-name: fadeout;
+    animation-duration: 0.8s;
+    display: flex;
+    justify-content: center;
+    width: 34px;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 1;
+        transform: translateY(0%);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-40%);
+    }
+}
+
+.screenshaking {
+    animation-name: screenshake;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+
+@keyframes screenshake {
+  2% {
+    transform: translate(0px, 0) }
+  4% {
+    transform: translate(4px, 0) }
+  6% {
+    transform: translate(-5px, 0) }
+  8% {
+    transform: translate(8px, 0) }
+  10% {
+    transform: translate(3px, 0) }
+  12% {
+    transform: translate(4px, 0) }
+  14% {
+    transform: translate(-6px, 0) }
+  16% {
+    transform: translate(9px, 0) }
+  18% {
+    transform: translate(-6px, 0) }
+  20% {
+    transform: translate(6px, 0) }
+  22% {
+    transform: translate(9px, 0) }
+  24% {
+    transform: translate(-1px, 0) }
+  26% {
+    transform: translate(-2px, 0) }
+  28% {
+    transform: translate(3px, 0) }
+  30% {
+    transform: translate(10px, 0) }
+  32% {
+    transform: translate(3px, 0) }
+  34% {
+    transform: translate(-9px, 0) }
+  36% {
+    transform: translate(8px, 0) }
+  38% {
+    transform: translate(-2px, 0) }
+  40% {
+    transform: translate(1px, 0) }
+  42% {
+    transform: translate(-5px, 0) }
+  44% {
+    transform: translate(-4px, 0) }
+  46% {
+    transform: translate(0px, 0) }
+  48% {
+    transform: translate(3px, 0) }
+  50% {
+    transform: translate(10px, 0) }
+  52% {
+    transform: translate(7px, 0) }
+  54% {
+    transform: translate(-8px, 0) }
+  56% {
+    transform: translate(-5px, 0) }
+  58% {
+    transform: translate(-4px, 0) }
+  60% {
+    transform: translate(7px, 0) }
+  62% {
+    transform: translate(-1px, 0) }
+  64% {
+    transform: translate(9px, 0) }
+  66% {
+    transform: translate(7px, 0) }
+  68% {
+    transform: translate(4px, 0) }
+  70% {
+    transform: translate(9px, 0) }
+  72% {
+    transform: translate(1px, 0) }
+  74% {
+    transform: translate(2px, 0) }
+  76% {
+    transform: translate(-9px, 0) }
+  78% {
+    transform: translate(0px, 0) }
+  80% {
+    transform: translate(0px, 0) }
+  82% {
+    transform: translate(6px, 0) }
+  84% {
+    transform: translate(-4px, 0) }
+  86% {
+    transform: translate(10px, 0) }
+  88% {
+    transform: translate(-5px, 0) }
+  90% {
+    transform: translate(-8px, 0) }
+  92% {
+    transform: translate(0px, 0) }
+  94% {
+    transform: translate(-5px, 0) }
+  96% {
+    transform: translate(-2px, 0) }
+  98% {
+    transform: translate(8px, 0) }
+  0%, 100% {
+    transform: translate(0, 0) } }
+
 
 .imagedependencies {
     display: none;
