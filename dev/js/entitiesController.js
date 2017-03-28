@@ -11,9 +11,12 @@ class EntitiesController {
         this.actionsData = {
             attack: {
                 execute: function (b) {
-                    console.log(this.id + ' hits ' + b.id + ' for ' + this.attack + ' points of damage');
-                    b.updateHp(-this.attack);
-                    
+                    let damage = getRandomInt(this.attack - 3, this.attack + 3);
+                    console.log(this.id + ' hits ' + b.id + ' for ' + damage + ' points of damage');
+                    let pos = b.getScreenPosition();
+                    me.coms.dispatch('screenshake');
+                    new damageNotification(pos.x, pos.y, damage);
+                    b.updateHp(-damage);
                 }
             },
             die: {
