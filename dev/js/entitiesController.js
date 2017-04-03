@@ -1,11 +1,7 @@
 class EntitiesController {
-    constructor(communications, layout) {
-        this.coms = communications;
-        this.layout = layout;
+    constructor() {
         this.decorators = loadData('decorator');
         this.template = loadData('template');
-        this.coms.listenTo('requestEntityMove', this);
-        this.coms.registerMethod('action', this);
         this.idCounter = 0;
         var me = this;
         this.actionsData = {
@@ -14,17 +10,17 @@ class EntitiesController {
                     let damage = getRandomInt(this.attack - 3, this.attack + 3);
                     console.log(this.id + ' hits ' + b.id + ' for ' + damage + ' points of damage');
                     let pos = b.getScreenPosition();
-                    me.coms.dispatch('screenshake');
+                    $.graphics.screenshake();
                     new damageNotification(pos.x, pos.y, damage);
                     b.updateHp(-damage);
                 }
             },
             die: {
                 execute: function() {
-                    let holdingCell = me.layout.cellAt(this.x, this.y);
+                    let holdingCell = $.layout.cellAt(this.x, this.y);
                     holdingCell.entity = null;
                     delete holdingCell.entity;
-                    this.coms.request('expressCellFull', holdingCell);
+                    $.graphics.expressCellFull(holdingCell);
                     console.log(this.id + ' is ded, bruh');
                 }
             }
@@ -34,8 +30,8 @@ class EntitiesController {
     moveEntity(ent, x, y) {
         //review on subpub
         //review move/impulse. 
-        let targetCell = this.layout.cellAt(x, y);
-        let initialCell = this.layout.cellAt(ent.x, ent.y);
+        let targetCell = $.layout.cellAt(x, y);
+        let initialCell = $.layout.cellAt(ent.x, ent.y);
         if (targetCell.entity) {
             this.action('attack', ent, targetCell.entity)
         } else if (targetCell.floor === 'floor') {
@@ -44,7 +40,7 @@ class EntitiesController {
             ent.y = y;
             targetCell.entity = ent;
             delete initialCell.entity;
-            this.coms.dispatch('cellsUpdate', needsUpdate);
+            $.graphics.cellsUpdate(needsUpdate);
         } else {
             devLog('collision brah');
         }
@@ -56,7 +52,7 @@ class EntitiesController {
         this.moveEntity(ent, targetCellX, targetCellY);
     }
 
-    onRequestEntityMove(data) {
+    requestEntityMove(data) {
         this.impulseEntity(data.entity, data.x, data.y)
     }
 
@@ -118,7 +114,7 @@ class EntitiesController {
     }
 
     createEntity(templates, decorators, id, x, y) {
-        let candidate = new Entity(this.coms, id ? id : 'enemy_' + this.idCounter++, x, y);
+        let candidate = new Entity(id ? id : 'enemy_' + this.idCounter++, x, y);
         let me = this;
         this.decorateEntity(candidate, 'base');
         if(templates) {

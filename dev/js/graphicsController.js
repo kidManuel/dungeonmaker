@@ -1,6 +1,6 @@
 class GraphicsController  {
-    constructor(communications) {
-        this.coms = communications;;
+    //cleanup!
+    constructor() {
         this.widthPixels = globalparams.dunWidth * globalparams.cellSize; //size in pixels of the floor.
         this.heightPixels = globalparams.dunHeight * globalparams.cellSize;
         this.allCanvas = document.querySelectorAll('canvas');
@@ -14,13 +14,9 @@ class GraphicsController  {
         }
         this.options = loadData('sprites');
         this.initializeCanvases();
-        this.coms.listenTo('cellsUpdate', this);
-        this.coms.listenTo('drawCursor', this);
-        this.coms.listenTo('screenshake', this);
-        this.coms.registerMethod('expressCellFull', this);
     }
 
-    onScreenshake() {
+    screenshake() {
         let me = this;
         let mainCont = this.mainContainer;
         mainCont.className += ' screenshaking';
@@ -28,7 +24,7 @@ class GraphicsController  {
     }
 
 
-    onDrawCursor(event) {
+    drawCursor(event) {
         this.render('crosshair', event.x * globalparams.cellSize, event.y * globalparams.cellSize, 'cursor');
     }
 
@@ -64,6 +60,7 @@ class GraphicsController  {
 
     render(imageToDraw, x, y, specialContext) {
         let target = this.options[imageToDraw];
+        if(!target){debugger}
         let context = specialContext ? this[specialContext] : this.layout;
         context.drawImage(
             this.sources[target.source],
@@ -91,7 +88,7 @@ class GraphicsController  {
             }
         )
     }
-    onCellsUpdate(data) {
+    cellsUpdate(data) {
         this.massExpress(data);
     }
 }

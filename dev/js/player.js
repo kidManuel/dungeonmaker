@@ -1,14 +1,8 @@
 class Player  {
-    constructor(communications, controllingEntity) {
-        this.coms = communications;
+    constructor(controllingEntity) {
         if (typeof controllingEntity !== 'undefined') {
-            this.setControllingEntiy(controllingEntity);
+            this.setEntityControl(controllingEntity);
         }
-        this.coms.listenTo('keyMoveUp', this);
-        this.coms.listenTo('keyMoveDown', this);
-        this.coms.listenTo('keyMoveLeft', this);
-        this.coms.listenTo('keyMoveRight', this);
-        this.coms.registerMethod('getPlayerLocation', this);
     }
 
     setEntityControl(entity) {
@@ -17,21 +11,22 @@ class Player  {
         }
     }
 
-    onKeyMoveUp(){
-        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:0 , y:-1 })
-        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
+    //cleanup to single function sometime.
+    keyMoveUp(){
+        $.entities.requestEntityMove({entity: this.entity, x:0 , y:-1 })
+        $.camera.requestCameraOn(this.getPlayerLocation());
     }
-    onKeyMoveDown(){
-        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:0 , y:1 })
-        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
+    keyMoveDown(){
+        $.entities.requestEntityMove({entity: this.entity, x:0 , y:1 })
+        $.camera.requestCameraOn(this.getPlayerLocation());
     }
-    onKeyMoveLeft(){
-        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:-1 , y:0 })
-        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
+    keyMoveLeft(){
+        $.entities.requestEntityMove({entity: this.entity, x:-1 , y:0 })
+        $.camera.requestCameraOn(this.getPlayerLocation());
     }
-    onKeyMoveRight(){
-        this.coms.dispatch('requestEntityMove', {entity: this.entity, x:1 , y:0 })
-        this.coms.dispatch('requestCameraOn', this.getPlayerLocation());
+    keyMoveRight(){
+        $.entities.requestEntityMove({entity: this.entity, x:1 , y:0 })
+        $.camera.requestCameraOn(this.getPlayerLocation());
     }
 
     getPlayerLocation() {

@@ -1,7 +1,5 @@
 class Entity {
-	constructor(coms, id, x, y, sprite) {
-		//the coms situation is getting ridiculous
-		this.coms = coms;
+	constructor(id, x, y, sprite) {
 		this.x = x;
 		this.y = y;
 		this.sprite = sprite;
@@ -23,15 +21,15 @@ class Entity {
 
 	getScreenPosition() {
 		//todo: review on transition to dom
-		let offset = this.coms.request('getCurrentCameraOffset');
+		let offset = $.camera.getCurrentCameraOffset();
 		return {
 			x: (this.x - offset.x) * globalparams.cellSize,
 			y: (this.y - offset.y) * globalparams.cellSize
 		}
 	}
 
-
+	//cleanup as well.
 	do(actionName) {
-		this.coms.request('action', actionName, this)
+		$.entities.action(actionName, this)
 	}
 }

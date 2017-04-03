@@ -7,15 +7,14 @@ window.addEventListener('load', function (event) {
 
 class GameMain {
     constructor() {
-        let coms = this.communications = new ComunicationController();
         this.controllers = {
-            graphics : new GraphicsController(coms),
-            dungeonGen : new DungeonGenerator(coms),
-            camera : new CameraController(coms),
-            mouse : new MouseController(coms),
-            keyboard : new KeyboardController(coms),
-            entities : new EntitiesController(coms),
-            player : new Player(coms),
+            graphics : new GraphicsController(),
+            dungeonGen : new DungeonGenerator(),
+            camera : new CameraController(),
+            mouse : new MouseController(),
+            keyboard : new KeyboardController(),
+            entities : new EntitiesController(),
+            player : new Player(),
         }
         window.$ = this.controllers;
         $.layout = $.dungeonGen.generateFloor(globalparams.dunWidth, globalparams.dunHeight),
@@ -28,20 +27,21 @@ class GameMain {
             window.dun = this.layout;
             window.graphs = this.graphics;
         }
-        this.controllers.camera.setCameraCenterCell(kiwi.x, kiwi.y);
-        this.controllers.entities.populate(this.communications.request('getReadyCells'), globalparams.population, 'enemies');
-        this.controllers.graphics.massExpress($.layout);
+        $.camera.setCameraCenterCell(kiwi.x, kiwi.y);
+        $.entities.populate($.dungeonGen.getReadyCells(), globalparams.population, 'enemies');
+        $.graphics.massExpress($.layout);
     }
 
     initTestEntity() {
-        let initialCell = this.controllers.dungeonGen.readyCells.randomElement();
-        window.kiwi = new Entity(this.communications, 'testInstance', initialCell.x, initialCell.y, 'character')
-        this.controllers.entities.decorateEntity(kiwi, 'race.human');
+        let initialCell = $.dungeonGen.readyCells.randomElement();
+        window.kiwi = new Entity('testInstance', initialCell.x, initialCell.y, 'character')
+        $.entities.decorateEntity(kiwi, 'race.human');
         initialCell.entity = kiwi;
-        this.controllers.player.setEntityControl(kiwi);
+        $.player.setEntityControl(kiwi);
     }
 
     getEntity(x, y) {
-        return this.controllers.layout.cellAt(x, y).entity
+        return $.layout.cellAt(x, y).entity
     }
 }
+c

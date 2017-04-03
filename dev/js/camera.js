@@ -1,14 +1,12 @@
 class CameraController  {
-    constructor(communications) {
-        this.coms = communications;;
+    //cleanup!
+    constructor() {
         this.mainContainer = document.getElementById('mainContainer');
         this.windowWidth = window.innerWidth;
         this.windowHeight = window.innerHeight;
         this.camera = document.getElementById('layout');
         this.cameraWidth = this.getCameraWidth();
         this.cameraHeight = this.getCameraHeight();
-        this.coms.listenTo('requestCameraOn', this) ;
-        this.coms.registerMethod('getCurrentCameraOffset', this) ;
         this.setMainContainerSize();
     }
 
@@ -46,7 +44,7 @@ class CameraController  {
         this.setCameraPositionCell(x - Math.floor(this.cameraWidth / 2), y - Math.floor(this.cameraHeight / 2))
     }
 
-    onRequestCameraOn(data) {
+    requestCameraOn(data) {
         Array.isArray(data) ? 
         this.setCameraCenterCell(data[0], data[1]) :
         this.setCameraCenterCell(arguments[0], arguments[1])
@@ -58,6 +56,4 @@ class CameraController  {
             y: Math.max(0, this.offsetY)
         }
     }
-
-
 }

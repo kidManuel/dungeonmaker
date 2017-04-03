@@ -1,6 +1,5 @@
 class MouseController {
-    constructor(communications) {
-        this.coms = communications;
+    constructor() {
         this.ui = document.getElementById('ui').getContext('2d');
         this.cursorElems = document.getElementById('cursor');
         this.cursor = this.cursorElems.getContext('2d');
@@ -26,7 +25,7 @@ class MouseController {
     }
 
     onClick() {
-        let offset = this.coms.request('getCurrentCameraOffset');
+        let offset = $.camera.getCurrentCameraOffset();
         console.log(dun.cellAt(this.cellX + offset.x, this.cellY + offset.y).entity);
 
         // if (!ui.pristine) {
@@ -87,7 +86,7 @@ class MouseController {
             ui.clearCells(dun.drawRectCorners(this.draw.drawStart, [this.preCellX, this.preCellY]));
             ui.massHightlight(dun.brasLine(this.draw.drawStart, [this.cellX, this.cellY]));
         }
-        this.coms.dispatch('drawCursor', {x: this.cellX, y: this.cellY})
+        $.graphics.drawCursor({x: this.cellX, y: this.cellY})
     }
 
 //erases the crosshairs

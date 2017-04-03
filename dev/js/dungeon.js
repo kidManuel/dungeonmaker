@@ -1,8 +1,6 @@
 class DungeonGenerator {
-    constructor(communications) {
-        this.coms = communications;
+    constructor() {
         this.readyCells = [];
-        this.coms.registerMethod('getReadyCells', this);
     }
 
     init(array, width, height) {
