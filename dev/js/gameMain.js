@@ -44,4 +44,3 @@ class GameMain {
         return $.layout.cellAt(x, y).entity
     }
 }
-c
